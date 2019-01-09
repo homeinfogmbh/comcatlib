@@ -10,6 +10,8 @@ setup(
     author_email='<info at homeinfo dot de>',
     maintainer='Richard Neumann',
     maintainer_email='<r dot neumann at homeinfo period de>',
-    requires=['his'],
+    requires=[
+        'argon2', 'configlib', 'flask', 'his', 'mdb', 'peewee', 'peeweeplus',
+        'werkzeug'],
     packages=['comcatlib'],
     description='Shared libraries for ComCat.')
