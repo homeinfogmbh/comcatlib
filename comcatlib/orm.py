@@ -16,10 +16,10 @@ from mdb import Customer
 from peeweeplus import MySQLDatabase, JSONModel, Argon2Field
 
 from comcatlib.config import CONFIG
-from comcatlib.exceptions import InvalidInitializationToken, InvalidSession
+from comcatlib.exceptions import InvalidSession
 
 
-__all__ = ['Account']
+__all__ = ['Account', 'Session']
 
 
 DATABASE = MySQLDatabase.from_config(CONFIG['db'])
@@ -71,21 +71,6 @@ class Account(_ComCatModel):
         """Determines whether the account may login."""
         return self.valid and self.failed_logins <= MAX_FAILED_LOGINS
 
-    def initialize(self, token, passwd):
-        """Initializes the respective account with a random password."""
-        try:
-            token = self.initialization_tokens.where(
-                InitializationToken.token == token).get()
-        except InitializationToken.DoesNotExist:
-            raise InvalidInitializationToken()
-
-        if not token.valid:
-            raise InvalidInitializationToken()
-
-        self.passwd = passwd
-        token.delete_instance()
-        return self.save()
-
     def login(self, passwd):
         """Performs a login."""
         if self.can_login:
@@ -105,34 +90,6 @@ class Account(_ComCatModel):
             return True
 
         raise AccountLocked()
-
-
-class InitializationToken(_ComCatModel):
-    """Tokens for first login creation."""
-
-    class Meta:     # pylint: disable=C0111
-        table_name = 'initialization_token'
-
-    account = ForeignKeyField(
-        Account, column_name='account', backref='initialization_tokens',
-        on_delete='CASCADE')
-    uuid = UUIDField(default=uuid4)
-    valid_from = DateTimeField()
-    valid_until = DateTimeField()
-
-    @classmethod
-    def add(cls, account):
-        """Creates a new first """
-        now = datetime.now()
-        expires = now + timedelta(days=14)
-        token = cls(account=account, valid_from=now, valid_until=expires)
-        token.save()
-        return token
-
-    @property
-    def valid(self):
-        """Determines whether the login token is valid."""
-        return self.valid_from <= datetime.now() <= self.valid_until
 
 
 class Session(_ComCatModel):

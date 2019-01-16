@@ -3,7 +3,6 @@
 
 __all__ = [
     'ComCatException',
-    'InvalidInitializationToken',
     'InvalidSession',
     'NoSuchSession',
     'NoSessionTokenSpecified',
@@ -12,12 +11,6 @@ __all__ = [
 
 class ComCatException(Exception):
     """Common ComCat exception."""
-
-    pass    # pylint: disable=W0107
-
-
-class InvalidInitializationToken(ComCatException):
-    """Indicates an invalid initialization token."""
 
     pass    # pylint: disable=W0107
 
