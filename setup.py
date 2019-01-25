@@ -11,7 +11,7 @@ setup(
     maintainer='Richard Neumann',
     maintainer_email='<r dot neumann at homeinfo period de>',
     requires=[
-        'argon2', 'configlib', 'flask', 'his', 'mdb', 'peewee', 'peeweeplus',
+        'argon2', 'configlib', 'flask', 'mdb', 'peewee', 'peeweeplus',
         'werkzeug'],
     packages=['comcatlib'],
     description='Shared libraries for ComCat.')

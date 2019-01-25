@@ -2,8 +2,8 @@
 
 from functools import wraps
 
-from comcatlib.contextlocals import SESSION
-from comcatlib.exceptions import NoSuchSession
+from comcatlib.contextlocals import SESSION, get_session_duration
+from comcatlib.messages import SESSION_EXPIRED, ACCOUNT_LOCKED
 
 
 __all__ = ['authenticated']
@@ -15,9 +15,13 @@ def authenticated(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
         """Wraps the original function."""
-        if SESSION.valid:
-            return function(*args, **kwargs)
+        if not SESSION.alive:
+            raise SESSION_EXPIRED
 
-        raise NoSuchSession()
+        if not SESSION.account.usable:
+            raise ACCOUNT_LOCKED
+
+        SESSION.renew(duration=get_session_duration())
+        return function(*args, **kwargs)
 
     return wrapper

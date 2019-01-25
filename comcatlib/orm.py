@@ -11,27 +11,29 @@ from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import UUIDField
 
-from his.messages import AccountLocked, DurationOutOfBounds, InvalidCredentials
 from mdb import Customer
 from peeweeplus import MySQLDatabase, JSONModel, Argon2Field
 
 from comcatlib.config import CONFIG
+from comcatlib.config import ALLOWED_SESSION_DURATIONS
+from comcatlib.config import DEFAULT_SESSION_DURATION
+from comcatlib.exceptions import AccountLocked
+from comcatlib.exceptions import DurationOutOfBounds
 from comcatlib.exceptions import InvalidSession
+from comcatlib.exceptions import InvalidCredentials
 
 
 __all__ = ['Account', 'Session']
 
 
 DATABASE = MySQLDatabase.from_config(CONFIG['db'])
-ALLOWED_SESSION_DURATIONS = range(5, 31)
-DEFAULT_SESSION_DURATION = 15
 MAX_FAILED_LOGINS = 5
 
 
 class _ComCatModel(JSONModel):
     """Basic comcat model."""
 
-    class Meta:     # pylint: disable=C0111
+    class Meta:     # pylint: disable=C0111,R0903
         database = DATABASE
         schema = database.database
 
@@ -128,11 +130,23 @@ class Session(_ComCatModel):
         raise InvalidSession()
 
     @property
-    def active(self):
-        """Determines whether the session is active."""
+    def alive(self):
+        """Determines whether the session is alive."""
         return self.start <= datetime.now() <= self.end
 
     @property
     def valid(self):
         """Determines whether the session is valid."""
-        return self.active and self.account.valid
+        return self.alive and self.account.valid
+
+    def renew(self, duration=DEFAULT_SESSION_DURATION):
+        """Renews the session."""
+        if duration not in ALLOWED_SESSION_DURATIONS:
+            raise DurationOutOfBounds()
+
+        if not self.account.can_login:
+            raise AccountLocked()
+
+        self.end = datetime.now() + timedelta(minutes=duration)
+        self.save()
+        return self
