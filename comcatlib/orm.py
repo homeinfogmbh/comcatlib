@@ -61,12 +61,14 @@ class Account(_ComCatModel):
         return account
 
     @property
+    def expired(self):
+        """Determines whether the account is expired."""
+        return self.expires is None or self.expires > datetime.now()
+
+    @property
     def valid(self):
         """Determines whether the account may be used."""
-        if self.locked:
-            return False
-
-        return self.expires is None or self.expires > datetime.now()
+        return not self.locked and not self.expired
 
     @property
     def can_login(self):
