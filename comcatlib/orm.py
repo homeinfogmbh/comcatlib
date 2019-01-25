@@ -68,7 +68,7 @@ class Account(_ComCatModel):
     @property
     def valid(self):
         """Determines whether the account may be used."""
-        return not self.locked and not self.expired
+        return not self.locked and not self.expired and self.passwd is not None
 
     @property
     def can_login(self):
