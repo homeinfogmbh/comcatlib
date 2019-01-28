@@ -7,8 +7,6 @@ from werkzeug.local import LocalProxy
 
 from mdb import Customer
 
-from comcatlib.config import ALLOWED_SESSION_DURATIONS
-from comcatlib.config import DEFAULT_SESSION_DURATION
 from comcatlib.exceptions import InvalidSessionToken
 from comcatlib.exceptions import NoSessionTokenSpecified
 from comcatlib.exceptions import NoSuchSession
@@ -17,7 +15,7 @@ from comcatlib.messages import NO_SUCH_CUSTOMER
 from comcatlib.orm import Account, Session
 
 
-__all__ = ['ACCOUNT', 'CUSTOMER', 'SESSION', 'get_session_duration']
+__all__ = ['ACCOUNT', 'CUSTOMER', 'SESSION']
 
 
 def _account_by_string(string):
@@ -91,20 +89,6 @@ def get_customer():
             return _customer_by_string(customer)
 
     return ACCOUNT.customer
-
-
-def get_session_duration():
-    """Returns the respective session duration."""
-
-    try:
-        duration = int(request.headers['session-duration'])
-    except (KeyError, TypeError, ValueError):
-        return DEFAULT_SESSION_DURATION
-
-    if duration in ALLOWED_SESSION_DURATIONS:
-        return duration
-
-    return DEFAULT_SESSION_DURATION
 
 
 SESSION = LocalProxy(get_session)
