@@ -3,7 +3,15 @@
 from wsgilib import MessageFacility
 
 
-__all__ = ['NO_SUCH_ACCOUNT', 'NO_SUCH_CUSTOMER']
+__all__ = [
+    'NO_SUCH_ACCOUNT',
+    'NO_SUCH_CUSTOMER',
+    'SESSION_EXPIRED',
+    'ACCOUNT_LOCKED',
+    'ACCOUNT_ADDED',
+    'ACCOUNT_DELETED',
+    'ACCOUNT_PATCHED',
+    'INVALID_CREDENTIALS']
 
 
 COMCAT_MESSAGE_FACILITY = MessageFacility('/usr/local/etc/comcat.d/locales')
@@ -18,3 +26,5 @@ ACCOUNT_LOCKED = COMCAT_MESSAGE('This account is locked.', status=401)
 ACCOUNT_ADDED = COMCAT_MESSAGE('The account has been added.', status=201)
 ACCOUNT_DELETED = COMCAT_MESSAGE('The account has been deleted.', status=200)
 ACCOUNT_PATCHED = COMCAT_MESSAGE('The account has been modified.', status=200)
+INVALID_CREDENTIALS = COMCAT_MESSAGE(
+    'User name and/or password inclorrect.', status=400)

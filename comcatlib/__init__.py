@@ -3,7 +3,7 @@
 from comcatlib.auth import authenticated
 from comcatlib.contextlocals import ACCOUNT, CUSTOMER, SESSION
 from comcatlib.functions import get_session_duration
-from comcatlib.orm import Account
+from comcatlib.orm import Account, Session
 
 
 __all__ = [
@@ -12,4 +12,5 @@ __all__ = [
     'SESSION',
     'authenticated',
     'get_session_duration',
-    'Account']
+    'Account',
+    'Session']
