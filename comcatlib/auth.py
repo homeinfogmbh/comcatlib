@@ -2,7 +2,8 @@
 
 from functools import wraps
 
-from comcatlib.contextlocals import SESSION, get_session_duration
+from comcatlib.contextlocals import SESSION
+from comcatlib.functions import get_session_duration
 from comcatlib.messages import SESSION_EXPIRED, ACCOUNT_LOCKED
 
 
