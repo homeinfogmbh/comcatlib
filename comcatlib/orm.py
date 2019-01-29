@@ -75,6 +75,14 @@ class Account(_ComCatModel):
         """Determines whether the account may login."""
         return self.valid and self.failed_logins <= MAX_FAILED_LOGINS
 
+    @property
+    def instance(self):
+        """Returns the account instance.
+        This is used to get the actual
+        account model from a LocalProxy.
+        """
+        return self
+
     def login(self, passwd):
         """Performs a login."""
         if self.can_login:
