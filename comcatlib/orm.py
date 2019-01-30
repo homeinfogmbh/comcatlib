@@ -11,7 +11,7 @@ from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import UUIDField
 
-from mdb import Customer
+from mdb import Address, Customer
 from peeweeplus import MySQLDatabase, JSONModel, Argon2Field
 
 from comcatlib.config import CONFIG
@@ -44,6 +44,8 @@ class Account(_ComCatModel):
     uuid = UUIDField(default=uuid4)
     passwd = Argon2Field(null=True)
     customer = ForeignKeyField(Customer, column_name='customer')
+    address = ForeignKeyField(Address, column='address', null=True)
+    rental_unit = CharField(255, null=True)
     annotation = CharField(255)
     created = DateTimeField(default=datetime.now)
     last_login = DateTimeField(null=True)
@@ -52,10 +54,11 @@ class Account(_ComCatModel):
     locked = BooleanField(default=False)
 
     @classmethod
-    def add(cls, customer, passwd=None):
+    def add(cls, customer, address=None, passwd=None):
         """Creates a new account."""
         account = cls()
         account.customer = customer
+        account.address = address
         account.passwd = passwd
         account.save()
         return account
