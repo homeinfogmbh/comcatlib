@@ -11,6 +11,7 @@ from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import UUIDField
 
+from damage_report import DamageReport
 from mdb import Address, Customer
 from peeweeplus import MySQLDatabase, JSONModel, Argon2Field
 
@@ -23,7 +24,7 @@ from comcatlib.exceptions import InvalidSession
 from comcatlib.exceptions import InvalidCredentials
 
 
-__all__ = ['Account', 'Session']
+__all__ = ['Account', 'Session', 'AccountDamageReport']
 
 
 DATABASE = MySQLDatabase.from_config(CONFIG['db'])
@@ -163,3 +164,15 @@ class Session(_ComCatModel):
         self.end = datetime.now() + timedelta(minutes=duration)
         self.save()
         return self
+
+
+class AccountDamageReport(_ComCatModel):
+    """Maps a damage report to a ComCat account."""
+
+    class Meta:     # pylint: disable=C0111,R0903
+        table_name = 'account_damage_report'
+
+    account = ForeignKeyField(
+        Account, column_name='account', on_delete='CASCADE')
+    damage_report = ForeignKeyField(
+        DamageReport, column_name='damage_report', on_delete='CASCADE')
