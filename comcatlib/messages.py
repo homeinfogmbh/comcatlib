@@ -11,7 +11,8 @@ __all__ = [
     'ACCOUNT_ADDED',
     'ACCOUNT_DELETED',
     'ACCOUNT_PATCHED',
-    'INVALID_CREDENTIALS']
+    'INVALID_CREDENTIALS',
+    'NO_ADDRESS_CONFIGURED']
 
 
 COMCAT_MESSAGE_FACILITY = MessageFacility('/usr/local/etc/comcat.d/locales')
@@ -28,3 +29,5 @@ ACCOUNT_DELETED = COMCAT_MESSAGE('The account has been deleted.', status=200)
 ACCOUNT_PATCHED = COMCAT_MESSAGE('The account has been modified.', status=200)
 INVALID_CREDENTIALS = COMCAT_MESSAGE(
     'User name and/or password inclorrect.', status=400)
+NO_ADDRESS_CONFIGURED = COMCAT_MESSAGE(
+    'Account has no address configured.', status=400)
