@@ -1,6 +1,6 @@
 """Facebook data aggregation."""
 
-from cmslib.orm.charts import FacebookChart, FacebookAccount
+from cmslib.orm.charts import Facebook
 from cmslib.presentation.comcat_account import Presentation
 
 from comcatlib.orm import Account
@@ -15,14 +15,12 @@ def get_posts(account):
 
     presentation = Presentation(Account[account.id])
 
-    for chart in presentation.charts:
-        if isinstance(chart, FacebookChart):
-            for facebook_account in FacebookAccount.select().where(
-                    FacebookAccount.chart == chart):
-                for post in facebook_account.posts:
-                    if post.image:
-                        post.image = encode_url(post.image)
-                    else:
-                        post.image = None
+    for chart in filter(Facebook.isinstance, presentation.charts):
+        for account in chart.accounts:  # pylint: disable=R1704
+            for post in account.posts:
+                if post.image:
+                    post.image = encode_url(post.image)
+                else:
+                    post.image = None
 
-                    yield post
+                yield post
