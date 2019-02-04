@@ -11,36 +11,25 @@ from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import UUIDField
 
-from cmslib.orm.group import group_fk, GroupMember
-from damage_report import DamageReport
 from mdb import Address, Customer
-from peeweeplus import MySQLDatabase, JSONModel, Argon2Field
+from peeweeplus import Argon2Field
 
-from comcatlib.config import CONFIG
 from comcatlib.config import ALLOWED_SESSION_DURATIONS
 from comcatlib.config import DEFAULT_SESSION_DURATION
 from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import DurationOutOfBounds
 from comcatlib.exceptions import InvalidSession
 from comcatlib.exceptions import InvalidCredentials
+from comcatlib.orm.common import ComCatModel
 
 
-__all__ = ['Account', 'Session', 'AccountDamageReport']
+__all__ = ['Account', 'Session']
 
 
-DATABASE = MySQLDatabase.from_config(CONFIG['db'])
 MAX_FAILED_LOGINS = 5
 
 
-class _ComCatModel(JSONModel):
-    """Basic comcat model."""
-
-    class Meta:     # pylint: disable=C0111,R0903
-        database = DATABASE
-        schema = database.database
-
-
-class Account(_ComCatModel):
+class Account(ComCatModel):
     """A ComCat account."""
 
     uuid = UUIDField(default=uuid4)
@@ -109,7 +98,7 @@ class Account(_ComCatModel):
         raise AccountLocked()
 
 
-class Session(_ComCatModel):
+class Session(ComCatModel):
     """A ComCat session."""
 
     token = UUIDField(default=uuid4)
@@ -165,37 +154,3 @@ class Session(_ComCatModel):
         self.end = datetime.now() + timedelta(minutes=duration)
         self.save()
         return self
-
-
-class GroupMemberAccount(_ComCatModel, GroupMember):  # pylint: disable=R0901
-    """ComCat accounts as group members."""
-
-    class Meta:     # pylint: disable=C0111,R0903
-        table_name = 'group_member_account'
-
-    group = group_fk('accounts')
-    member = ForeignKeyField(
-        Account, column_name='account', on_delete='CASCADE')
-
-    def to_dom(self):
-        """Returns an XML DOM."""
-        raise NotImplementedError()
-
-    def to_json(self):
-        """Returns a JSON-ish dict."""
-        return {
-            'member': self.id,
-            'account': self.member.id,
-            'index': self.index}
-
-
-class AccountDamageReport(_ComCatModel):
-    """Maps a damage report to a ComCat account."""
-
-    class Meta:     # pylint: disable=C0111,R0903
-        table_name = 'account_damage_report'
-
-    account = ForeignKeyField(
-        Account, column_name='account', on_delete='CASCADE')
-    damage_report = ForeignKeyField(
-        DamageReport, column_name='damage_report', on_delete='CASCADE')
