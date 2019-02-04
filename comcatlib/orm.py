@@ -45,7 +45,7 @@ class Account(_ComCatModel):
     uuid = UUIDField(default=uuid4)
     passwd = Argon2Field(null=True)
     customer = ForeignKeyField(Customer, column_name='customer')
-    address = ForeignKeyField(Address, column='address', null=True)
+    address = ForeignKeyField(Address, column_name='address', null=True)
     rental_unit = CharField(255, null=True)
     annotation = CharField(255)
     created = DateTimeField(default=datetime.now)
