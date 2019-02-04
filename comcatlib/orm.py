@@ -11,6 +11,7 @@ from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import UUIDField
 
+from cmslib.orm.group import group_fk, GroupMember
 from damage_report import DamageReport
 from mdb import Address, Customer
 from peeweeplus import MySQLDatabase, JSONModel, Argon2Field
@@ -164,6 +165,28 @@ class Session(_ComCatModel):
         self.end = datetime.now() + timedelta(minutes=duration)
         self.save()
         return self
+
+
+class GroupMemberAccount(_ComCatModel, GroupMember):  # pylint: disable=R0901
+    """ComCat accounts as group members."""
+
+    class Meta:     # pylint: disable=C0111,R0903
+        table_name = 'group_member_account'
+
+    group = group_fk('accounts')
+    member = ForeignKeyField(
+        Account, column_name='account', on_delete='CASCADE')
+
+    def to_dom(self):
+        """Returns an XML DOM."""
+        raise NotImplementedError()
+
+    def to_json(self):
+        """Returns a JSON-ish dict."""
+        return {
+            'member': self.id,
+            'account': self.member.id,
+            'index': self.index}
 
 
 class AccountDamageReport(_ComCatModel):
