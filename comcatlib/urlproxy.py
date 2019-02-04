@@ -1,8 +1,9 @@
 """Facebook image link proxy."""
 
+from hashlib import sha256
 from urllib.parse import urlparse, ParseResult
 
-from flask import Response
+from flask import request, Response
 from requests import get
 
 
@@ -40,6 +41,13 @@ def proxy_url(url):
     if response.status_code != 200:
         return ('Could not get Facebook image.', 400)
 
+    sha256sum = sha256(response.content).hexdigest()
+
+    if sha256sum == request.headers.get('sha256sum'):
+        return ('Not Modified', 304)
+
+    headers = {'sha256sum': sha256sum}
+
     return Response(
-        response.content, status=response.status_code,
+        response.content, status=response.status_code, headers=headers,
         content_type=response.headers['Content-Type'])
