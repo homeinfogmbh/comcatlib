@@ -11,6 +11,7 @@ from comcatlib.orm.group import GroupMemberAccount
 
 __all__ = [
     'DATABASE',
+    'MODELS',
     'ComCatModel',
     'Account',
     'Session',
@@ -19,3 +20,8 @@ __all__ = [
     'AccountMenu',
     'AccountDamageReport',
     'GroupMemberAccount']
+
+
+MODELS = (
+    Account, Session, AccountBaseChart, AccountConfiguration, AccountMenu,
+    AccountDamageReport, GroupMemberAccount)

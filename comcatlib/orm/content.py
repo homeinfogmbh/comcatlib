@@ -10,11 +10,7 @@ from cmslib.orm.configuration import Configuration
 from cmslib.orm.menu import Menu
 
 
-__all__ = [
-    'AccountBaseChart',
-    'AccountConfiguration',
-    'AccountMenu',
-    'MODELS']
+__all__ = ['AccountBaseChart', 'AccountConfiguration', 'AccountMenu']
 
 
 class AccountContent(ComCatModel):
@@ -80,6 +76,3 @@ class AccountMenu(AccountContent):
     def to_json(self):
         """Returns a JSON-ish dict."""
         return {'id': self.id, 'menu': self.menu_id}
-
-
-MODELS = (AccountBaseChart, AccountConfiguration, AccountMenu)
