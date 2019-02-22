@@ -13,5 +13,5 @@ setup(
     requires=[
         'argon2', 'configlib', 'flask', 'mdb', 'peewee', 'peeweeplus',
         'werkzeug'],
-    packages=['comcatlib'],
+    packages=['comcatlib', 'comcatlib.orm'],
     description='Shared libraries for ComCat.')
