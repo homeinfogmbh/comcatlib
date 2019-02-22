@@ -3,10 +3,10 @@
 from cmslib.exceptions import NoConfigurationFound
 from cmslib.orm.charts import BaseChart
 from cmslib.orm.configuration import Configuration
-from cmslib.orm.group import GroupMemberAccount
 from cmslib.orm.menu import Menu
 from cmslib.presentation.common import PresentationMixin
 
+from comcatlib.orm import GroupMemberAccount
 from comcatlib.orm import AccountBaseChart, AccountConfiguration, AccountMenu
 
 
