@@ -45,10 +45,11 @@ class Account(ComCatModel):
     locked = BooleanField(default=False)
 
     @classmethod
-    def add(cls, customer, address=None, passwd=None):
+    def add(cls, customer, annotation, address=None, passwd=None):
         """Creates a new account."""
         account = cls()
         account.customer = customer
+        account.annotation = annotation
         account.address = address
         account.passwd = passwd
         account.save()
