@@ -4,7 +4,7 @@ FILE_LIST = ./.installed_files.txt
 
 default: | pull clean install
 
-install: install-pyton install_locales
+install: install-pyton install-locales
 
 install-pyton:
 	@ ./setup.py install --record $(FILE_LIST)
