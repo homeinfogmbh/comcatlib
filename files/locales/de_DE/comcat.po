@@ -51,3 +51,15 @@ msgstr "Benutzername und / order Passwort stimmen nicht überein."
 #: messages.py:32
 msgid "Account has no address configured."
 msgstr "Dem Benutzerkonto ist keine Adresse zugewisen."
+
+#: messages.py:34
+msgid "Module \"news\" is not enabled."
+msgstr "Das Modul \"news\" ist nicht freigeschaltet."
+
+#: messages.py:35
+msgid "The requested articles does not exists."
+msgstr "Der gewünschte Artikel existiert nicht."
+
+#: messages.py:37
+msgid "The requested article image does not exists."
+msgstr "Das gewünschte Artikelbild existiert nicht."

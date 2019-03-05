@@ -31,3 +31,8 @@ INVALID_CREDENTIALS = COMCAT_MESSAGE(
     'User name and/or password inclorrect.', status=400)
 NO_ADDRESS_CONFIGURED = COMCAT_MESSAGE(
     'Account has no address configured.', status=400)
+NEWS_NOT_ENABLED = COMCAT_MESSAGE('Module "news" is not enabled.', status=403)
+NO_SUCH_ARTICLE = COMCAT_MESSAGE(
+    'The requested articles does not exists.', status=404)
+NO_SUCH_ARTICLE_IMAGE = COMCAT_MESSAGE(
+    'The requested article image does not exists.', status=404)
