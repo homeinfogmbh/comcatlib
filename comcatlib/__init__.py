@@ -11,6 +11,7 @@ from comcatlib.orm import AccountBaseChart
 from comcatlib.orm import AccountConfiguration
 from comcatlib.orm import AccountDamageReport
 from comcatlib.orm import AccountMenu
+from comcatlib.orm import Address
 from comcatlib.orm import Session
 from comcatlib.presentation import Presentation
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
@@ -34,5 +35,6 @@ __all__ = [
     'AccountConfiguration',
     'AccountMenu',
     'AccountDamageReport',
+    'Address',
     'Session',
     'Presentation']

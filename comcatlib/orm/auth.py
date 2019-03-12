@@ -11,7 +11,7 @@ from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import UUIDField
 
-from mdb import Address, Customer
+from mdb import Customer
 from peeweeplus import Argon2Field
 
 from comcatlib.config import ALLOWED_SESSION_DURATIONS
@@ -20,6 +20,7 @@ from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import DurationOutOfBounds
 from comcatlib.exceptions import InvalidSession
 from comcatlib.exceptions import InvalidCredentials
+from comcatlib.orm.address import Address
 from comcatlib.orm.common import ComCatModel
 
 

@@ -1,6 +1,7 @@
 """Object relational mappings."""
 
 from comcatlib.orm.auth import Account, Session
+from comcatlib.orm.address import Address
 from comcatlib.orm.common import DATABASE, ComCatModel
 from comcatlib.orm.content import AccountBaseChart
 from comcatlib.orm.content import AccountConfiguration
@@ -14,6 +15,7 @@ __all__ = [
     'MODELS',
     'ComCatModel',
     'Account',
+    'Address',
     'Session',
     'AccountBaseChart',
     'AccountConfiguration',
@@ -22,6 +24,7 @@ __all__ = [
     'GroupMemberAccount']
 
 
+# Order matters here.
 MODELS = (
-    Account, Session, AccountBaseChart, AccountConfiguration, AccountMenu,
-    AccountDamageReport, GroupMemberAccount)
+    Address, Account, Session, AccountBaseChart, AccountConfiguration,
+    AccountMenu, AccountDamageReport, GroupMemberAccount)
