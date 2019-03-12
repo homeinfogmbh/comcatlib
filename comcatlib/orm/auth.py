@@ -35,12 +35,12 @@ _UNCHANGED = object()
 def _extract_address(json, customer):
     """Returns the respective address."""
 
-    address = json.pop('address')
+    ident = json.pop('address')
 
-    if address is None:
+    if ident is None:
         return None
 
-    return Address.for_customer(address, customer)
+    return Address.get((Address.id == ident) & (Address.customer == customer))
 
 
 class Account(ComCatModel):
