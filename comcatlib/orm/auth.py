@@ -69,7 +69,7 @@ class Account(ComCatModel):
         return account
 
     @classmethod
-    def from_json(cls, json, customer, address=None, **kwargs):
+    def from_json(cls, json, customer, **kwargs):
         """Creates the account from the respective JSON data."""
         try:
             address = _extract_address(json, customer)
