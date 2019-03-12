@@ -1,5 +1,6 @@
 """Object-relational mappings."""
 
+from contextlib import suppress
 from datetime import datetime, timedelta
 from uuid import uuid4
 
@@ -28,6 +29,18 @@ __all__ = ['Account', 'Session']
 
 
 MAX_FAILED_LOGINS = 5
+_UNCHANGED = object()
+
+
+def _extract_address(json, customer):
+    """Returns the respective address."""
+
+    address = json.pop('address')
+
+    if address is None:
+        return None
+
+    return Address.for_customer(address, customer)
 
 
 class Account(ComCatModel):
@@ -54,6 +67,19 @@ class Account(ComCatModel):
         account.address = address
         account.passwd = passwd
         account.save()
+        return account
+
+    @classmethod
+    def from_json(cls, json, customer, address=None, **kwargs):
+        """Creates the account from the respective JSON data."""
+        try:
+            address = _extract_address(json, customer)
+        except KeyError:
+            address = None
+
+        account = super().from_json(json, **kwargs)
+        account.customer = customer
+        account.address = address
         return account
 
     @property
@@ -98,6 +124,13 @@ class Account(ComCatModel):
             return True
 
         raise AccountLocked()
+
+    def patch_json(self, json, **kwargs):
+        """Patches the account with the respective JSON data."""
+        with suppress(KeyError):
+            self.address = _extract_address(json, self.customer)
+
+        super().patch_json(json, **kwargs)
 
 
 class Session(ComCatModel):
