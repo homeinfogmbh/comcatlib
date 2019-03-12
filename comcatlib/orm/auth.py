@@ -29,7 +29,6 @@ __all__ = ['Account', 'Session']
 
 
 MAX_FAILED_LOGINS = 5
-_UNCHANGED = object()
 
 
 def _extract_address(json, customer):
