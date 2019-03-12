@@ -12,7 +12,10 @@ __all__ = [
     'ACCOUNT_DELETED',
     'ACCOUNT_PATCHED',
     'INVALID_CREDENTIALS',
-    'NO_ADDRESS_CONFIGURED']
+    'NO_ADDRESS_CONFIGURED',
+    'ADDRESS_ADDED',
+    'ADDRESS_DELETED',
+    'NO_SUCH_ADDRESS']
 
 
 COMCAT_MESSAGE_FACILITY = MessageFacility('/usr/local/etc/comcat.d/locales')
@@ -36,3 +39,7 @@ NO_SUCH_ARTICLE = COMCAT_MESSAGE(
     'The requested articles does not exists.', status=404)
 NO_SUCH_ARTICLE_IMAGE = COMCAT_MESSAGE(
     'The requested article image does not exists.', status=404)
+ADDRESS_ADDED = COMCAT_MESSAGE('The address has been added.', status=201)
+ADDRESS_DELETED = COMCAT_MESSAGE('The address has been deleted.', status=200)
+NO_SUCH_ADDRESS = COMCAT_MESSAGE(
+    'The requested address does not eixst.', status=404)

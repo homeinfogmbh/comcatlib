@@ -16,50 +16,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Hand\n"
 
-#: messages.py:21
+#: messages.py:24
 msgid "The requested account does not exists."
 msgstr "Das gewünschte Benutzerkonto existiert nicht."
 
-#: messages.py:23
+#: messages.py:26
 msgid "The requested customer does not exists."
 msgstr "Der gewünschte Kunde existiert nicht."
 
-#: messages.py:25
+#: messages.py:28
 msgid "Session expired."
 msgstr "Die Sitzung ist abgelaufen."
 
-#: messages.py:26
+#: messages.py:29
 msgid "This account is locked."
 msgstr "Dieses Benutzerkonto ist gesperrt."
 
-#: messages.py:27
+#: messages.py:30
 msgid "The account has been added."
 msgstr "Das Benutzerkonto wurde hinzugefügt."
 
-#: messages.py:28
+#: messages.py:31
 msgid "The account has been deleted."
 msgstr "Das Benutzerkonto wurde gelöscht."
 
-#: messages.py:29
+#: messages.py:32
 msgid "The account has been modified."
 msgstr "Das Benutzerkonto wurde aktualisiert."
 
-#: messages.py:30
+#: messages.py:33
 msgid "User name and/or password inclorrect."
 msgstr "Benutzername und / order Passwort stimmen nicht überein."
 
-#: messages.py:32
+#: messages.py:35
 msgid "Account has no address configured."
 msgstr "Dem Benutzerkonto ist keine Adresse zugewisen."
 
-#: messages.py:34
+#: messages.py:37
 msgid "Module \"news\" is not enabled."
 msgstr "Das Modul \"news\" ist nicht freigeschaltet."
 
-#: messages.py:35
+#: messages.py:38
 msgid "The requested articles does not exists."
 msgstr "Der gewünschte Artikel existiert nicht."
 
-#: messages.py:37
+#: messages.py:40
 msgid "The requested article image does not exists."
 msgstr "Das gewünschte Artikelbild existiert nicht."
+
+#: messages.py:42
+msgid "The address has been added."
+msgstr "Die Adresse wurde hinzugefügt."
+
+#: messages.py:37
+msgid "The address has been deleted."
+msgstr "Die Adresse wurde gelöscht."
+
+#: messages.py:37
+msgid "The requested address does not eixst."
+msgstr "Die gewünschte Adresse existiert nicht."
