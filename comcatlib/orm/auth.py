@@ -21,6 +21,7 @@ from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import DurationOutOfBounds
 from comcatlib.exceptions import InvalidSession
 from comcatlib.exceptions import InvalidCredentials
+from comcatlib.messages import NO_SUCH_ADDRESS
 from comcatlib.orm.address import Address
 from comcatlib.orm.common import ComCatModel
 
@@ -39,7 +40,12 @@ def _extract_address(json, customer):
     if ident is None:
         return None
 
-    return Address.get((Address.id == ident) & (Address.customer == customer))
+    try:
+        return Address.get(
+            (Address.id == ident)
+            & (Address.customer == customer))
+    except Address.DoesNotExist:
+        raise NO_SUCH_ADDRESS
 
 
 class Account(ComCatModel):
