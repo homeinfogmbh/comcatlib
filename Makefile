@@ -4,14 +4,8 @@ FILE_LIST = ./.installed_files.txt
 
 default: | pull clean install
 
-install: install-pyton install-locales
-
-install-pyton:
+install:
 	@ ./setup.py install --record $(FILE_LIST)
-
-install-locales:
-	@ mkdir -p /usr/local/etc/comcat.d/locales/de_DE/LC_MESSAGES
-	@ msgfmt -v files/locales/de_DE/comcat.po -o /usr/local/etc/comcat.d/locales/de_DE/LC_MESSAGES/comcat.mo
 
 uninstall:
 	@ while read FILE; do echo "Removing: $$FILE"; rm "$$FILE"; done < $(FILE_LIST)
