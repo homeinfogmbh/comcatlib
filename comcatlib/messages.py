@@ -1,6 +1,6 @@
 """Web API messages."""
 
-from wsgilib import MessageFacility
+from wsgilib import JSONMessage
 
 
 __all__ = [
@@ -18,28 +18,25 @@ __all__ = [
     'NO_SUCH_ADDRESS']
 
 
-COMCAT_MESSAGE_FACILITY = MessageFacility('/usr/local/etc/comcat.d/locales')
-COMCAT_MESSAGE_DOMAIN = COMCAT_MESSAGE_FACILITY.domain('comcat')
-COMCAT_MESSAGE = COMCAT_MESSAGE_DOMAIN.message
-NO_SUCH_ACCOUNT = COMCAT_MESSAGE(
+NO_SUCH_ACCOUNT = JSONMessage(
     'The requested account does not exists.', status=404)
-NO_SUCH_CUSTOMER = COMCAT_MESSAGE(
+NO_SUCH_CUSTOMER = JSONMessage(
     'The requested customer does not exists.', status=404)
-SESSION_EXPIRED = COMCAT_MESSAGE('Session expired.', status=401)
-ACCOUNT_LOCKED = COMCAT_MESSAGE('This account is locked.', status=401)
-ACCOUNT_ADDED = COMCAT_MESSAGE('The account has been added.', status=201)
-ACCOUNT_DELETED = COMCAT_MESSAGE('The account has been deleted.', status=200)
-ACCOUNT_PATCHED = COMCAT_MESSAGE('The account has been modified.', status=200)
-INVALID_CREDENTIALS = COMCAT_MESSAGE(
+SESSION_EXPIRED = JSONMessage('Session expired.', status=401)
+ACCOUNT_LOCKED = JSONMessage('This account is locked.', status=401)
+ACCOUNT_ADDED = JSONMessage('The account has been added.', status=201)
+ACCOUNT_DELETED = JSONMessage('The account has been deleted.', status=200)
+ACCOUNT_PATCHED = JSONMessage('The account has been modified.', status=200)
+INVALID_CREDENTIALS = JSONMessage(
     'User name and/or password inclorrect.', status=400)
-NO_ADDRESS_CONFIGURED = COMCAT_MESSAGE(
+NO_ADDRESS_CONFIGURED = JSONMessage(
     'Account has no address configured.', status=400)
-NEWS_NOT_ENABLED = COMCAT_MESSAGE('Module "news" is not enabled.', status=403)
-NO_SUCH_ARTICLE = COMCAT_MESSAGE(
+NEWS_NOT_ENABLED = JSONMessage('Module "news" is not enabled.', status=403)
+NO_SUCH_ARTICLE = JSONMessage(
     'The requested articles does not exists.', status=404)
-NO_SUCH_ARTICLE_IMAGE = COMCAT_MESSAGE(
+NO_SUCH_ARTICLE_IMAGE = JSONMessage(
     'The requested article image does not exists.', status=404)
-ADDRESS_ADDED = COMCAT_MESSAGE('The address has been added.', status=201)
-ADDRESS_DELETED = COMCAT_MESSAGE('The address has been deleted.', status=200)
-NO_SUCH_ADDRESS = COMCAT_MESSAGE(
+ADDRESS_ADDED = JSONMessage('The address has been added.', status=201)
+ADDRESS_DELETED = JSONMessage('The address has been deleted.', status=200)
+NO_SUCH_ADDRESS = JSONMessage(
     'The requested address does not eixst.', status=404)
