@@ -1,5 +1,7 @@
 """Facebook data aggregation."""
 
+from functools import partial
+
 from cmslib.orm.charts import Facebook
 
 from comcatlib.orm import Account
