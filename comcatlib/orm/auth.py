@@ -90,7 +90,7 @@ class Account(ComCatModel):
     @property
     def expired(self):
         """Determines whether the account is expired."""
-        return self.expires is None or self.expires > datetime.now()
+        return self.expires is not None and self.expires <= datetime.now()
 
     @property
     def valid(self):
