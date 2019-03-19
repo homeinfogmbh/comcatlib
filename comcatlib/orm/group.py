@@ -27,7 +27,6 @@ class GroupMemberAccount(ComCatModel, GroupMember):  # pylint: disable=R0901
 
     def to_json(self):
         """Returns a JSON-ish dict."""
-        return {
-            'member': self.id,
-            'account': self.member.id,
-            'index': self.index}
+        json = super().to_json()
+        json['account'] = self.member.id
+        return json
