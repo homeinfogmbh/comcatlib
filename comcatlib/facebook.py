@@ -15,7 +15,7 @@ def get_posts(account):
 
     presentation = Presentation(Account[account.id])
 
-    for chart in filter(Facebook.isinstance, presentation.charts):
+    for chart in filter(partial(isinstance, Facebook), presentation.charts):
         for account in chart.accounts:  # pylint: disable=R1704
             for post in account.posts:
                 if post.image:
