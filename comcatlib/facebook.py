@@ -12,20 +12,20 @@ from comcatlib.urlproxy import encode_url
 __all__ = ['get_accounts', 'get_posts']
 
 
-def get_accounts(account):
+def get_accounts(comcat_account):
     """Yields facebook accounts."""
 
-    presentation = Presentation(Account[account.id])
+    presentation = Presentation(Account[comcat_account.id])
 
     for chart in filter(partial(isinstance, Facebook), presentation.charts):
-        for facebook_account in chart.accounts:
-            yield facebook_account
+        for account in chart.accounts:
+            yield account
 
 
-def get_posts(facebook_account):
+def get_posts(account):
     """Yields posts for the respective facebook account."""
 
-    for post in facebook_account.posts:
+    for post in account.posts:
         if post.image:
             post.image = encode_url(post.image)
         else:
