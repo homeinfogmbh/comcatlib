@@ -6,7 +6,7 @@ from comcatlib.damage_report import list_ as list_damage_reports
 from comcatlib.damage_report import submit as submit_damage_reports
 from comcatlib.facebook import get_accounts as get_facebook_accounts
 from comcatlib.facebook import get_posts as get_facebook_posts
-from comcatlib.functions import get_account, get_group, get_session_duration
+from comcatlib.functions import get_account, get_session_duration
 from comcatlib.orm import Account
 from comcatlib.orm import AccountBaseChart
 from comcatlib.orm import AccountConfiguration
@@ -25,7 +25,6 @@ __all__ = [
     'SESSION',
     'authenticated',
     'get_account',
-    'get_group',
     'get_session_duration',
     'list_damage_reports',
     'submit_damage_reports',
