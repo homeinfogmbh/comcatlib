@@ -2,7 +2,7 @@
 
 from peewee import ForeignKeyField
 
-from cmslib.orm.group import group_fk, GroupMember
+from cmslib.orm.group import Group, GroupMember
 
 from comcatlib.orm.auth import Account
 from comcatlib.orm.common import ComCatModel
@@ -17,7 +17,7 @@ class GroupMemberAccount(ComCatModel, GroupMember):  # pylint: disable=R0901
     class Meta:     # pylint: disable=C0111,R0903
         table_name = 'group_member_account'
 
-    group = group_fk('accounts')
+    group = ForeignKeyField(Group, column_name='group', on_delete='CASCADE')
     member = ForeignKeyField(
         Account, column_name='account', on_delete='CASCADE')
 
