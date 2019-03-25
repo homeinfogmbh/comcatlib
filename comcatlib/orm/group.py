@@ -24,9 +24,3 @@ class GroupMemberAccount(ComCatModel, GroupMember):  # pylint: disable=R0901
     def to_dom(self):
         """Returns an XML DOM."""
         raise NotImplementedError()
-
-    def to_json(self):
-        """Returns a JSON-ish dict."""
-        json = super().to_json()
-        json['account'] = self.member.id
-        return json
