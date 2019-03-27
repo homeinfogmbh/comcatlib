@@ -4,7 +4,7 @@ from peewee import ForeignKeyField
 
 from cmslib.orm.group import Group, GroupMember
 
-from comcatlib.orm.auth import Account
+from comcatlib.orm.account import Account
 from comcatlib.orm.common import ComCatModel
 
 
