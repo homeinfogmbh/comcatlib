@@ -131,9 +131,3 @@ class Account(ComCatModel):
             self.tenement = _extract_tenement(json, self.customer)
 
         super().patch_json(json, **kwargs)
-
-    def to_json(self, **kwargs):
-        """Returns a JSON-ish dict."""
-        dictionary = super().to_json(**kwargs)
-        dictionary['tenement'] = self.tenement.id
-        return dictionary
