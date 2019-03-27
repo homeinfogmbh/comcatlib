@@ -24,7 +24,7 @@ class Tenement(ComCatModel):
 
     def to_json(self, cascade=False, **kwargs):
         """Returns JSON-ish dict."""
-        dictionary = super().to_dict(**kwargs)
+        dictionary = super().to_json(**kwargs)
 
         if cascade and self.address is not None:
             dictionary['address'] = self.address.to_json(**kwargs)

@@ -134,7 +134,7 @@ class Account(ComCatModel):
 
     def to_json(self, cascade=False, **kwargs):
         """Returns JSON-ish dict."""
-        dictionary = super().to_dict(**kwargs)
+        dictionary = super().to_json(**kwargs)
 
         if cascade and self.tenement is not None:
             dictionary['tenement'] = self.tenement.to_json(
