@@ -6,7 +6,6 @@ from uuid import uuid4
 
 from argon2.exceptions import VerifyMismatchError
 from peewee import BooleanField
-from peewee import CharField
 from peewee import DateTimeField
 from peewee import ForeignKeyField
 from peewee import IntegerField
@@ -24,6 +23,7 @@ from comcatlib.exceptions import InvalidCredentials
 from comcatlib.messages import NO_SUCH_ADDRESS
 from comcatlib.orm.address import Address
 from comcatlib.orm.common import ComCatModel
+from comcatlib.orm.tenement import Tenement
 
 
 __all__ = ['Account', 'Session']
@@ -32,18 +32,18 @@ __all__ = ['Account', 'Session']
 MAX_FAILED_LOGINS = 5
 
 
-def _extract_address(json, customer):
+def _extract_tenement(json, customer):
     """Returns the respective address."""
 
-    ident = json.pop('address')
+    ident = json.pop('tenement')
 
     if ident is None:
         return None
 
     try:
-        return Address.get(
-            (Address.id == ident)
-            & (Address.customer == customer))
+        return Tenement.get(
+            (Tenement.id == ident)
+            & (Tenement.customer == customer))
     except Address.DoesNotExist:
         raise NO_SUCH_ADDRESS
 
@@ -54,11 +54,7 @@ class Account(ComCatModel):
     uuid = UUIDField(default=uuid4)
     passwd = Argon2Field(null=True)
     customer = ForeignKeyField(Customer, column_name='customer')
-    address = ForeignKeyField(Address, column_name='address', null=True)
-    rental_unit = CharField(255, null=True)     # Mieteinheit / ME.
-    living_unit = CharField(255, null=True)     # Wohneinheit / WE.
-    name = CharField(255, null=True)    # Name of the tenant.
-    annotation = CharField(255, null=True)
+    tenement = ForeignKeyField(Tenement, column_name='tenement', null=True)
     created = DateTimeField(default=datetime.now)
     last_login = DateTimeField(null=True)
     failed_logins = IntegerField(default=0)
@@ -66,12 +62,11 @@ class Account(ComCatModel):
     locked = BooleanField(default=False)
 
     @classmethod
-    def add(cls, customer, annotation, address=None, passwd=None):
+    def add(cls, customer, tenement=None, passwd=None):
         """Creates a new account."""
         account = cls()
         account.customer = customer
-        account.annotation = annotation
-        account.address = address
+        account.tenement = tenement
         account.passwd = passwd
         account.save()
         return account
@@ -80,13 +75,13 @@ class Account(ComCatModel):
     def from_json(cls, json, customer, **kwargs):
         """Creates the account from the respective JSON data."""
         try:
-            address = _extract_address(json, customer)
+            tenement = _extract_tenement(json, customer)
         except KeyError:
-            address = None
+            tenement = None
 
         account = super().from_json(json, **kwargs)
         account.customer = customer
-        account.address = address
+        account.tenement = tenement
         return account
 
     @property
@@ -135,7 +130,7 @@ class Account(ComCatModel):
     def patch_json(self, json, **kwargs):
         """Patches the account with the respective JSON data."""
         with suppress(KeyError):
-            self.address = _extract_address(json, self.customer)
+            self.tenement = _extract_tenement(json, self.customer)
 
         super().patch_json(json, **kwargs)
 

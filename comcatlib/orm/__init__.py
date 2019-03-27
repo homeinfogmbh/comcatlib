@@ -8,6 +8,7 @@ from comcatlib.orm.content import AccountConfiguration
 from comcatlib.orm.content import AccountMenu
 from comcatlib.orm.damage_report import AccountDamageReport
 from comcatlib.orm.group import GroupMemberAccount
+from comcatlib.orm.tenement import Tenement
 
 
 __all__ = [
@@ -21,10 +22,11 @@ __all__ = [
     'AccountConfiguration',
     'AccountMenu',
     'AccountDamageReport',
-    'GroupMemberAccount']
+    'GroupMemberAccount',
+    'Tenement']
 
 
 # Order matters here.
 MODELS = (
-    Address, Account, Session, AccountBaseChart, AccountConfiguration,
-    AccountMenu, AccountDamageReport, GroupMemberAccount)
+    Address, Tenement, Account, Session, AccountBaseChart,
+    AccountConfiguration, AccountMenu, AccountDamageReport, GroupMemberAccount)
