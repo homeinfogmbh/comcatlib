@@ -55,8 +55,10 @@ class Account(ComCatModel):
     passwd = Argon2Field(null=True)
     customer = ForeignKeyField(Customer, column_name='customer')
     address = ForeignKeyField(Address, column_name='address', null=True)
-    rental_unit = CharField(255, null=True)
-    annotation = CharField(255)
+    rental_unit = CharField(255, null=True)     # Mieteinheit / ME.
+    living_unit = CharField(255, null=True)     # Wohneinheit / WE.
+    name = CharField(255, null=True)    # Name of the tenant.
+    annotation = CharField(255, null=True)
     created = DateTimeField(default=datetime.now)
     last_login = DateTimeField(null=True)
     failed_logins = IntegerField(default=0)
