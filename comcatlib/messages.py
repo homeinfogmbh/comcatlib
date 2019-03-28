@@ -15,6 +15,7 @@ __all__ = [
     'NO_ADDRESS_CONFIGURED',
     'ADDRESS_ADDED',
     'ADDRESS_DELETED',
+    'INVALID_ADDRESS_VALUE',
     'NO_SUCH_ADDRESS',
     'TENEMENT_ADDED',
     'TENEMENT_DELETED',
@@ -42,6 +43,7 @@ NO_SUCH_ARTICLE_IMAGE = JSONMessage(
     'The requested article image does not exists.', status=404)
 ADDRESS_ADDED = JSONMessage('The address has been added.', status=201)
 ADDRESS_DELETED = JSONMessage('The address has been deleted.', status=200)
+INVALID_ADDRESS_VALUE = JSONMessage('Invalid value for address.', status=400)
 NO_SUCH_ADDRESS = JSONMessage(
     'The requested address does not eixst.', status=404)
 TENEMENT_ADDED = JSONMessage('The tenement has been added.', status=201)

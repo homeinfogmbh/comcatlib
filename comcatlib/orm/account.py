@@ -16,7 +16,7 @@ from peeweeplus import Argon2Field
 
 from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import InvalidCredentials
-from comcatlib.messages import NO_SUCH_ADDRESS
+from comcatlib.messages import INVALID_ADDRESS_VALUE, NO_SUCH_ADDRESS
 from comcatlib.orm.address import Address
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.tenement import Tenement
@@ -81,6 +81,26 @@ class Account(ComCatModel):
         account.customer = customer
         account.tenement = tenement
         return account
+
+    @classmethod
+    def by_value(cls, value, customer):
+        """Returns an address by either ID or
+        JSON-dict for the respective customer.
+        """
+        if value is None:
+            return None
+
+        if isinstance(value, int):
+            try:
+                return Address.get(
+                    (Address.id == value) & (Address.customer == customer))
+            except Address.DoesNotExist:
+                raise NO_SUCH_ADDRESS
+
+        if isinstance(value, dict):
+            return Address.from_json(value, customer)
+
+        raise INVALID_ADDRESS_VALUE
 
     @property
     def expired(self):
