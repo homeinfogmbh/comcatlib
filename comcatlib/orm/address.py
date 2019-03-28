@@ -39,8 +39,7 @@ class Address(ComCatModel):
         address.customer = customer
         return address
 
-    @classmethod
-    def patch_json(cls, *_, **__):
+    def patch_json(self, **__):
         """Prohibit patching."""
         raise NotImplementedError('Patching not implemented.')
 
