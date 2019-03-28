@@ -5,6 +5,7 @@ from peewee import ForeignKeyField
 
 from mdb import Customer
 
+from comcatlib.messages import INVALID_TENEMENT_VALUE, NO_SUCH_TENEMENT
 from comcatlib.orm.address import Address
 from comcatlib.orm.common import ComCatModel
 
@@ -34,6 +35,25 @@ class Tenement(ComCatModel):
         tenement.customer = customer
         tenement.address = address
         return tenement
+
+    @classmethod
+    def by_value(cls, value, customer):
+        """Returns an address by either ID or
+        JSON-dict for the respective customer.
+        """
+        if value is None:
+            return None
+
+        if isinstance(value, int):
+            try:
+                return cls.get((cls.id == value) & (cls.customer == customer))
+            except cls.DoesNotExist:
+                raise NO_SUCH_TENEMENT
+
+        if isinstance(value, dict):
+            return cls.from_json(value, customer)
+
+        raise INVALID_TENEMENT_VALUE
 
     def patch_json(self, json, **kwargs):
         """Patches the tenement with the data from a JSON-ish dict."""
