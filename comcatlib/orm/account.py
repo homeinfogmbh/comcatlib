@@ -1,6 +1,5 @@
 """ComCat accounts."""
 
-from contextlib import suppress
 from datetime import datetime
 from uuid import uuid4
 
@@ -73,9 +72,12 @@ class Account(ComCatModel):
     def from_json(cls, json, customer, **kwargs):
         """Creates the account from the respective JSON data."""
         try:
-            tenement = _extract_tenement(json, customer)
+            tenement = json.pop('tenement', None)
         except KeyError:
             tenement = None
+        else:
+            tenement = Tenement.by_value(tenement, customer)
+            tenement.save()
 
         account = super().from_json(json, **kwargs)
         account.customer = customer
@@ -127,10 +129,16 @@ class Account(ComCatModel):
 
     def patch_json(self, json, **kwargs):
         """Patches the account with the respective JSON data."""
-        with suppress(KeyError):
-            self.tenement = _extract_tenement(json, self.customer)
+        try:
+            tenement = json.pop('tenement')
+        except KeyError:
+            tenement = self.tenement
+        else:
+            tenement = Tenement.by_value(tenement, self.customer)
+            tenement.save()
 
         super().patch_json(json, **kwargs)
+        self.tenement = tenement
 
     def to_json(self, cascade=False, **kwargs):
         """Returns JSON-ish dict."""
