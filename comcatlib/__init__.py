@@ -15,6 +15,7 @@ from comcatlib.orm import AccountMenu
 from comcatlib.orm import Address
 from comcatlib.orm import GroupMemberAccount
 from comcatlib.orm import Session
+from comcatlib.orm import Tenement
 from comcatlib.presentation import Presentation
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
@@ -41,4 +42,5 @@ __all__ = [
     'Address',
     'GroupMemberAccount',
     'Session',
+    'Tenement',
     'Presentation']
