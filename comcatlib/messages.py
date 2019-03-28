@@ -18,7 +18,8 @@ __all__ = [
     'NO_SUCH_ADDRESS',
     'TENEMENT_ADDED',
     'TENEMENT_DELETED',
-    'NO_SUCH_TENEMENT']
+    'NO_SUCH_TENEMENT',
+    'TENEMENT_PATCHED']
 
 
 NO_SUCH_ACCOUNT = JSONMessage(
@@ -47,3 +48,5 @@ TENEMENT_ADDED = JSONMessage('The tenement has been added.', status=201)
 TENEMENT_DELETED = JSONMessage('The tenement has been deleted.', status=200)
 NO_SUCH_TENEMENT = JSONMessage(
     'The requested tenement does not eixst.', status=404)
+TENEMENT_PATCHED = JSONMessage(
+    'The requested tenement has been patched.', status=404)
