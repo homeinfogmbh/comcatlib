@@ -15,7 +15,10 @@ __all__ = [
     'NO_ADDRESS_CONFIGURED',
     'ADDRESS_ADDED',
     'ADDRESS_DELETED',
-    'NO_SUCH_ADDRESS']
+    'NO_SUCH_ADDRESS',
+    'TENEMENT_ADDED',
+    'TENEMENT_DELETED',
+    'NO_SUCH_TENEMENT']
 
 
 NO_SUCH_ACCOUNT = JSONMessage(
@@ -40,3 +43,7 @@ ADDRESS_ADDED = JSONMessage('The address has been added.', status=201)
 ADDRESS_DELETED = JSONMessage('The address has been deleted.', status=200)
 NO_SUCH_ADDRESS = JSONMessage(
     'The requested address does not eixst.', status=404)
+TENEMENT_ADDED = JSONMessage('The tenement has been added.', status=201)
+TENEMENT_DELETED = JSONMessage('The tenement has been deleted.', status=200)
+NO_SUCH_TENEMENT = JSONMessage(
+    'The requested tenement does not eixst.', status=404)
