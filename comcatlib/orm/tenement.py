@@ -30,7 +30,6 @@ class Tenement(ComCatModel):
         """
         address = json.pop('address', None)
         address = Address.by_value(address, customer)
-        address.save()
         tenement = super().from_json(json, **kwargs)
         tenement.customer = customer
         tenement.address = address
@@ -51,7 +50,9 @@ class Tenement(ComCatModel):
                 raise NO_SUCH_TENEMENT
 
         if isinstance(value, dict):
-            return cls.from_json(value, customer)
+            tenement = cls.from_json(value, customer)
+            tenement.save()
+            return tenement
 
         raise INVALID_TENEMENT_VALUE
 
@@ -63,7 +64,6 @@ class Tenement(ComCatModel):
             address = self.address
         else:
             address = Address.by_value(address, self.customer)
-            address.save()
 
         super().patch_json(json, **kwargs)
         self.address = address

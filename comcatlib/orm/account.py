@@ -77,7 +77,6 @@ class Account(ComCatModel):
             tenement = None
         else:
             tenement = Tenement.by_value(tenement, customer)
-            tenement.save()
 
         account = super().from_json(json, **kwargs)
         account.customer = customer
@@ -135,7 +134,6 @@ class Account(ComCatModel):
             tenement = self.tenement
         else:
             tenement = Tenement.by_value(tenement, self.customer)
-            tenement.save()
 
         super().patch_json(json, **kwargs)
         self.tenement = tenement

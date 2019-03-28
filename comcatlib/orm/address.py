@@ -58,6 +58,8 @@ class Address(ComCatModel):
                 raise NO_SUCH_ADDRESS
 
         if isinstance(value, dict):
-            return cls.from_json(value, customer)
+            address = cls.from_json(value, customer)
+            address.save()
+            return address
 
         raise INVALID_ADDRESS_VALUE
