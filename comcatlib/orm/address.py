@@ -6,6 +6,7 @@ from peewee import CharField, ForeignKeyField
 
 from mdb import Customer
 
+from comcatlib.messages import INVALID_ADDRESS_VALUE, NO_SUCH_ADDRESS
 from comcatlib.orm.common import ComCatModel
 
 
@@ -42,3 +43,22 @@ class Address(ComCatModel):
     def patch_json(cls, *_, **__):
         """Prohibit patching."""
         raise NotImplementedError('Patching not implemented.')
+
+    @classmethod
+    def by_value(cls, value, customer):
+        """Returns an address by either ID or
+        JSON-dict for the respective customer.
+        """
+        if value is None:
+            return None
+
+        if isinstance(value, int):
+            try:
+                return cls.get((cls.id == value) & (cls.customer == customer))
+            except cls.DoesNotExist:
+                raise NO_SUCH_ADDRESS
+
+        if isinstance(value, dict):
+            return cls.from_json(value, customer)
+
+        raise INVALID_ADDRESS_VALUE
