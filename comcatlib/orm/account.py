@@ -57,6 +57,8 @@ class Account(ComCatModel):
     failed_logins = IntegerField(default=0)
     expires = DateTimeField(null=True)
     locked = BooleanField(default=False)
+    admin = BooleanField(default=False)
+    root = BooleanField(default=False)
 
     @classmethod
     def add(cls, customer, tenement=None, passwd=None):
