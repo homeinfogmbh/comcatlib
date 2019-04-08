@@ -21,7 +21,8 @@ __all__ = [
     'TENEMENT_DELETED',
     'NO_SUCH_TENEMENT',
     'TENEMENT_PATCHED',
-    'INVALID_TENEMENT_VALUE']
+    'INVALID_TENEMENT_VALUE',
+    'NO_SUCH_FILE']
 
 
 NO_SUCH_ACCOUNT = JSONMessage(
@@ -54,3 +55,4 @@ NO_SUCH_TENEMENT = JSONMessage(
 TENEMENT_PATCHED = JSONMessage(
     'The requested tenement has been patched.', status=404)
 INVALID_TENEMENT_VALUE = JSONMessage('Invalid value for tenement.', status=400)
+NO_SUCH_FILE = JSONMessage('No such file.', status=404)
