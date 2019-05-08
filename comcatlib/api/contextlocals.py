@@ -12,8 +12,7 @@ from comcatlib.exceptions import NoSessionTokenSpecified
 from comcatlib.exceptions import NoSuchSession
 from comcatlib.messages import NO_SUCH_ACCOUNT
 from comcatlib.messages import NO_SUCH_CUSTOMER
-from comcatlib.orm.account import Account
-from comcatlib.orm.session import Session
+from comcatlib.api.orm import Account, Session
 
 
 __all__ = ['ACCOUNT', 'CUSTOMER', 'SESSION']

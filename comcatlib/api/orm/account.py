@@ -16,9 +16,9 @@ from peeweeplus import Argon2Field
 from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import InvalidCredentials
 from comcatlib.messages import NO_SUCH_ADDRESS
-from comcatlib.orm.address import Address
-from comcatlib.orm.common import ComCatModel
-from comcatlib.orm.tenement import Tenement
+from comcatlib.api.orm.address import Address
+from comcatlib.api.orm.common import ComCatModel
+from comcatlib.api.orm.tenement import Tenement
 
 
 __all__ = ['Account']

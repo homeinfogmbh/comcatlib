@@ -6,8 +6,8 @@ from peewee import ForeignKeyField
 from mdb import Customer
 
 from comcatlib.messages import INVALID_TENEMENT_VALUE, NO_SUCH_TENEMENT
-from comcatlib.orm.address import Address
-from comcatlib.orm.common import ComCatModel
+from comcatlib.api.orm.address import Address
+from comcatlib.api.orm.common import ComCatModel
 
 
 __all__ = ['Tenement']

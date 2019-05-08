@@ -7,7 +7,7 @@ from peewee import CharField, ForeignKeyField
 from mdb import Customer
 
 from comcatlib.messages import INVALID_ADDRESS_VALUE, NO_SUCH_ADDRESS
-from comcatlib.orm.common import ComCatModel
+from comcatlib.api.orm.common import ComCatModel
 
 
 __all__ = ['Address']

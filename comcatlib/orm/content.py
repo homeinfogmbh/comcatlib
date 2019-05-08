@@ -2,8 +2,7 @@
 
 from peewee import ForeignKeyField, IntegerField
 
-from comcatlib.orm.account import Account
-from comcatlib.orm.common import ComCatModel
+from comcatlib.api import Account, ComCatModel
 
 from cmslib.orm.charts import ChartMode, BaseChart
 from cmslib.orm.configuration import Configuration

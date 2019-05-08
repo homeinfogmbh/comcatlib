@@ -1,8 +1,7 @@
 """Common functions."""
 
-from comcatlib.contextlocals import CUSTOMER
+from comcatlib.api import CUSTOMER, Account
 from comcatlib.messages import NO_SUCH_ACCOUNT
-from comcatlib.orm import Account
 
 
 __all__ = ['get_account']
