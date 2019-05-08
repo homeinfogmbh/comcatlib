@@ -1,6 +1,6 @@
 """Object relational mappings."""
 
-from comcatlib.orm.account import get_account, Account
+from comcatlib.orm.account import Account
 from comcatlib.orm.address import Address
 from comcatlib.orm.common import DATABASE, ComCatModel
 from comcatlib.orm.content import AccountBaseChart
@@ -15,7 +15,6 @@ from comcatlib.orm.tenement import Tenement
 __all__ = [
     'DATABASE',
     'MODELS',
-    'get_account',
     'ComCatModel',
     'Account',
     'Address',

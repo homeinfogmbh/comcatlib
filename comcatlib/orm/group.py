@@ -5,7 +5,8 @@ from peewee import ForeignKeyField, IntegerField
 from cmslib.orm.group import Group
 from his.messages.data import MISSING_KEY_ERROR, INVALID_KEYS
 
-from comcatlib.orm.account import get_account, Account
+from comcatlib.functions import get_account
+from comcatlib.orm.account import Account
 from comcatlib.orm.common import ComCatModel
 
 

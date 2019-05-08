@@ -13,16 +13,15 @@ from peewee import UUIDField
 from mdb import Customer
 from peeweeplus import Argon2Field
 
-from comcatlib.contextlocals import CUSTOMER
 from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import InvalidCredentials
-from comcatlib.messages import NO_SUCH_ACCOUNT, NO_SUCH_ADDRESS
+from comcatlib.messages import NO_SUCH_ADDRESS
 from comcatlib.orm.address import Address
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.tenement import Tenement
 
 
-__all__ = ['get_account', 'Account']
+__all__ = ['Account']
 
 
 MAX_FAILED_LOGINS = 5
@@ -42,16 +41,6 @@ def _extract_tenement(json, customer):
             & (Tenement.customer == customer))
     except Address.DoesNotExist:
         raise NO_SUCH_ADDRESS
-
-
-def get_account(ident):
-    """Returns the respective account."""
-
-    try:
-        return Account.get(
-            (Account.id == ident) & (Account.customer == CUSTOMER.id))
-    except Account.DoesNotExist:
-        raise NO_SUCH_ACCOUNT
 
 
 class Account(ComCatModel):
