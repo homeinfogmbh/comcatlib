@@ -4,7 +4,7 @@ from functools import wraps
 
 from flask import request
 
-from comcatlib.api.contextlocals import SESSION
+from comcatlib.contextlocals import SESSION
 from comcatlib.config import ALLOWED_SESSION_DURATIONS
 from comcatlib.config import DEFAULT_SESSION_DURATION
 from comcatlib.messages import SESSION_EXPIRED, ACCOUNT_LOCKED

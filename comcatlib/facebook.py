@@ -4,7 +4,7 @@ from functools import partial
 
 from cmslib.orm.charts import Facebook
 
-from comcatlib.api import Account
+from comcatlib.orm import Account
 from comcatlib.presentation import Presentation
 from comcatlib.urlproxy import encode_url
 

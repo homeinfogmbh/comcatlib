@@ -12,8 +12,8 @@ from comcatlib.config import DEFAULT_SESSION_DURATION
 from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import DurationOutOfBounds
 from comcatlib.exceptions import InvalidSession
-from comcatlib.api.orm.account import Account
-from comcatlib.api.orm.common import ComCatModel
+from comcatlib.orm.account import Account
+from comcatlib.orm.common import ComCatModel
 
 
 __all__ = ['Session']

@@ -1,24 +1,23 @@
 """Comcat backend."""
 
-from comcatlib.api import ACCOUNT
-from comcatlib.api import CUSTOMER
-from comcatlib.api import SESSION
-from comcatlib.api import get_session_duration
-from comcatlib.api import authenticated
-from comcatlib.api import Account
-from comcatlib.api import Address
-from comcatlib.api import Session
-from comcatlib.api import Tenement
+from comcatlib.auth import get_session_duration
+from comcatlib.auth import authenticated
+from comcatlib.contextlocals import ACCOUNT
+from comcatlib.contextlocals import CUSTOMER
+from comcatlib.contextlocals import SESSION
 from comcatlib.damage_report import list_ as list_damage_reports
 from comcatlib.damage_report import submit as submit_damage_reports
 from comcatlib.facebook import get_accounts as get_facebook_accounts
 from comcatlib.facebook import get_posts as get_facebook_posts
-from comcatlib.functions import get_account
+from comcatlib.orm import get_account, Account
+from comcatlib.orm import Address
 from comcatlib.orm import AccountBaseChart
 from comcatlib.orm import AccountConfiguration
 from comcatlib.orm import AccountDamageReport
 from comcatlib.orm import AccountMenu
 from comcatlib.orm import GroupMemberAccount
+from comcatlib.orm import Session
+from comcatlib.orm import Tenement
 from comcatlib.presentation import Presentation
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 

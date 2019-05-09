@@ -10,15 +10,17 @@ from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import UUIDField
 
+from his import CUSTOMER
 from mdb import Customer
 from peeweeplus import Argon2Field
 
 from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import InvalidCredentials
+from comcatlib.messages import NO_SUCH_ACCOUNT
 from comcatlib.messages import NO_SUCH_ADDRESS
-from comcatlib.api.orm.address import Address
-from comcatlib.api.orm.common import ComCatModel
-from comcatlib.api.orm.tenement import Tenement
+from comcatlib.orm.address import Address
+from comcatlib.orm.common import ComCatModel
+from comcatlib.orm.tenement import Tenement
 
 
 __all__ = ['Account']
@@ -41,6 +43,16 @@ def _extract_tenement(json, customer):
             & (Tenement.customer == customer))
     except Address.DoesNotExist:
         raise NO_SUCH_ADDRESS
+
+
+def get_account(ident):
+    """Returns the respective account."""
+
+    try:
+        return Account.get(
+            (Account.id == ident) & (Account.customer == CUSTOMER.id))
+    except Account.DoesNotExist:
+        raise NO_SUCH_ACCOUNT
 
 
 class Account(ComCatModel):

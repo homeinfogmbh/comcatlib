@@ -4,7 +4,8 @@ from peewee import ForeignKeyField
 
 from damage_report import DamageReport
 
-from comcatlib.api import Account, ComCatModel
+from comcatlib.orm.account import Account
+from comcatlib.orm.common import ComCatModel
 
 
 __all__ = ['AccountDamageReport']
