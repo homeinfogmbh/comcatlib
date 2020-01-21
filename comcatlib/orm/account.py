@@ -17,8 +17,6 @@ from peeweeplus import Argon2Field
 from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import InvalidCredentials
 from comcatlib.messages import NO_SUCH_ACCOUNT
-from comcatlib.messages import NO_SUCH_ADDRESS
-from comcatlib.orm.address import Address
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.tenement import Tenement
 
@@ -27,22 +25,6 @@ __all__ = ['Account']
 
 
 MAX_FAILED_LOGINS = 5
-
-
-def _extract_tenement(json, customer):
-    """Returns the respective address."""
-
-    ident = json.pop('tenement')
-
-    if ident is None:
-        return None
-
-    try:
-        return Tenement.get(
-            (Tenement.id == ident)
-            & (Tenement.customer == customer))
-    except Address.DoesNotExist:
-        raise NO_SUCH_ADDRESS
 
 
 def get_account(ident):
@@ -85,11 +67,9 @@ class Account(ComCatModel):
     @classmethod
     def from_json(cls, json, customer, **kwargs):
         """Creates the account from the respective JSON data."""
-        try:
-            tenement = json.pop('tenement', None)
-        except KeyError:
-            tenement = None
-        else:
+        tenement = json.pop('tenement', None)
+
+        if tenement is not None:
             tenement = Tenement.by_value(tenement, customer)
 
         account = super().from_json(json, **kwargs)
