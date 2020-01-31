@@ -2,6 +2,8 @@
 
 from authlib.integrations.flask_oauth2 import AuthorizationServer
 
+from comcatlib.oauth.authorization_code_grant import AuthorizationCodeGrant
+from comcatlib.oauth.refresh_token_grant import RefreshTokenGrant
 from comcatlib.orm.oauth import Client, Token
 
 
@@ -20,10 +22,7 @@ def save_token(token_data, request):
     if request.user:
         user_id = request.user.get_user_id()
     else:
-        # client_credentials grant_type
         user_id = request.client.user_id
-        # or, depending on how you treat client_credentials
-        user_id = None
 
     client_id = request.client.client_id
     token = Token(client_id=client_id, user_id=user_id, **token_data)
@@ -31,3 +30,5 @@ def save_token(token_data, request):
 
 
 SERVER = AuthorizationServer(query_client=query_client, save_token=save_token)
+SERVER.register_grant(AuthorizationCodeGrant)
+SERVER.register_grant(RefreshTokenGrant)
