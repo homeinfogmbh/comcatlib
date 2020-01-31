@@ -12,7 +12,7 @@ from comcatlib.config import DEFAULT_SESSION_DURATION
 from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import DurationOutOfBounds
 from comcatlib.exceptions import InvalidSession
-from comcatlib.orm.account import Account
+from comcatlib.orm.user import User
 from comcatlib.orm.common import ComCatModel
 
 
@@ -23,21 +23,20 @@ class Session(ComCatModel):
     """A ComCat session."""
 
     token = UUIDField(default=uuid4)
-    account = ForeignKeyField(
-        Account, column_name='account', backref='sessions',
-        on_delete='CASCADE')
+    user = ForeignKeyField(
+        User, column_name='user', backref='sessions', on_delete='CASCADE')
     start = DateTimeField(default=datetime.now)
     end = DateTimeField()
 
     @classmethod
-    def open(cls, account, duration=DEFAULT_SESSION_DURATION):
-        """Opens a new session for the respective account."""
+    def open(cls, user, duration=DEFAULT_SESSION_DURATION):
+        """Opens a new session for the respective user."""
         if duration not in ALLOWED_SESSION_DURATIONS:
             raise DurationOutOfBounds()
 
         now = datetime.now()
         duration = timedelta(minutes=duration)
-        session = cls(account=account, start=now, end=now+duration)
+        session = cls(user=user, start=now, end=now+duration)
         session.save()
         return session
 
@@ -62,14 +61,14 @@ class Session(ComCatModel):
     @property
     def valid(self):
         """Determines whether the session is valid."""
-        return self.alive and self.account.valid
+        return self.alive and self.user.valid
 
     def renew(self, duration=DEFAULT_SESSION_DURATION):
         """Renews the session."""
         if duration not in ALLOWED_SESSION_DURATIONS:
             raise DurationOutOfBounds()
 
-        if not self.account.can_login:
+        if not self.user.can_login:
             raise AccountLocked()
 
         self.end = datetime.now() + timedelta(minutes=duration)

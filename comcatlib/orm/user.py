@@ -16,7 +16,7 @@ from peeweeplus import Argon2Field
 
 from comcatlib.exceptions import AccountLocked
 from comcatlib.exceptions import InvalidCredentials
-from comcatlib.messages import NO_SUCH_ACCOUNT
+from comcatlib.messages import NO_SUCH_USER
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.tenement import Tenement
 
@@ -27,18 +27,17 @@ __all__ = ['Account']
 MAX_FAILED_LOGINS = 5
 
 
-def get_account(ident):
+def get_user(ident):
     """Returns the respective account."""
 
     try:
-        return Account.get(
-            (Account.id == ident) & (Account.customer == CUSTOMER.id))
+        return User.get((User.id == ident) & (User.customer == CUSTOMER.id))
     except Account.DoesNotExist:
-        raise NO_SUCH_ACCOUNT
+        raise NO_SUCH_USER
 
 
-class Account(ComCatModel):
-    """A ComCat account."""
+class User(ComCatModel):
+    """A ComCat user's account."""
 
     uuid = UUIDField(default=uuid4)
     passwd = Argon2Field(null=True)
@@ -51,52 +50,52 @@ class Account(ComCatModel):
     failed_logins = IntegerField(default=0)
     expires = DateTimeField(null=True)
     locked = BooleanField(default=False)
-    admin = BooleanField(default=False)
-    root = BooleanField(default=False)
+    admin = BooleanField(default=False)     # Admin across entire customer.
+    root = BooleanField(default=False)      # Admin across all accounts.
 
     @classmethod
     def add(cls, customer, tenement=None, passwd=None):
-        """Creates a new account."""
-        account = cls()
-        account.customer = customer
-        account.tenement = tenement
-        account.passwd = passwd
-        account.save()
-        return account
+        """Creates a new user account."""
+        user = cls()
+        user.customer = customer
+        user.tenement = tenement
+        user.passwd = passwd
+        user.save()
+        return user
 
     @classmethod
     def from_json(cls, json, customer, **kwargs):
-        """Creates the account from the respective JSON data."""
+        """Creates the user account from the respective JSON data."""
         tenement = json.pop('tenement', None)
 
         if tenement is not None:
             tenement = Tenement.by_value(tenement, customer)
 
-        account = super().from_json(json, **kwargs)
-        account.customer = customer
-        account.tenement = tenement
-        return account
+        user = super().from_json(json, **kwargs)
+        user.customer = customer
+        user.tenement = tenement
+        return user
 
     @property
     def expired(self):
-        """Determines whether the account is expired."""
+        """Determines whether the user account is expired."""
         return self.expires is not None and self.expires <= datetime.now()
 
     @property
     def valid(self):
-        """Determines whether the account may be used."""
+        """Determines whether the user account may be used."""
         return not self.locked and not self.expired and self.passwd is not None
 
     @property
     def can_login(self):
-        """Determines whether the account may login."""
+        """Determines whether the user account may login."""
         return self.valid and self.failed_logins <= MAX_FAILED_LOGINS
 
     @property
     def instance(self):
-        """Returns the account instance.
+        """Returns the user account instance.
         This is used to get the actual
-        account model from a LocalProxy.
+        user account model from a LocalProxy.
         """
         return self
 
