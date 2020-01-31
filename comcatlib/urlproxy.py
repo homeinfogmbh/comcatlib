@@ -30,7 +30,8 @@ def encode_url(url):
         'path': parse_result.path,
         'params': parse_result.params,
         'query': parse_result.query,
-        'fragment': parse_result.fragment}
+        'fragment': parse_result.fragment
+    }
 
 
 def proxy_url(url):

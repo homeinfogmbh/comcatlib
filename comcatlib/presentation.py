@@ -6,63 +6,62 @@ from cmslib.orm.configuration import Configuration
 from cmslib.orm.menu import Menu
 from cmslib.presentation.common import PresentationMixin
 
-from comcatlib.orm import GroupMemberAccount
-from comcatlib.orm import AccountBaseChart, AccountConfiguration, AccountMenu
+from comcatlib.orm import GroupMemberUser
+from comcatlib.orm import UserBaseChart, UserConfiguration, UserMenu
 
 
 __all__ = ['Presentation']
 
 
 class Presentation(PresentationMixin):
-    """Accumulates content for a ComCat account."""
+    """Accumulates content for a ComCat user."""
 
-    def __init__(self, account):
-        """Sets the respective account."""
-        self.account = account
+    def __init__(self, user):
+        """Sets the respective user."""
+        self.user = user
         self.cache = {}
 
     @property
     def customer(self):
         """Returns the respective customer."""
-        return self.account.customer
+        return self.user.customer
 
     @property
     def base_charts(self):
-        """Yields the account's base charts."""
-        return AccountBaseChart.select().join(BaseChart).where(
-            (AccountBaseChart.account == self.account)
-            & (BaseChart.trashed == 0)).order_by(AccountBaseChart.index)
+        """Yields the user's base charts."""
+        return UserBaseChart.select().join(BaseChart).where(
+            (UserBaseChart.user == self.user)
+            & (BaseChart.trashed == 0)).order_by(UserBaseChart.index)
 
     @property
     def configuration(self):
-        """Returns the account's configuration."""
+        """Returns the user's configuration."""
         try:
-            return Configuration.select().join(AccountConfiguration).where(
-                AccountConfiguration.account == self.account).get()
+            return Configuration.select().join(UserConfiguration).where(
+                UserConfiguration.user == self.user).get()
         except Configuration.DoesNotExist:
             raise NoConfigurationFound()
 
     @property
     def groups(self):
-        """Yields groups this account is a member of."""
-        for gma in GroupMemberAccount.select().where(
-                GroupMemberAccount.account == self.account):
+        """Yields groups this user is a member of."""
+        for gma in GroupMemberUser.select().where(
+                GroupMemberUser.user == self.user):
             yield gma.group
 
     @property
     def menus(self):
-        """Yields menus of this account."""
-        return Menu.select().join(AccountMenu).where(
-            AccountMenu.account == self.account)
+        """Yields menus of this user."""
+        return Menu.select().join(UserMenu).where(UserMenu.user == self.user)
 
     def to_dom(self):
         """Returns an XML DOM."""
         xml = super().to_dom()
-        xml.account = self.account.uuid.hex
+        xml.user = self.user.uuid.hex
         return xml
 
     def to_json(self):
         """Returns a JSON-ish dict."""
         json = super().to_json()
-        json['account'] = self.account.uuid.hex
+        json['user'] = self.user.uuid.hex
         return json

@@ -14,7 +14,7 @@ __all__ = ['Tenement']
 
 
 class Tenement(ComCatModel):
-    """A ComCat account."""
+    """A tenement."""
 
     customer = ForeignKeyField(Customer, column_name='customer')
     address = ForeignKeyField(Address, column_name='address', null=True)

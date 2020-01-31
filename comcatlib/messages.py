@@ -4,13 +4,13 @@ from wsgilib import JSONMessage
 
 
 __all__ = [
-    'NO_SUCH_ACCOUNT',
+    'NO_SUCH_USER',
     'NO_SUCH_CUSTOMER',
     'SESSION_EXPIRED',
-    'ACCOUNT_LOCKED',
-    'ACCOUNT_ADDED',
-    'ACCOUNT_DELETED',
-    'ACCOUNT_PATCHED',
+    'USER_LOCKED',
+    'USER_ADDED',
+    'USER_DELETED',
+    'USER_PATCHED',
     'INVALID_CREDENTIALS',
     'NO_ADDRESS_CONFIGURED',
     'ADDRESS_ADDED',
@@ -22,18 +22,18 @@ __all__ = [
     'NO_SUCH_TENEMENT',
     'TENEMENT_PATCHED',
     'INVALID_TENEMENT_VALUE',
-    'NO_SUCH_FILE']
+    'NO_SUCH_FILE'
+]
 
 
-NO_SUCH_ACCOUNT = JSONMessage(
-    'The requested account does not exists.', status=404)
+NO_SUCH_USER = JSONMessage('The requested user does not exists.', status=404)
 NO_SUCH_CUSTOMER = JSONMessage(
     'The requested customer does not exists.', status=404)
 SESSION_EXPIRED = JSONMessage('Session expired.', status=401)
-ACCOUNT_LOCKED = JSONMessage('This account is locked.', status=401)
-ACCOUNT_ADDED = JSONMessage('The account has been added.', status=201)
-ACCOUNT_DELETED = JSONMessage('The account has been deleted.', status=200)
-ACCOUNT_PATCHED = JSONMessage('The account has been modified.', status=200)
+USER_LOCKED = JSONMessage('This user is locked.', status=401)
+USER_ADDED = JSONMessage('The user has been added.', status=201)
+USER_DELETED = JSONMessage('The user has been deleted.', status=200)
+USER_PATCHED = JSONMessage('The user has been modified.', status=200)
 INVALID_CREDENTIALS = JSONMessage(
     'User name and/or password inclorrect.', status=400)
 NO_ADDRESS_CONFIGURED = JSONMessage(

@@ -10,7 +10,7 @@ from cmslib.orm.configuration import Configuration
 from cmslib.orm.menu import Menu
 
 
-__all__ = ['AccountBaseChart', 'AccountConfiguration', 'AccountMenu']
+__all__ = ['UserBaseChart', 'UserConfiguration', 'UserMenu']
 
 
 class UserContent(ComCatModel):
@@ -19,7 +19,7 @@ class UserContent(ComCatModel):
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
 
 
-class AccountBaseChart(UserContent):
+class UserBaseChart(UserContent):
     """Association of a base chart with a user."""
 
     class Meta:     # pylint: disable=C0111,R0903
@@ -54,8 +54,8 @@ class AccountBaseChart(UserContent):
         }
 
 
-class AccountConfiguration(UserContent):
-    """Association of a configuration with an account."""
+class UserConfiguration(UserContent):
+    """Association of a configuration with a user."""
 
     class Meta:     # pylint: disable=C0111,R0903
         table_name = 'user_configuration'
@@ -68,8 +68,8 @@ class AccountConfiguration(UserContent):
         return {'id': self.id, 'configuration': self.configuration_id}
 
 
-class AccountMenu(UserContent):
-    """Association of a menu with an account."""
+class UserMenu(UserContent):
+    """Association of a menu with a user."""
 
     class Meta:     # pylint: disable=C0111,R0903
         table_name = 'user_menu'

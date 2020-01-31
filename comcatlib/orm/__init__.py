@@ -1,35 +1,43 @@
 """Object relational mappings."""
 
 
-from comcatlib.orm.account import get_account, Account
 from comcatlib.orm.address import Address
 from comcatlib.orm.common import DATABASE, ComCatModel
-from comcatlib.orm.content import AccountBaseChart
-from comcatlib.orm.content import AccountConfiguration
-from comcatlib.orm.content import AccountMenu
-from comcatlib.orm.damage_report import AccountDamageReport
-from comcatlib.orm.group import GroupMemberAccount
+from comcatlib.orm.content import UserBaseChart
+from comcatlib.orm.content import UserConfiguration
+from comcatlib.orm.content import UserMenu
+from comcatlib.orm.damage_report import UserDamageReport
+from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.session import Session
 from comcatlib.orm.tenement import Tenement
+from comcatlib.orm.user import get_account, User
 
 
 __all__ = [
     'DATABASE',
     'MODELS',
     'get_account',
-    'Account',
+    'USer',
     'Address',
-    'AccountBaseChart',
-    'AccountConfiguration',
-    'AccountMenu',
-    'AccountDamageReport',
+    'UserBaseChart',
+    'UserConfiguration',
+    'UserMenu',
+    'UserDamageReport',
     'ComCatModel',
-    'GroupMemberAccount',
+    'GroupMemberUser',
     'Session',
     'Tenement']
 
 
 # Order matters here.
 MODELS = (
-    Address, Tenement, Account, Session, AccountBaseChart,
-    AccountConfiguration, AccountMenu, AccountDamageReport, GroupMemberAccount)
+    Address,
+    Tenement,
+    User,
+    Session,
+    UserChart,
+    UserConfiguration,
+    UserMenu,
+    UserDamageReport,
+    GroupMemberUser
+)

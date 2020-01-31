@@ -10,26 +10,26 @@ from mdb import Customer
 from comcatlib.exceptions import InvalidSessionToken
 from comcatlib.exceptions import NoSessionTokenSpecified
 from comcatlib.exceptions import NoSuchSession
-from comcatlib.messages import NO_SUCH_ACCOUNT
+from comcatlib.messages import NO_SUCH_USER
 from comcatlib.messages import NO_SUCH_CUSTOMER
 from comcatlib.orm import Account, Session
 
 
-__all__ = ['ACCOUNT', 'CUSTOMER', 'SESSION']
+__all__ = ['USER', 'CUSTOMER', 'SESSION']
 
 
-def _account_by_string(string):
-    """Returns an account by its UUID string."""
+def _user_by_string(string):
+    """Returns a user account by its UUID string."""
 
     try:
         uuid = UUID(string)
     except ValueError:
-        raise NO_SUCH_ACCOUNT
+        raise NO_SUCH_USER
 
     try:
-        return Account.get(Account.uuid == uuid)
-    except Account.DoesNotExist:
-        raise NO_SUCH_ACCOUNT
+        return User.get(User.uuid == uuid)
+    except User.DoesNotExist:
+        raise NO_SUCH_USER
 
 
 def _customer_by_string(string):
@@ -65,24 +65,24 @@ def get_session():
         raise NoSuchSession()
 
 
-def get_account():
-    """Returns the respective account."""
+def get_user():
+    """Returns the respective user account."""
 
-    account = SESSION.account
+    user = SESSION.user
 
-    if account.root:
-        su_account = request.headers.get('ComCat-Substitute-Account')
+    if user.root:
+        su_user = request.headers.get('ComCat-Substitute-User')
 
-        if su_account:
-            return _account_by_string(su_account)
+        if su_user:
+            return _user_by_string(su_user)
 
-    return account
+    return user
 
 
 def get_customer():
     """Returns the respective customer."""
 
-    if SESSION.account.root:
+    if SESSION.user.root:
         customer = request.headers.get('ComCat-Substitute-Customer')
 
         if customer:
@@ -92,5 +92,5 @@ def get_customer():
 
 
 SESSION = LocalProxy(get_session)
-ACCOUNT = LocalProxy(get_account)
+USER = LocalProxy(get_user)
 CUSTOMER = LocalProxy(get_customer)

@@ -9,7 +9,8 @@ __all__ = [
     'InvalidSessionToken',
     'InvalidCredentials',
     'NoSessionTokenSpecified',
-    'NoSuchSession']
+    'NoSuchSession'
+]
 
 
 class ComCatException(Exception):
