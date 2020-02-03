@@ -3,7 +3,7 @@
 
 __all__ = [
     'ComCatException',
-    'AccountLocked',
+    'UserLocked',
     'DurationOutOfBounds',
     'InvalidSession',
     'InvalidSessionToken',
@@ -17,8 +17,8 @@ class ComCatException(Exception):
     """Common ComCat exception."""
 
 
-class AccountLocked(ComCatException):
-    """Indicates that the respective account is locked."""
+class UserLocked(ComCatException):
+    """Indicates that the respective user is locked."""
 
 
 class DurationOutOfBounds(ComCatException):

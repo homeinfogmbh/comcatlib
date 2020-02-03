@@ -4,6 +4,7 @@ from authlib.integrations.flask_oauth2 import AuthorizationServer
 
 from comcatlib.oauth.authorization_code_grant import AuthorizationCodeGrant
 from comcatlib.oauth.refresh_token_grant import RefreshTokenGrant
+from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
 from comcatlib.orm.oauth import Client, Token
 
 
@@ -32,3 +33,4 @@ def save_token(token_data, request):
 SERVER = AuthorizationServer(query_client=query_client, save_token=save_token)
 SERVER.register_grant(AuthorizationCodeGrant)
 SERVER.register_grant(RefreshTokenGrant)
+SERVER.register_endpoint(TokenRevocationEndpoint)

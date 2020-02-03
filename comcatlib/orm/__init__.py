@@ -10,14 +10,14 @@ from comcatlib.orm.damage_report import UserDamageReport
 from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.session import Session
 from comcatlib.orm.tenement import Tenement
-from comcatlib.orm.user import get_account, User
+from comcatlib.orm.user import get_user, User
 
 
 __all__ = [
     'DATABASE',
     'MODELS',
-    'get_account',
-    'USer',
+    'get_user',
+    'User',
     'Address',
     'UserBaseChart',
     'UserConfiguration',
@@ -26,7 +26,8 @@ __all__ = [
     'ComCatModel',
     'GroupMemberUser',
     'Session',
-    'Tenement']
+    'Tenement'
+]
 
 
 # Order matters here.
@@ -35,7 +36,7 @@ MODELS = (
     Tenement,
     User,
     Session,
-    UserChart,
+    UserBaseChart,
     UserConfiguration,
     UserMenu,
     UserDamageReport,

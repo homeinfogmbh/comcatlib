@@ -14,30 +14,29 @@ from his import CUSTOMER
 from mdb import Customer
 from peeweeplus import Argon2Field
 
-from comcatlib.exceptions import AccountLocked
-from comcatlib.exceptions import InvalidCredentials
+from comcatlib.exceptions import InvalidCredentials, UserLocked
 from comcatlib.messages import NO_SUCH_USER
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.tenement import Tenement
 
 
-__all__ = ['Account']
+__all__ = ['get_user', 'User']
 
 
 MAX_FAILED_LOGINS = 5
 
 
 def get_user(ident):
-    """Returns the respective account."""
+    """Returns the respective user."""
 
     try:
         return User.get((User.id == ident) & (User.customer == CUSTOMER.id))
-    except Account.DoesNotExist:
+    except User.DoesNotExist:
         raise NO_SUCH_USER
 
 
 class User(ComCatModel):
-    """A ComCat user's account."""
+    """A ComCat user."""
 
     uuid = UUIDField(default=uuid4)
     passwd = Argon2Field(null=True)
@@ -51,11 +50,11 @@ class User(ComCatModel):
     expires = DateTimeField(null=True)
     locked = BooleanField(default=False)
     admin = BooleanField(default=False)     # Admin across entire customer.
-    root = BooleanField(default=False)      # Admin across all accounts.
+    root = BooleanField(default=False)      # Admin across all users.
 
     @classmethod
     def add(cls, customer, tenement=None, passwd=None):
-        """Creates a new user account."""
+        """Creates a new user."""
         user = cls()
         user.customer = customer
         user.tenement = tenement
@@ -65,7 +64,7 @@ class User(ComCatModel):
 
     @classmethod
     def from_json(cls, json, customer, **kwargs):
-        """Creates the user account from the respective JSON data."""
+        """Creates the user from the respective JSON data."""
         tenement = json.pop('tenement', None)
 
         if tenement is not None:
@@ -78,24 +77,24 @@ class User(ComCatModel):
 
     @property
     def expired(self):
-        """Determines whether the user account is expired."""
+        """Determines whether the user is expired."""
         return self.expires is not None and self.expires <= datetime.now()
 
     @property
     def valid(self):
-        """Determines whether the user account may be used."""
+        """Determines whether the user may be used."""
         return not self.locked and not self.expired and self.passwd is not None
 
     @property
     def can_login(self):
-        """Determines whether the user account may login."""
+        """Determines whether the user may login."""
         return self.valid and self.failed_logins <= MAX_FAILED_LOGINS
 
     @property
     def instance(self):
-        """Returns the user account instance.
+        """Returns the user instance.
         This is used to get the actual
-        user account model from a LocalProxy.
+        user model from a LocalProxy.
         """
         return self
 
@@ -117,10 +116,10 @@ class User(ComCatModel):
             self.save()
             return True
 
-        raise AccountLocked()
+        raise UserLocked()
 
     def patch_json(self, json, **kwargs):
-        """Patches the account with the respective JSON data."""
+        """Patches the user with the respective JSON data."""
         try:
             tenement = json.pop('tenement')
         except KeyError:

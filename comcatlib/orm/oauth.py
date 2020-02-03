@@ -1,15 +1,13 @@
 """ORM models based on MySQL Alchemy."""
 
-from mdb import Customer
-from peewee import CharField, ForeignKeyField, Model
+from peewee import ForeignKeyField
 
-from peeweeplus import Argon2Field, MySQLDatabase
 from peeweeplus.authlib import OAuth2ClientMixin
 from peeweeplus.authlib import OAuth2TokenMixin
 from peeweeplus.authlib import OAuth2AuthorizationCodeMixin
 
-from comcatlib.orm.user import ComCatModel, User
-from comcatlib.orm.common import ComCatModel, User
+from comcatlib.orm.common import ComCatModel
+from comcatlib.orm.user import User
 
 
 __all__ = ['Client', 'Token', 'AuthorizationCode']

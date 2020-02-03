@@ -11,8 +11,21 @@ setup(
     maintainer='Richard Neumann',
     maintainer_email='<r dot neumann at homeinfo period de>',
     requires=[
-        'argon2', 'authlib', 'cmslib', 'configlib', 'flask', 'mdb', 'peewee',
-        'peeweeplus', 'werkzeug'],
-    packages=['comcatlib', 'comcatlib.orm'],
+        'argon2',
+        'authlib',
+        'cmslib',
+        'configlib',
+        'flask',
+        'mdb',
+        'peewee',
+        'peeweeplus',
+        'werkzeug'
+    ],
+    packages=[
+        'comcatlib',
+        'comcatlib.app',
+        'comcatlib.oauth',
+        'comcatlib.orm'
+    ],
     data_files=[('/usr/local/share/comcatlib/', ['files/authorize.html'])],
     description='Shared libraries for ComCat.')

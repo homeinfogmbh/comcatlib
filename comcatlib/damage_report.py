@@ -11,8 +11,8 @@ __all__ = ['list_', 'submit']
 def list_(user):
     """Lists damage reports submitted by the respective user."""
 
-    for damage_report in DamageReport.select().join(AccountDamageReport).where(
-            AccountDamageReport.user == user.id):
+    for damage_report in DamageReport.select().join(UserDamageReport).where(
+            UserDamageReport.user == user.id):
         yield damage_report
 
 

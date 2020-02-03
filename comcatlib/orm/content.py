@@ -8,9 +8,20 @@ from comcatlib.orm.user import User
 from cmslib.orm.charts import ChartMode, BaseChart
 from cmslib.orm.configuration import Configuration
 from cmslib.orm.menu import Menu
+from cmslib.orm.user import get_user
 
 
 __all__ = ['UserBaseChart', 'UserConfiguration', 'UserMenu']
+
+
+def get_base_chart(ident)::
+    """Returns the respective base chart."""
+
+    try:
+        return BaseChart.get(
+            (BaseChart.id == ident) & (BaseChart.customer == customer))
+    except BaseChart.DoesNotExist:
+        raise NoSuchBaseChart()
 
 
 class UserContent(ComCatModel):
@@ -32,11 +43,11 @@ class UserBaseChart(UserContent):
     @classmethod
     def from_json(cls, json, **kwargs):
         """Creates a new group base chart."""
+        user = json.pop('user')
         base_chart = json.pop('base_chart')
-        index = json.pop('index', 0)
         record = super().from_json(json, **kwargs)
         base_chart = get_base_chart(base_chart)
-        record.account = account
+        record.user = get_user(user)
         record.base_chart = base_chart
         return record
 
