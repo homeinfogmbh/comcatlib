@@ -11,7 +11,7 @@ class TokenRevocationEndpoint(RevocationEndpoint):
 
     def query_token(self, token, token_type_hint, client):
         """Queries a token from the database."""
-        select = client_id=client.client_id
+        select = Token.client_id == client.client_id
 
         if token_type_hint == 'access_token':
             select &= Token.access_token == token
