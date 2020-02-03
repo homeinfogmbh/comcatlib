@@ -9,7 +9,8 @@ __all__ = [
     'InvalidSessionToken',
     'InvalidCredentials',
     'NoSessionTokenSpecified',
-    'NoSuchSession'
+    'NoSuchSession',
+    'NoSuchBaseChart'
 ]
 
 
@@ -43,3 +44,7 @@ class NoSessionTokenSpecified(ComCatException):
 
 class NoSuchSession(ComCatException):
     """Indicates that a respective session does not exist."""
+
+
+class NoSuchBaseChart(ComCatException):
+    """Indicates that the respective base chart was not found."""

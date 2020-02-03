@@ -8,7 +8,7 @@ from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
 from comcatlib.orm.oauth import Client, Token
 
 
-__all__ = ['SERVER']
+__all__ = ['SERVER', 'init_oauth']
 
 
 def query_client(client_id):
@@ -31,6 +31,12 @@ def save_token(token_data, request):
 
 
 SERVER = AuthorizationServer(query_client=query_client, save_token=save_token)
-SERVER.register_grant(AuthorizationCodeGrant)
-SERVER.register_grant(RefreshTokenGrant)
-SERVER.register_endpoint(TokenRevocationEndpoint)
+
+
+def init_oauth(application):
+    """Initializes OAuth 2.0 for the given application."""
+
+    SERVER.init_app(application)
+    SERVER.register_grant(AuthorizationCodeGrant)
+    SERVER.register_grant(RefreshTokenGrant)
+    SERVER.register_endpoint(TokenRevocationEndpoint)

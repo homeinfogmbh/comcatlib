@@ -7,7 +7,7 @@ from flask import request
 from comcatlib.app.contextlocals import SESSION
 from comcatlib.config import ALLOWED_SESSION_DURATIONS
 from comcatlib.config import DEFAULT_SESSION_DURATION
-from comcatlib.messages import SESSION_EXPIRED, ACCOUNT_LOCKED
+from comcatlib.messages import SESSION_EXPIRED, USER_LOCKED
 
 
 __all__ = ['get_session_duration', 'authenticated']
@@ -37,7 +37,7 @@ def authenticated(function):
             raise SESSION_EXPIRED
 
         if not SESSION.user.can_login:
-            raise ACCOUNT_LOCKED
+            raise USER_LOCKED
 
         SESSION.renew(duration=get_session_duration())
         return function(*args, **kwargs)

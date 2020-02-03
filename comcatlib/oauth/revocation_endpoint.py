@@ -2,6 +2,8 @@
 
 from authlib.oauth2.rfc7009 import RevocationEndpoint
 
+from comcatlib.orm.oauth import Token
+
 
 __all__ = ['TokenRevocationEndpoint']
 

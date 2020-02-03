@@ -12,7 +12,7 @@ from comcatlib.exceptions import NoSessionTokenSpecified
 from comcatlib.exceptions import NoSuchSession
 from comcatlib.messages import NO_SUCH_USER
 from comcatlib.messages import NO_SUCH_CUSTOMER
-from comcatlib.orm import Account, Session
+from comcatlib.orm import Session, User
 
 
 __all__ = ['USER', 'CUSTOMER', 'SESSION']
@@ -88,7 +88,7 @@ def get_customer():
         if customer:
             return _customer_by_string(customer)
 
-    return ACCOUNT.customer
+    return USER.customer
 
 
 SESSION = LocalProxy(get_session)

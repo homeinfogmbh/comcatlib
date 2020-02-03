@@ -9,7 +9,7 @@ from peewee import UUIDField
 
 from comcatlib.config import ALLOWED_SESSION_DURATIONS
 from comcatlib.config import DEFAULT_SESSION_DURATION
-from comcatlib.exceptions import AccountLocked
+from comcatlib.exceptions import UserLocked
 from comcatlib.exceptions import DurationOutOfBounds
 from comcatlib.exceptions import InvalidSession
 from comcatlib.orm.user import User
@@ -69,7 +69,7 @@ class Session(ComCatModel):
             raise DurationOutOfBounds()
 
         if not self.user.can_login:
-            raise AccountLocked()
+            raise UserLocked()
 
         self.end = datetime.now() + timedelta(minutes=duration)
         self.save()

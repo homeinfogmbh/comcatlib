@@ -2,24 +2,25 @@
 
 from peewee import ForeignKeyField, IntegerField
 
+from comcatlib.exceptions import NoSuchBaseChart
 from comcatlib.orm.common import ComCatModel
-from comcatlib.orm.user import User
+from comcatlib.orm.user import get_user, User
 
 from cmslib.orm.charts import ChartMode, BaseChart
 from cmslib.orm.configuration import Configuration
 from cmslib.orm.menu import Menu
-from cmslib.orm.user import get_user
+from his import CUSTOMER
 
 
 __all__ = ['UserBaseChart', 'UserConfiguration', 'UserMenu']
 
 
-def get_base_chart(ident)::
+def get_base_chart(ident):
     """Returns the respective base chart."""
 
     try:
         return BaseChart.get(
-            (BaseChart.id == ident) & (BaseChart.customer == customer))
+            (BaseChart.id == ident) & (BaseChart.customer == CUSTOMER))
     except BaseChart.DoesNotExist:
         raise NoSuchBaseChart()
 
@@ -46,9 +47,8 @@ class UserBaseChart(UserContent):
         user = json.pop('user')
         base_chart = json.pop('base_chart')
         record = super().from_json(json, **kwargs)
-        base_chart = get_base_chart(base_chart)
         record.user = get_user(user)
-        record.base_chart = base_chart
+        record.base_chart = get_base_chart(base_chart)
         return record
 
     @property
