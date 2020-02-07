@@ -6,7 +6,7 @@ from comcatlib.oauth import SERVER
 from comcatlib.app.contextlocals import USER
 
 
-__all__ = ['add_endpoints']
+__all__ = ['init_oauth_endpoints']
 
 
 def authorize():
@@ -36,7 +36,7 @@ def issue_token():
     return SERVER.create_token_response()
 
 
-def add_endpoints(application):
+def init_oauth_endpoints(application):
     """Adds OAuth endpoints to the respective application."""
 
     application.route('/oauth/authorize', methods=['GET', 'POST'])(authorize)

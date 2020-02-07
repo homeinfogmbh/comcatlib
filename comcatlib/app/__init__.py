@@ -5,20 +5,14 @@ from comcatlib.app.auth import authenticated
 from comcatlib.app.contextlocals import CUSTOMER
 from comcatlib.app.contextlocals import SESSION
 from comcatlib.app.contextlocals import USER
-from comcatlib.messages import SESSION_EXPIRED
-from comcatlib.messages import USER_LOCKED
-from comcatlib.messages import INVALID_CREDENTIALS
-from comcatlib.messages import NO_ADDRESS_CONFIGURED
+from comcatlib.app.endpoints import init_oauth_endpoints
 
 
 __all__ = [
     'CUSTOMER',
     'SESSION',
     'USER',
-    'SESSION_EXPIRED',
-    'USER_LOCKED',
-    'INVALID_CREDENTIALS',
-    'NO_ADDRESS_CONFIGURED',
     'authenticated',
-    'get_session_duration'
+    'get_session_duration',
+    'init_oauth_endpoints'
 ]
