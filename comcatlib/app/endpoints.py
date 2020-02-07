@@ -1,19 +1,14 @@
 """Flask based OAuth endpoints."""
 
-from flask import request, render_template, Flask
+from flask import request, render_template
 
-from comcatlib.app.application import APPLICATION
+from comcatlib.oauth import SERVER
 from comcatlib.app.contextlocals import USER
-from comcatlib.app.oauth import SERVER
 
 
-__all__ = ['APPLICATION']
+__all__ = ['add_endpoints']
 
 
-APPLICATION = Flask('comcat')
-
-
-@APPLICATION.route('/oauth/authorize', methods=['GET', 'POST'])
 def authorize():
     """Login is required since we need to know the current resource owner.
     It can be done with a redirection to the login page, or a login
@@ -35,8 +30,14 @@ def authorize():
     return SERVER.create_authorization_response(grant_user=None)
 
 
-@APPLICATION.route('/oauth/token', methods=['POST'])
 def issue_token():
     """Issues a token."""
 
     return SERVER.create_token_response()
+
+
+def add_endpoints(application):
+    """Adds OAuth endpoints to the respective application."""
+
+    application.route('/oauth/authorize', methods=['GET', 'POST'])(authorize)
+    application.route('/oauth/token', methods=['POST'])(issue_token)
