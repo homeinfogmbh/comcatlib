@@ -41,16 +41,6 @@ class UserBaseChart(UserContent):
         BaseChart, column_name='base_chart', on_delete='CASCADE')
     index = IntegerField(default=0)
 
-    @classmethod
-    def from_json(cls, json, **kwargs):
-        """Creates a new group base chart."""
-        user = json.pop('user')
-        base_chart = json.pop('base_chart')
-        record = super().from_json(json, **kwargs)
-        record.user = get_user(user)
-        record.base_chart = get_base_chart(base_chart)
-        return record
-
     @property
     def chart(self):
         """Returns the respective chart."""
