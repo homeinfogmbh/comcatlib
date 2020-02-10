@@ -4,7 +4,7 @@ from peewee import ForeignKeyField, IntegerField
 
 from comcatlib.exceptions import NoSuchBaseChart
 from comcatlib.orm.common import ComCatModel
-from comcatlib.orm.user import get_user, User
+from comcatlib.orm.user import User
 
 from cmslib.orm.charts import ChartMode, BaseChart
 from cmslib.orm.configuration import Configuration
@@ -40,16 +40,6 @@ class UserBaseChart(UserContent):
     base_chart = ForeignKeyField(
         BaseChart, column_name='base_chart', on_delete='CASCADE')
     index = IntegerField(default=0)
-
-    @classmethod
-    def from_json(cls, json, **kwargs):
-        """Creates a new group base chart."""
-        user = json.pop('user')
-        base_chart = json.pop('base_chart')
-        record = super().from_json(json, **kwargs)
-        record.user = get_user(user)
-        record.base_chart = get_base_chart(base_chart)
-        return record
 
     @property
     def chart(self):
