@@ -13,13 +13,13 @@ from comcatlib.orm.oauth import Client
 from comcatlib.orm.oauth import Token
 from comcatlib.orm.session import Session
 from comcatlib.orm.tenement import Tenement
-from comcatlib.orm.user import get_user, User
+from comcatlib.orm.user import User
 
 
 __all__ = [
     'DATABASE',
     'MODELS',
-    'get_user',
+    'create_tables',
     'User',
     'Address',
     'UserBaseChart',
@@ -51,3 +51,10 @@ MODELS = (
     UserDamageReport,
     GroupMemberUser
 )
+
+
+def create_tables():
+    """Creates the tables for the ComCat database."""
+
+    for model in MODELS:
+        model.create_table()
