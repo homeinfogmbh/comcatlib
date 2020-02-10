@@ -46,7 +46,7 @@ def _customer_by_string(string):
         raise NO_SUCH_CUSTOMER
 
 
-def get_session():
+def current_session():
     """Returns the current session."""
 
     token = request.cookies.get('session')
@@ -65,7 +65,7 @@ def get_session():
         raise NoSuchSession()
 
 
-def get_user():
+def current_user():
     """Returns the respective user account."""
 
     user = SESSION.user
@@ -79,7 +79,7 @@ def get_user():
     return user
 
 
-def get_customer():
+def current_customer():
     """Returns the respective customer."""
 
     if SESSION.user.root:
@@ -91,6 +91,6 @@ def get_customer():
     return USER.customer
 
 
-SESSION = LocalProxy(get_session)
-USER = LocalProxy(get_user)
-CUSTOMER = LocalProxy(get_customer)
+SESSION = LocalProxy(current_session)
+USER = LocalProxy(current_user)
+CUSTOMER = LocalProxy(current_customer)

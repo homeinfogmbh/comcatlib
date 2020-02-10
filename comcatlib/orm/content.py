@@ -2,33 +2,33 @@
 
 from peewee import ForeignKeyField, IntegerField
 
-from comcatlib.exceptions import NoSuchBaseChart
-from comcatlib.orm.common import ComCatModel
-from comcatlib.orm.user import get_user, User
-
+from cmslib.functions.charts import get_base_chart
+from cmslib.functions.configuration import get_configuration
+from cmslib.functions.menu import get_menu
 from cmslib.orm.charts import ChartMode, BaseChart
 from cmslib.orm.configuration import Configuration
 from cmslib.orm.menu import Menu
-from his import CUSTOMER
+
+from comcatlib.functions import get_user
+from comcatlib.orm.common import ComCatModel
+from comcatlib.orm.user import User
 
 
 __all__ = ['UserBaseChart', 'UserConfiguration', 'UserMenu']
-
-
-def get_base_chart(ident):
-    """Returns the respective base chart."""
-
-    try:
-        return BaseChart.get(
-            (BaseChart.id == ident) & (BaseChart.customer == CUSTOMER))
-    except BaseChart.DoesNotExist:
-        raise NoSuchBaseChart()
 
 
 class UserContent(ComCatModel):
     """Common abstract content mapping."""
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
+
+    @classmethod
+    def from_json(cls, json, **kwargs):
+        """Creates a new user content mapping."""
+        user = json.pop('user')
+        record = super().from_json(json, **kwargs)
+        record.user = get_user(user)
+        return record
 
 
 class UserBaseChart(UserContent):
@@ -43,11 +43,9 @@ class UserBaseChart(UserContent):
 
     @classmethod
     def from_json(cls, json, **kwargs):
-        """Creates a new group base chart."""
-        user = json.pop('user')
+        """Creates a new user content mapping."""
         base_chart = json.pop('base_chart')
         record = super().from_json(json, **kwargs)
-        record.user = get_user(user)
         record.base_chart = get_base_chart(base_chart)
         return record
 
@@ -74,6 +72,14 @@ class UserConfiguration(UserContent):
     configuration = ForeignKeyField(
         Configuration, column_name='configuration', on_delete='CASCADE')
 
+    @classmethod
+    def from_json(cls, json, **kwargs):
+        """Creates a new user content mapping."""
+        configuration = json.pop('configuration')
+        record = super().from_json(json, **kwargs)
+        record.configuration = get_configuration(configuration)
+        return record
+
     def to_json(self):
         """Returns a JSON-ish dict."""
         return {'id': self.id, 'configuration': self.configuration_id}
@@ -86,6 +92,14 @@ class UserMenu(UserContent):
         table_name = 'user_menu'
 
     menu = ForeignKeyField(Menu, column_name='menu', on_delete='CASCADE')
+
+    @classmethod
+    def from_json(cls, json, **kwargs):
+        """Creates a new user content mapping."""
+        menu = json.pop('menu')
+        record = super().from_json(json, **kwargs)
+        record.menu = get_menu(menu)
+        return record
 
     def to_json(self):
         """Returns a JSON-ish dict."""
