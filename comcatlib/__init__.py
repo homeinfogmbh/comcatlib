@@ -17,7 +17,7 @@ from comcatlib.orm import UserMenu
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import Session
 from comcatlib.orm import Tenement
-from comcatlib.orm import get_user, User
+from comcatlib.orm import User
 from comcatlib.presentation import Presentation
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
@@ -32,7 +32,6 @@ __all__ = [
     'init_oauth_endpoints',
     'authenticated',
     'get_session_duration',
-    'get_user',
     'list_damage_reports',
     'submit_damage_reports',
     'decode_url',

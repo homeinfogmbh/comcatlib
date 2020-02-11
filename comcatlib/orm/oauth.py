@@ -16,16 +16,16 @@ __all__ = ['Client', 'Token', 'AuthorizationCode']
 class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
     """An OAuth client."""
 
-    user = ForeignKeyField(User, column_name='user', ondelete='CASCADE')
+    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
 
 
 class Token(ComCatModel, OAuth2TokenMixin):     # pylint: disable=R0901
     """An OAuth bearer token."""
 
-    user = ForeignKeyField(User, column_name='user', ondelete='CASCADE')
+    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
 
 
 class AuthorizationCode(ComCatModel, OAuth2AuthorizationCodeMixin):
     """An OAuth authorization code."""  # pylint: disable=R0901
 
-    user = ForeignKeyField(User, column_name='user', ondelete='CASCADE')
+    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
