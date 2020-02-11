@@ -7,8 +7,8 @@ from werkzeug.local import LocalProxy
 
 from mdb import Customer
 
-from comcatlib.messages import INVALID_SESSION_TOKEN
-from comcatlib.messages import NO_SESSION_TOKEN_SPECIFIED
+from comcatlib.app.messages import INVALID_SESSION_TOKEN
+from comcatlib.app.messages import NO_SESSION_TOKEN_SPECIFIED
 from comcatlib.messages import NO_SUCH_USER
 from comcatlib.messages import NO_SUCH_CUSTOMER
 from comcatlib.orm import Session, User
