@@ -9,6 +9,9 @@ from comcatlib.app.contextlocals import USER
 __all__ = ['init_oauth_endpoints']
 
 
+AUTH_TEMPLATE = '/usr/local/share/comcatlib/authorize.html'
+
+
 def authorize():
     """Login is required since we need to know the current resource owner.
     It can be done with a redirection to the login page, or a login
@@ -17,8 +20,7 @@ def authorize():
 
     if request.method == 'GET':
         grant = SERVER.validate_consent_request(end_user=USER.instance)
-        return render_template(
-            'authorize.html', grant=grant, user=USER.instance)
+        return render_template(AUTH_TEMPLATE, grant=grant, user=USER.instance)
 
     confirmed = request.form['confirm']
 
