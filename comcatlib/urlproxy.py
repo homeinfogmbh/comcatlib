@@ -40,7 +40,7 @@ def proxy_url(url):
     response = get(url)
 
     if response.status_code != 200:
-        return ('Could not get Facebook image.', 400)
+        return ('Could not proxy URL.', 400)
 
     sha256sum = sha256(response.content).hexdigest()
 
