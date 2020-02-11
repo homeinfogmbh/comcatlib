@@ -8,8 +8,6 @@ __all__ = [
     'InvalidSession',
     'InvalidSessionToken',
     'InvalidCredentials',
-    'NoSessionTokenSpecified',
-    'NoSuchSession',
     'NoSuchBaseChart'
 ]
 
@@ -36,14 +34,6 @@ class InvalidSessionToken(ComCatException):
 
 class InvalidCredentials(ComCatException):
     """Indicates that an invalid account name or password were provided."""
-
-
-class NoSessionTokenSpecified(ComCatException):
-    """Indicates that no session token was specified."""
-
-
-class NoSuchSession(ComCatException):
-    """Indicates that a respective session does not exist."""
 
 
 class NoSuchBaseChart(ComCatException):

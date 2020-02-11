@@ -7,9 +7,8 @@ from werkzeug.local import LocalProxy
 
 from mdb import Customer
 
-from comcatlib.exceptions import InvalidSessionToken
-from comcatlib.exceptions import NoSessionTokenSpecified
-from comcatlib.exceptions import NoSuchSession
+from comcatlib.messages import INVALID_SESSION_TOKEN
+from comcatlib.messages import NO_SESSION_TOKEN_SPECIFIED
 from comcatlib.messages import NO_SUCH_USER
 from comcatlib.messages import NO_SUCH_CUSTOMER
 from comcatlib.orm import Session, User
@@ -52,17 +51,17 @@ def current_session():
     token = request.cookies.get('session')
 
     if not token:
-        raise NoSessionTokenSpecified()
+        raise NO_SESSION_TOKEN_SPECIFIED
 
     try:
         token = UUID(token)
     except ValueError:
-        raise InvalidSessionToken()
+        raise INVALID_SESSION_TOKEN
 
     try:
         return Session.get(Session.token == token)
     except Session.DoesNotExist:
-        raise NoSuchSession()
+        raise INVALID_SESSION_TOKEN
 
 
 def current_user():
