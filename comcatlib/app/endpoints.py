@@ -2,8 +2,10 @@
 
 from flask import request, render_template
 
-from comcatlib.oauth import SERVER
 from comcatlib.app.contextlocals import USER
+from comcatlib.oauth import SERVER
+from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
+from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
 
 
 __all__ = ['init_oauth_endpoints']
@@ -38,8 +40,22 @@ def issue_token():
     return SERVER.create_token_response()
 
 
+def revoke_token():
+    """Revokes a token."""
+
+    return SERVER.create_endpoint_response(TokenRevocationEndpoint.ENDPOINT_NAME)
+
+
+def introspect_token():
+    """Introspects a token."""
+
+    return SERVER.create_endpoint_response(TokenIntrospectionEndpoint.ENDPOINT_NAME)
+
+
 def init_oauth_endpoints(application):
     """Adds OAuth endpoints to the respective application."""
 
     application.route('/oauth/authorize', methods=['GET', 'POST'])(authorize)
     application.route('/oauth/token', methods=['POST'])(issue_token)
+    application.route('/oauth/revoke', methods=['POST'])(revoke_token)
+    application.route('/oauth/introspect', methods=['POST'])(introspect_token)
