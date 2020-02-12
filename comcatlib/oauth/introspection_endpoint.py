@@ -15,24 +15,15 @@ def get_token(token, token_type_hint):  # pylint: disable=R0911
     """Returns the respective token."""
 
     if token_type_hint == 'access_token':
-        try:
-            return Token.get(Token.access_token == token)
-        except Token.DoesNotExist:
-            return None
+        return Token.get(Token.access_token == token)
 
     if token_type_hint == 'refresh_token':
-        try:
-            return Token.get(Token.refresh_token == token)
-        except Token.DoesNotExist:
-            return None
+        return Token.get(Token.refresh_token == token)
 
     try:
         return Token.get(Token.access_token == token)
     except Token.DoesNotExist:
-        try:
-            return Token.get(Token.refresh_token == token)
-        except Token.DoesNotExist:
-            return None
+        return Token.get(Token.refresh_token == token)
 
 
 class TokenIntrospectionEndpoint(IntrospectionEndpoint):
@@ -40,7 +31,10 @@ class TokenIntrospectionEndpoint(IntrospectionEndpoint):
 
     def query_token(self, token, token_type_hint, client):
         """Returns the respective token."""
-        token = get_token(token, token_type_hint)
+        try:
+            token = get_token(token, token_type_hint)
+        except Token.DoesNotExist:
+            return None
 
         if token.client_id == client.client_id:
             return token
