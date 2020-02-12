@@ -3,6 +3,7 @@
 from authlib.integrations.flask_oauth2 import AuthorizationServer
 
 from comcatlib.oauth.authorization_code_grant import AuthorizationCodeGrant
+from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.refresh_token_grant import RefreshTokenGrant
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
 from comcatlib.orm.oauth import Client, Token
@@ -40,3 +41,4 @@ def init_oauth(application):
     SERVER.register_grant(AuthorizationCodeGrant)
     SERVER.register_grant(RefreshTokenGrant)
     SERVER.register_endpoint(TokenRevocationEndpoint)
+    SERVER.register_endpoint(TokenIntrospectionEndpoint)
