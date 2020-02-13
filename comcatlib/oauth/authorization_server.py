@@ -15,7 +15,7 @@ __all__ = ['SERVER', 'init_oauth']
 def query_client(client_id):
     """Returns a c lient by its ID."""
 
-    return Client.get(Client.client_id=client_id)
+    return Client.get(Client.client_id == client_id)
 
 
 def save_token(token_data, request):
