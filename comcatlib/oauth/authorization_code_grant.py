@@ -1,5 +1,7 @@
 """Authorization code grants."""
 
+from uuid import UUID
+
 from authlib.oauth2.rfc6749 import grants
 
 from comcatlib.orm.oauth import AuthorizationCode
@@ -32,7 +34,6 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
                 (AuthorizationCode.code == code)
                 & (AuthorizationCode.client_id == client.client_id))
         except AuthorizationCode.DoesNotExist:
-            print('No auth code for:', code, client, flush=True)
             return None
 
     def delete_authorization_code(self, authorization_code):
@@ -41,7 +42,15 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
 
     def authenticate_user(self, authorization_code):
         """Authenticates a user."""
+        if authorization_code.user_id is None:
+            return None
+
         try:
-            return User.get(User.user_id == authorization_code.user_id)
+            uuid = UUID(authorization_code.user_id)
+        except ValueError:
+            return None
+
+        try:
+            return User.get(User.uuid == uuid)
         except User.DoesNotExist:
             return None
