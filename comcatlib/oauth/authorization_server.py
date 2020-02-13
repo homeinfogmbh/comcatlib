@@ -25,7 +25,7 @@ def save_token(token_data, request):
     """Stores the respective token."""
 
     if request.user:
-        user_id = request.user.get_user_id()
+        user_id = request.user.id
     else:
         user_id = request.client.user_id
 
