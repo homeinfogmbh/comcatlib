@@ -45,6 +45,8 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
         if authorization_code.user_id is None:
             return None
 
+        print('USER ID:', authorization_code.user_id, flush=True)
+
         try:
             uuid = UUID(authorization_code.user_id)
         except ValueError:
