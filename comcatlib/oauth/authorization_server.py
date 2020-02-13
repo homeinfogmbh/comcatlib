@@ -15,12 +15,9 @@ __all__ = ['SERVER', 'init_oauth']
 def query_client(client_id):
     """Returns a c lient by its ID."""
 
-    print('Getting client:', client_id, flush=True)
-
     try:
         return Client.get(Client.client_id == client_id)
     except Client.DoesNotExist:
-        print('No client found.', flush=True)
         return None
 
 
