@@ -43,13 +43,15 @@ def issue_token():
 def revoke_token():
     """Revokes a token."""
 
-    return SERVER.create_endpoint_response(TokenRevocationEndpoint.ENDPOINT_NAME)
+    return SERVER.create_endpoint_response(
+        TokenRevocationEndpoint.ENDPOINT_NAME)
 
 
 def introspect_token():
     """Introspects a token."""
 
-    return SERVER.create_endpoint_response(TokenIntrospectionEndpoint.ENDPOINT_NAME)
+    return SERVER.create_endpoint_response(
+        TokenIntrospectionEndpoint.ENDPOINT_NAME)
 
 
 def init_oauth_endpoints(application):
