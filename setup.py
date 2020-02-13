@@ -25,7 +25,7 @@ setup(
         'comcatlib',
         'comcatlib.app',
         'comcatlib.oauth',
-        'comcatlib.orm'
+        'comcatlib.orm',
+        'comcatlib.templates'
     ],
-    data_files=[('/usr/local/share/comcatlib/', ['files/authorize.html'])],
     description='Shared libraries for ComCat.')
