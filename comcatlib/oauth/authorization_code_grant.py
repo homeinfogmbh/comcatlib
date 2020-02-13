@@ -1,7 +1,5 @@
 """Authorization code grants."""
 
-from uuid import UUID
-
 from authlib.oauth2.rfc6749 import grants
 
 from comcatlib.orm.oauth import AuthorizationCode
@@ -45,14 +43,7 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
         if authorization_code.user_id is None:
             return None
 
-        print('USER ID:', authorization_code.user_id, flush=True)
-
         try:
-            uuid = UUID(authorization_code.user_id)
-        except ValueError:
-            return None
-
-        try:
-            return User.get(User.uuid == uuid)
+            return User[authorization_code.user_id]
         except User.DoesNotExist:
             return None
