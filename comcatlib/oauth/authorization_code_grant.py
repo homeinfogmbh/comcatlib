@@ -32,6 +32,7 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
                 (AuthorizationCode.code == code)
                 & (AuthorizationCode.client_id == client.client_id))
         except AuthorizationCode.DoesNotExist:
+            print('No auth code for:', code, client, flush=True)
             return None
 
     def delete_authorization_code(self, authorization_code):
