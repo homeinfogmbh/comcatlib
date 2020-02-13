@@ -1,20 +1,15 @@
 """Flask based OAuth endpoints."""
 
 from flask import request
-from jinja2 import FileSystemLoader, Environment
 
 from comcatlib.app.contextlocals import USER
 from comcatlib.oauth import SERVER
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
+from comcatlib.templates import render_template
 
 
 __all__ = ['init_oauth_endpoints']
-
-
-TEMPLATE_LOADER = FileSystemLoader(searchpath='/usr/local/share/comcatlib/')
-TEMPLATE_ENV = Environment(loader=TEMPLATE_LOADER)
-TEMPLATE = TEMPLATE_ENV.get_template('authorize.html')
 
 
 def authorize():
@@ -25,7 +20,8 @@ def authorize():
 
     if request.method == 'GET':
         grant = SERVER.validate_consent_request(end_user=USER.instance)
-        return TEMPLATE.render(grant=grant, user=USER.instance)
+        return render_template(
+            'authorize.html', grant=grant, user=USER.instance)
 
     confirmed = request.form['confirm']
 
