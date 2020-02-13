@@ -1,6 +1,7 @@
 """Flask based OAuth endpoints."""
 
-from flask import request, render_template
+from flask import request
+from jinja2 import FileSystemLoader, Environment
 
 from comcatlib.app.contextlocals import USER
 from comcatlib.oauth import SERVER
@@ -11,6 +12,11 @@ from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
 __all__ = ['init_oauth_endpoints']
 
 
+TEMPLATE_LOADER = FileSystemLoader(searchpath='/usr/local/share/comcatlib/')
+TEMPLATE_ENV = Environment(loader=TEMPLATE_LOADER)
+TEMPLATE = TEMPLATE_ENV.get_template('authorize.html')
+
+
 def authorize():
     """Login is required since we need to know the current resource owner.
     It can be done with a redirection to the login page, or a login
@@ -19,8 +25,7 @@ def authorize():
 
     if request.method == 'GET':
         grant = SERVER.validate_consent_request(end_user=USER.instance)
-        return render_template(
-            'authorize.html', grant=grant, user=USER.instance)
+        return TEMPLATE.render(grant=grant, user=USER.instance)
 
     confirmed = request.form['confirm']
 
