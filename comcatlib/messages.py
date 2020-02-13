@@ -35,7 +35,7 @@ USER_ADDED = JSONMessage('The user has been added.', status=201)
 USER_DELETED = JSONMessage('The user has been deleted.', status=200)
 USER_PATCHED = JSONMessage('The user has been modified.', status=200)
 INVALID_CREDENTIALS = JSONMessage(
-    'User name and/or password inclorrect.', status=400)
+    'User name and/or password incorrect.', status=400)
 NO_ADDRESS_CONFIGURED = JSONMessage(
     'Account has no address configured.', status=400)
 NEWS_NOT_ENABLED = JSONMessage('Module "news" is not enabled.', status=403)
