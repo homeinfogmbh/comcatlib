@@ -6,6 +6,7 @@ from comcatlib.app.contextlocals import USER
 from comcatlib.oauth import SERVER
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
+from comcatlib.orm import User
 from comcatlib.templates import render_template
 
 
@@ -19,7 +20,8 @@ def authorize():
     """
 
     if request.method == 'GET':
-        grant = SERVER.validate_consent_request(end_user=USER.instance)
+        end_user = User.get()   # USER.instance
+        grant = SERVER.validate_consent_request(end_user=end_user)
         return render_template(
             'authorize.html', grant=grant, user=USER.instance)
 
