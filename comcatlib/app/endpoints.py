@@ -19,7 +19,7 @@ def authorize():
     form on this authorization page.
     """
 
-    end_user = User.get()   # XXX: USER.instance
+    end_user = USER.instance
 
     if request.method == 'GET':
         grant = SERVER.validate_consent_request(end_user=end_user)
