@@ -19,8 +19,9 @@ def authorize():
     form on this authorization page.
     """
 
+    end_user = User.get()   # XXX: USER.instance
+
     if request.method == 'GET':
-        end_user = User.get()   # XXX: USER.instance
         grant = SERVER.validate_consent_request(end_user=end_user)
         return render_template('authorize.html', grant=grant, user=end_user)
 
@@ -28,7 +29,7 @@ def authorize():
 
     if confirmed:
         # granted by resource owner
-        return SERVER.create_authorization_response(grant_user=USER)
+        return SERVER.create_authorization_response(grant_user=end_user)
 
     # denied by resource owner
     return SERVER.create_authorization_response(grant_user=None)
