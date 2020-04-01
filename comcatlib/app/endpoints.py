@@ -20,10 +20,9 @@ def authorize():
     """
 
     if request.method == 'GET':
-        end_user = User.get()   # USER.instance
+        end_user = User.get()   # XXX: USER.instance
         grant = SERVER.validate_consent_request(end_user=end_user)
-        return render_template(
-            'authorize.html', grant=grant, user=USER.instance)
+        return render_template('authorize.html', grant=grant, user=end_user)
 
     confirmed = request.form['confirm']
 
