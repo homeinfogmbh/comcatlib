@@ -37,10 +37,7 @@ def authorize():
 def issue_token():
     """Issues a token."""
 
-    print('[DEBUG]', 'redirect_uri form:', request.form.get('redirect_uri'),
-          flush=True)
-    print('[DEBUG]', 'redirect_uri arg:', request.args.get('redirect_uri'),
-          flush=True)
+    print('[DEBUG]', 'redirect_uri form:', dict(request.form), flush=True)
     return SERVER.create_token_response()
 
 
