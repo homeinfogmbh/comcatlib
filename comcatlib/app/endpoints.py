@@ -6,7 +6,6 @@ from comcatlib.app.contextlocals import USER
 from comcatlib.oauth import SERVER
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
-from comcatlib.orm import User
 from comcatlib.templates import render_template
 
 
