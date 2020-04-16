@@ -11,7 +11,6 @@ from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.oauth import Client
 from comcatlib.orm.oauth import Token
-from comcatlib.orm.session import Session
 from comcatlib.orm.tenement import Tenement
 from comcatlib.orm.user import User
 
@@ -28,7 +27,6 @@ __all__ = [
     'UserDamageReport',
     'ComCatModel',
     'GroupMemberUser',
-    'Session',
     'Tenement',
     'AuthorizationCode',
     'Client',
@@ -44,7 +42,6 @@ MODELS = (
     Client,
     Token,
     AuthorizationCode,
-    Session,
     UserBaseChart,
     UserConfiguration,
     UserMenu,

@@ -1,8 +1,8 @@
 """Flask based OAuth endpoints."""
 
+from authlib.integrations.flask_oauth2 import current_token
 from flask import request
 
-from comcatlib.app.contextlocals import USER
 from comcatlib.oauth import SERVER
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
@@ -18,7 +18,7 @@ def authorize():
     form on this authorization page.
     """
 
-    end_user = USER.instance
+    end_user = current_token.user
 
     if request.method == 'GET':
         grant = SERVER.validate_consent_request(end_user=end_user)
@@ -37,7 +37,6 @@ def authorize():
 def issue_token():
     """Issues a token."""
 
-    print('[DEBUG]', 'redirect_uri form:', dict(request.form), flush=True)
     return SERVER.create_token_response()
 
 
