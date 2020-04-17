@@ -22,7 +22,8 @@ __all__ = [
     'NO_SUCH_TENEMENT',
     'TENEMENT_PATCHED',
     'INVALID_TENEMENT_VALUE',
-    'NO_SUCH_FILE'
+    'NO_SUCH_FILE',
+    'NOT_LOGGED_IN'
 ]
 
 
@@ -56,3 +57,4 @@ TENEMENT_PATCHED = JSONMessage(
     'The requested tenement has been patched.', status=404)
 INVALID_TENEMENT_VALUE = JSONMessage('Invalid value for tenement.', status=400)
 NO_SUCH_FILE = JSONMessage('No such file.', status=404)
+NOT_LOGGED_IN = JSONMessage('You are not logged-in.', status=401)

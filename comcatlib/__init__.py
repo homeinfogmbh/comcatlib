@@ -16,9 +16,13 @@ from comcatlib.presentation import Presentation
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
 
+TEMPLATE_FOLDER = '/usr/local/share/comcatlib/'
+
+
 __all__ = [
     'REQUIRE_OAUTH',
     'SERVER',
+    'TEMPLATE_FOLDER',
     'init_oauth',
     'init_oauth_endpoints',
     'list_damage_reports',

@@ -1,8 +1,9 @@
 """Flask based OAuth endpoints."""
 
-from authlib.integrations.flask_oauth2 import current_token
 from flask import request
 
+from comcatlib.app.login import get_current_user, login
+from comcatlib.messages import NOT_LOGGED_IN
 from comcatlib.oauth import SERVER
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
@@ -18,7 +19,10 @@ def authorize():
     form on this authorization page.
     """
 
-    end_user = current_token.user
+    end_user = get_current_user()
+
+    if not end_user:
+        return NOT_LOGGED_IN
 
     if request.method == 'GET':
         grant = SERVER.validate_consent_request(end_user=end_user)
@@ -57,6 +61,7 @@ def introspect_token():
 def init_oauth_endpoints(application):
     """Adds OAuth endpoints to the respective application."""
 
+    application.route('/login', methods=['GET', 'POST'])(login)
     application.route('/oauth/authorize', methods=['GET', 'POST'])(authorize)
     application.route('/oauth/token', methods=['POST'])(issue_token)
     application.route('/oauth/revoke', methods=['POST'])(revoke_token)
