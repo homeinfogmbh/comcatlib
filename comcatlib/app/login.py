@@ -6,12 +6,11 @@ from flask import redirect, request, session
 
 from comcatlib.exceptions import InvalidCredentials, UserLocked
 from comcatlib.messages import INVALID_CREDENTIALS, NO_SUCH_USER, USER_LOCKED
-from comcatlib.orm.oauth import Client
 from comcatlib.orm.user import User
 from comcatlib.templates import render_template
 
 
-__all__ = ['get_current_user', 'login']
+__all__ = ['get_current_user', 'login_user', 'login']
 
 
 def get_current_user():
@@ -28,47 +27,49 @@ def get_current_user():
         return None
 
 
-def _do_login():
-    """Performs actual login."""
+def login_user():
+    """Logs in a user with POSTed form data."""
 
     uuid = request.form.get('uuid')
 
     if not uuid:
-        return NO_SUCH_USER
+        raise NO_SUCH_USER
 
     try:
         uuid = UUID(uuid)
     except ValueError:
-        return NO_SUCH_USER
+        raise NO_SUCH_USER
 
     passwd = request.form.get('passwd')
 
     if not passwd:
-        return NO_SUCH_USER
+        raise NO_SUCH_USER
 
     try:
         user = User.get(User.uuid == uuid)
     except User.DoesNotExist:
-        return INVALID_CREDENTIALS
+        raise INVALID_CREDENTIALS
 
     try:
         success = user.login(passwd)
     except InvalidCredentials:
-        return INVALID_CREDENTIALS
+        raise INVALID_CREDENTIALS
     except UserLocked:
-        return USER_LOCKED
+        raise USER_LOCKED
 
     if success:
         session['uid'] = user.id
-        return redirect('/oauth/authorize')
 
-    return INVALID_CREDENTIALS
+    return user
 
 
 def login():
     """Renders the home screen."""
 
     if request.method == 'POST':
-        return _do_login()
+        if login_user():
+            return redirect('/oauth/authorize')
+
+        return INVALID_CREDENTIALS
 
     return render_template('login.html')

@@ -2,8 +2,7 @@
 
 from flask import request
 
-from comcatlib.app.login import get_current_user, login
-from comcatlib.messages import NOT_LOGGED_IN
+from comcatlib.app.login import get_current_user, login, login_user
 from comcatlib.oauth import SERVER
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
@@ -21,14 +20,12 @@ def authorize():
 
     end_user = get_current_user()
 
-    if not end_user:
-        return NOT_LOGGED_IN
-
     if request.method == 'GET':
         grant = SERVER.validate_consent_request(end_user=end_user)
         return render_template('authorize.html', grant=grant, user=end_user)
 
     confirmed = request.form['confirm']
+    end_user = login_user()
 
     if confirmed:
         # granted by resource owner

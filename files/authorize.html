@@ -1,18 +1,24 @@
-<p>{{grant.client.client_name}} is requesting:
-<strong>{{ grant.request.scope }}</strong>
-</p>
+<head>
+  <meta charset="UTF-8">
+  <title>ComCat login</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
 
-<form action="" method="post">
+<h1>{{grant.client.client_name}} is requesting: {{ grant.request.scope }}</h1>
+
+<form class="w3-container" action="" method="post">
   <label>
-    <input type="checkbox" name="confirm">
+    <input class="w3-input" type="checkbox" name="confirm">
     <span>Consent?</span>
   </label>
   {% if not user %}
   <p>You haven't logged in. Log in with:</p>
   <div>
-    <input type="text" name="username">
+    <input class="w3-input" type="text" name="uuid" placeholder="Your UUID">
+    <br></br>
+    <input class="w3-input" type="password" name="passwd" placeholder="Your password">
   </div>
   {% endif %}
   <br>
-  <button>Submit</button>
+  <button class="w3-btn w3-green">Submit</button>
 </form>
