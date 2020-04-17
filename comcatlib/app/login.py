@@ -70,11 +70,4 @@ def login():
     if request.method == 'POST':
         return _do_login()
 
-    user = get_current_user()
-
-    if user:
-        clients = Client.select().where(Client.user == user)
-    else:
-        clients = []
-
-    return render_template('login.html', user=user, clients=clients)
+    return render_template('login.html')
