@@ -2,12 +2,13 @@
 
 from uuid import UUID
 
-from flask import redirect, render_template, request, session
+from flask import redirect, request, session
 
 from comcatlib.exceptions import InvalidCredentials, UserLocked
 from comcatlib.messages import INVALID_CREDENTIALS, NO_SUCH_USER, USER_LOCKED
 from comcatlib.orm.oauth import Client
 from comcatlib.orm.user import User
+from comcatlib.templates import render_template
 
 
 __all__ = ['get_current_user', 'login']
