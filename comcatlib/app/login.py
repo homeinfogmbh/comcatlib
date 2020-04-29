@@ -19,11 +19,13 @@ def get_current_user():
     uid = session.get('uid')
 
     if not uid:
+        print('No user ID in session.', flush=True)
         return None
 
     try:
         return User.get(User.id == uid)
     except User.DoesNotExist:
+        print(f'No such user: {uid}.', flush=True)
         return None
 
 
