@@ -1,5 +1,6 @@
 """User login."""
 
+from urllib.parse import urlparse, ParseResult
 from uuid import UUID
 
 from flask import redirect, request, session
@@ -65,12 +66,21 @@ def login_user():
     return user
 
 
+def change_path_to(path):
+    """Changes the path of the current URL."""
+
+    url = urlparse(request.url)
+    new_url = ParseResult(
+        url.scheme, url.netloc, path, url.params, url.query, url.fragment)
+    return new_url.geturl()
+
+
 def login():
     """Renders the home screen."""
 
     if request.method == 'POST':
         if login_user():
-            return redirect('/oauth/authorize')
+            return redirect(change_path_to('/oauth/authorize'))
 
         return INVALID_CREDENTIALS
 
