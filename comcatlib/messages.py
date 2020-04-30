@@ -4,6 +4,8 @@ from wsgilib import JSONMessage
 
 
 __all__ = [
+    'NO_USER_SPECIFIED',
+    'NO_PASSWORD_SPECIFIED',
     'NO_SUCH_USER',
     'NO_SUCH_CUSTOMER',
     'SESSION_EXPIRED',
@@ -27,6 +29,8 @@ __all__ = [
 ]
 
 
+NO_USER_SPECIFIED = JSONMessage('No user specified.', status=400)
+NO_PASSWORD_SPECIFIED = JSONMessage('No password specified.', status=400)
 NO_SUCH_USER = JSONMessage('The requested user does not exists.', status=404)
 NO_SUCH_CUSTOMER = JSONMessage(
     'The requested customer does not exists.', status=404)

@@ -6,7 +6,11 @@ from uuid import UUID
 from flask import redirect, request, session
 
 from comcatlib.exceptions import InvalidCredentials, UserLocked
-from comcatlib.messages import INVALID_CREDENTIALS, NO_SUCH_USER, USER_LOCKED
+from comcatlib.messages import INVALID_CREDENTIALS
+from comcatlib.messages import NO_PASSWORD_SPECIFIED
+from comcatlib.messages import NO_SUCH_USER
+from comcatlib.messages import NO_USER_SPECIFIED
+from comcatlib.messages import USER_LOCKED
 from comcatlib.orm.user import User
 from comcatlib.templates import render_template
 
@@ -20,13 +24,11 @@ def get_current_user():
     uid = session.get('uid')
 
     if not uid:
-        print('No user ID in session.', flush=True)
         return None
 
     try:
         return User.get(User.id == uid)
     except User.DoesNotExist:
-        print(f'No such user: {uid}.', flush=True)
         return None
 
 
@@ -41,12 +43,12 @@ def login_user():
     try:
         uuid = UUID(uuid)
     except ValueError:
-        raise NO_SUCH_USER
+        raise NO_USER_SPECIFIED
 
     passwd = request.form.get('passwd')
 
     if not passwd:
-        raise NO_SUCH_USER
+        raise NO_PASSWORD_SPECIFIED
 
     try:
         user = User.get(User.uuid == uuid)
