@@ -7,6 +7,7 @@ from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.content import UserConfiguration
 from comcatlib.orm.content import UserMenu
 from comcatlib.orm.damage_report import UserDamageReport
+from comcatlib.orm.files import File, Quota
 from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.oauth import Client
@@ -19,18 +20,20 @@ __all__ = [
     'DATABASE',
     'MODELS',
     'create_tables',
-    'User',
     'Address',
+    'ComCatModel',
     'UserBaseChart',
     'UserConfiguration',
     'UserMenu',
     'UserDamageReport',
-    'ComCatModel',
+    'File',
+    'Quota',
     'GroupMemberUser',
-    'Tenement',
     'AuthorizationCode',
     'Client',
-    'Token'
+    'Token',
+    'Tenement',
+    'User'
 ]
 
 
