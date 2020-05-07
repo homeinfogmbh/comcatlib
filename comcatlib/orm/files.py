@@ -1,6 +1,6 @@
 """HISFS-like file associations and quotas."""
 
-from peewee import BigIntegerField, CharField, ForeignKeyField
+from peewee import BigIntegerField, BooleanField, CharField, ForeignKeyField
 
 from filedb import File as FileDBFile
 from hisfs import QuotaExceeded, get_sparse_file
@@ -22,6 +22,7 @@ class File(ComCatModel):
     name = CharField(255)
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     file = ForeignKeyField(FileDBFile, column_name='file')
+    shared = BooleanField(default=False)
 
     @property
     def metadata(self):
