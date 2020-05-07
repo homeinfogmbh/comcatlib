@@ -38,6 +38,16 @@ class File(ComCatModel):
         """Returns HTTP stream."""
         return self.file.stream()
 
+    def check_access(self, user):
+        """Determines whether a given user can access this file."""
+        if self.user == user:
+            return True
+
+        if self.shared:
+            return self.user.customer == user.customer
+
+        return False
+
     def to_json(self, *args, **kwargs):
         """Returns a JSON-ish dict."""
         json = super().to_json(*args, **kwargs)
