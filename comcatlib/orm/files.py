@@ -23,6 +23,15 @@ class File(ComCatModel):
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     file = ForeignKeyField(FileDBFile, column_name='file')
 
+    @classmethod
+    def add(cls, name, user, bytes_):
+        """Adds the respective file."""
+        file = cls()
+        file.name = name
+        file.user = user
+        file.file = FileDBFile.from_bytes(bytes_)
+        return file
+
     @property
     def metadata(self):
         """Returns file meta data."""
@@ -36,6 +45,13 @@ class File(ComCatModel):
     def stream(self):
         """Returns HTTP stream."""
         return self.file.stream()
+
+    def save(self, *args, **kwargs):
+        """Saves the filedb.File first."""
+        if self.file:
+            self.file.save(*args, **kwargs)
+
+        return super().save(*args, **kwargs)
 
     def to_json(self, *args, **kwargs):
         """Returns a JSON-ish dict."""
