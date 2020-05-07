@@ -1,6 +1,6 @@
 """HISFS-like file associations and quotas."""
 
-from peewee import BigIntegerField, BooleanField, CharField, ForeignKeyField
+from peewee import BigIntegerField, CharField, ForeignKeyField
 
 from filedb import File as FileDBFile
 from hisfs import QuotaExceeded, get_sparse_file
@@ -22,7 +22,6 @@ class File(ComCatModel):
     name = CharField(255)
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     file = ForeignKeyField(FileDBFile, column_name='file')
-    shared = BooleanField(default=False)
 
     @property
     def metadata(self):
@@ -37,16 +36,6 @@ class File(ComCatModel):
     def stream(self):
         """Returns HTTP stream."""
         return self.file.stream()
-
-    def check_access(self, user):
-        """Determines whether a given user can access this file."""
-        if self.user == user:
-            return True
-
-        if self.shared:
-            return self.user.customer == user.customer
-
-        return False
 
     def to_json(self, *args, **kwargs):
         """Returns a JSON-ish dict."""
