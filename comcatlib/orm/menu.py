@@ -5,8 +5,8 @@ from enum import Enum
 from flask import request
 from peewee import ForeignKeyField
 
+from cmslib.functions.charts import get_base_chart
 from cmslib.orm.charts import BaseChart
-from his.functions.charts import get_base_chart
 from peeweeplus import EnumField
 
 from comcatlib.orm.common import ComCatModel
