@@ -27,6 +27,9 @@ class Menu(Enum):
 class BaseChartMenu(ComCatModel):
     """Many-to-many mapping of charts an menus."""
 
+    class Meta:     # pylint: disable=C0115,R0903
+        table_name = 'base_chart_menu'
+
     base_chart = ForeignKeyField(
         BaseChart, column_name='base_chart', on_delete='CASCADE')
     menu = EnumField(Menu)
