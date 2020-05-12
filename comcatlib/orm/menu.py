@@ -2,10 +2,8 @@
 
 from enum import Enum
 
-from flask import request
 from peewee import ForeignKeyField
 
-from cmslib.functions.charts import get_chart
 from cmslib.orm.charts import BaseChart
 from peeweeplus import EnumField
 
@@ -35,9 +33,12 @@ class BaseChartMenu(ComCatModel):
     menu = EnumField(Menu)
 
     @classmethod
-    def from_json(cls, *args, **kwargs):
+    def add(cls, base_chart, menu):
         """Creates a new record from a JSON-ish dict."""
-        base_chart_id = request.json.pop('chart')
-        record = super().from_json(*args, **kwargs)
-        record.base_chart = get_chart(base_chart_id).base_id
-        return record
+        condition = cls.base_chart == base_chart
+        condition &= cls.menu == menu
+
+        try:
+            return cls.get(condition)
+        except cls.DoesNotExist:
+            return cls(base_chart=base_chart, menu=menu)
