@@ -9,6 +9,7 @@ from comcatlib.orm.content import UserMenu
 from comcatlib.orm.damage_report import UserDamageReport
 from comcatlib.orm.files import File, Quota
 from comcatlib.orm.group import GroupMemberUser
+from comcatlib.orm.menu import BaseChartMenu
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.oauth import Client
 from comcatlib.orm.oauth import Token
@@ -21,6 +22,7 @@ __all__ = [
     'MODELS',
     'create_tables',
     'Address',
+    'BaseChartMenu',
     'ComCatModel',
     'UserBaseChart',
     'UserConfiguration',
@@ -40,6 +42,7 @@ __all__ = [
 # Order matters here.
 MODELS = (
     Address,
+    BaseChartMenu,
     Tenement,
     User,
     Client,
