@@ -29,10 +29,9 @@ class Tenement(ComCatModel):
         dict for the specified customer.
         """
         address = json.pop('address', None)
-        address = Address.by_value(address, customer)
         tenement = super().from_json(json, **kwargs)
         tenement.customer = customer
-        tenement.address = address
+        tenement.address = Address.by_value(address, customer)
         return tenement
 
     @classmethod
@@ -55,6 +54,13 @@ class Tenement(ComCatModel):
             return tenement
 
         raise INVALID_TENEMENT_VALUE
+
+    def save(self, *args, **kwargs):
+        """Saves the record."""
+        if self.address is not None:
+            self.address.save(*args, **kwargs)
+
+        return super().save(*args, **kwargs)
 
     def patch_json(self, json, **kwargs):
         """Patches the tenement with the data from a JSON-ish dict."""

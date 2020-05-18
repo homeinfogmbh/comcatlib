@@ -1,6 +1,6 @@
 """Damage report mappings."""
 
-from peewee import ForeignKeyField
+from peewee import BooleanField, ForeignKeyField
 
 from damage_report import DamageReport
 
@@ -20,3 +20,4 @@ class UserDamageReport(ComCatModel):
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     damage_report = ForeignKeyField(
         DamageReport, column_name='damage_report', on_delete='CASCADE')
+    private = BooleanField(default=True)
