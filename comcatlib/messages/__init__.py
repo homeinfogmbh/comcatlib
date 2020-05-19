@@ -5,6 +5,9 @@ from comcatlib.messages.address import ADDRESS_DELETED
 from comcatlib.messages.address import INVALID_ADDRESS
 from comcatlib.messages.address import MISSING_ADDRESS
 from comcatlib.messages.address import NO_SUCH_ADDRESS
+from comcatlib.messages.damage_report import DAMAGE_REPORT_SUBMITTED
+from comcatlib.messages.damage_report import NO_SUCH_ATTACHMENT
+from comcatlib.messages.damage_report import NO_SUCH_DAMAGE_REPORT
 from comcatlib.messages.files import NO_SUCH_FILE
 from comcatlib.messages.files import QUOTA_EXCEEDED
 from comcatlib.messages.login import INVALID_CREDENTIALS
@@ -34,6 +37,9 @@ __all__ = [
     'INVALID_ADDRESS',
     'MISSING_ADDRESS',
     'NO_SUCH_ADDRESS',
+    'DAMAGE_REPORT_SUBMITTED',
+    'NO_SUCH_ATTACHMENT',
+    'NO_SUCH_DAMAGE_REPORT',
     'NO_SUCH_FILE',
     'QUOTA_EXCEEDED',
     'INVALID_CREDENTIALS',
