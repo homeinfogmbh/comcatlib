@@ -5,6 +5,8 @@ from comcatlib.messages.address import ADDRESS_DELETED
 from comcatlib.messages.address import INVALID_ADDRESS
 from comcatlib.messages.address import MISSING_ADDRESS
 from comcatlib.messages.address import NO_SUCH_ADDRESS
+from comcatlib.messages.attachments import ATTACHMENT_ADDED
+from comcatlib.messages.attachments import ATTACHMENT_DELETED
 from comcatlib.messages.attachments import NO_SUCH_ATTACHMENT
 from comcatlib.messages.damage_report import DAMAGE_REPORT_SUBMITTED
 from comcatlib.messages.damage_report import NO_SUCH_DAMAGE_REPORT
@@ -33,10 +35,12 @@ from comcatlib.messages.user import USER_PATCHED
 
 __all__ = [
     'ADDRESS_ADDED',
+    'ATTACHMENT_DELETED',
     'ADDRESS_DELETED',
     'INVALID_ADDRESS',
     'MISSING_ADDRESS',
     'NO_SUCH_ADDRESS',
+    'ATTACHMENT_ADDED',
     'NO_SUCH_ATTACHMENT',
     'DAMAGE_REPORT_SUBMITTED',
     'NO_SUCH_DAMAGE_REPORT',
