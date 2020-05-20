@@ -8,6 +8,8 @@ from comcatlib.messages.address import NO_SUCH_ADDRESS
 from comcatlib.messages.attachments import ATTACHMENT_ADDED
 from comcatlib.messages.attachments import ATTACHMENT_DELETED
 from comcatlib.messages.attachments import NO_SUCH_ATTACHMENT
+from comcatlib.messages.damage_report import DAMAGE_REPORT_ALREADY_PROCESSED
+from comcatlib.messages.damage_report import DAMAGE_REPORT_DELETED
 from comcatlib.messages.damage_report import DAMAGE_REPORT_SUBMITTED
 from comcatlib.messages.damage_report import NO_SUCH_DAMAGE_REPORT
 from comcatlib.messages.files import NO_SUCH_FILE
@@ -42,6 +44,8 @@ __all__ = [
     'NO_SUCH_ADDRESS',
     'ATTACHMENT_ADDED',
     'NO_SUCH_ATTACHMENT',
+    'DAMAGE_REPORT_ALREADY_PROCESSED',
+    'DAMAGE_REPORT_DELETED',
     'DAMAGE_REPORT_SUBMITTED',
     'NO_SUCH_DAMAGE_REPORT',
     'NO_SUCH_FILE',
