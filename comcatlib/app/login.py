@@ -7,7 +7,7 @@ from flask import redirect, request, session
 
 from comcatlib.exceptions import InvalidCredentials, UserLocked
 from comcatlib.messages import INVALID_CREDENTIALS
-from comcatlib.messages import NO_PASSWORD_SPECIFIED
+from comcatlib.messages import MISSING_PASSWORD
 from comcatlib.messages import NO_SUCH_USER
 from comcatlib.messages import NO_USER_SPECIFIED
 from comcatlib.messages import USER_LOCKED
@@ -48,7 +48,7 @@ def login_user():
     passwd = request.form.get('passwd')
 
     if not passwd:
-        raise NO_PASSWORD_SPECIFIED
+        raise MISSING_PASSWORD
 
     try:
         user = User.get(User.uuid == uuid)
