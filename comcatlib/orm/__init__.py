@@ -52,7 +52,9 @@ MODELS = (
     UserConfiguration,
     UserMenu,
     UserDamageReport,
-    GroupMemberUser
+    GroupMemberUser,
+    File,
+    Quota
 )
 
 
