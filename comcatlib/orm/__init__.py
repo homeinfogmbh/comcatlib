@@ -7,6 +7,7 @@ from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.content import UserConfiguration
 from comcatlib.orm.content import UserMenu
 from comcatlib.orm.damage_report import UserDamageReport
+from comcatlib.orm.damage_report import DamageReportAttachment
 from comcatlib.orm.files import add_file, File, Quota
 from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.menu import BaseChartMenu
@@ -30,6 +31,7 @@ __all__ = [
     'UserConfiguration',
     'UserMenu',
     'UserDamageReport',
+    'DamageReportAttachment',
     'File',
     'Quota',
     'GroupMemberUser',

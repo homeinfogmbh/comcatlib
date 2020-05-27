@@ -9,7 +9,7 @@ from comcatlib.orm.files import File
 from comcatlib.orm.user import User
 
 
-__all__ = ['UserDamageReport']
+__all__ = ['UserDamageReport', 'DamageReportAttachment']
 
 
 class UserDamageReport(ComCatModel):
