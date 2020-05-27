@@ -5,9 +5,8 @@ from peewee import ForeignKeyField, IntegerField
 from cmslib.orm.group import Group
 from his.messages.data import MISSING_KEY_ERROR, INVALID_KEYS
 
-from comcatlib.functions import get_user
 from comcatlib.orm.common import ComCatModel
-from comcatlib.orm.user import User
+from comcatlib.orm.user import get_user, User
 
 
 __all__ = ['GroupMemberUser']

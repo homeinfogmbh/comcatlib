@@ -9,9 +9,8 @@ from cmslib.orm.charts import ChartMode, BaseChart
 from cmslib.orm.configuration import Configuration
 from cmslib.orm.menu import Menu
 
-from comcatlib.functions import get_user
 from comcatlib.orm.common import ComCatModel
-from comcatlib.orm.user import User
+from comcatlib.orm.user import get_user, User
 
 
 __all__ = ['UserBaseChart', 'UserConfiguration', 'UserMenu']

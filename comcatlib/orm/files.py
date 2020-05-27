@@ -1,5 +1,7 @@
 """HISFS-like file associations and quotas."""
 
+from authlib.integrations.flask_oauth2 import current_token
+from flask import request
 from peewee import BigIntegerField, CharField, ForeignKeyField
 
 from filedb import File as FileDBFile
@@ -7,14 +9,31 @@ from hisfs import get_sparse_file
 from mdb import Customer
 
 from comcatlib.exceptions import QuotaExceeded
+from comcatlib.messages import QUOTA_EXCEEDED
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['File', 'Quota']
+__all__ = ['add_file', 'File', 'Quota']
 
 
 DEFAULT_QUOTA = 10 * (1024 ** 2)    # 10 MiB.
+
+
+def add_file(bytes_):
+    """Adds a file."""
+
+    quota = Quota.for_customer(current_token.user.customer_id)
+
+    try:
+        quota.alloc(len(bytes_))
+    except QuotaExceeded:
+        raise QUOTA_EXCEEDED
+
+    name = request.args.get('filename', '')
+    file = File.add(name, current_token.user, bytes_)
+    file.save()
+    return file
 
 
 class File(ComCatModel):

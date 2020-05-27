@@ -10,18 +10,29 @@ from peewee import ForeignKeyField
 from peewee import IntegerField
 from peewee import UUIDField
 
+from his import CUSTOMER
 from mdb import Customer
 from peeweeplus import Argon2Field
 
 from comcatlib.exceptions import InvalidCredentials, UserLocked
+from comcatlib.messages import NO_SUCH_USER
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.tenement import Tenement
 
 
-__all__ = ['User']
+__all__ = ['get_user', 'User']
 
 
 MAX_FAILED_LOGINS = 5
+
+
+def get_user(ident):
+    """Returns the respective user."""
+
+    try:
+        return User.get((User.id == ident) & (User.customer == CUSTOMER.id))
+    except User.DoesNotExist:
+        raise NO_SUCH_USER
 
 
 class User(ComCatModel):
