@@ -1,10 +1,13 @@
 """Common functions."""
 
 from authlib.integrations.flask_oauth2 import current_token
+from flask import request
+
 from his import CUSTOMER
 
+from comcatlib.exceptions import QuotaExceeded
 from comcatlib.messages import NO_SUCH_USER, QUOTA_EXCEEDED
-from comcatlib.orm.user import File, Quota, User
+from comcatlib.orm import File, Quota, User
 
 
 __all__ = ['get_user']
@@ -29,6 +32,7 @@ def add_file(bytes_):
     except QuotaExceeded:
         raise QUOTA_EXCEEDED
 
-    file = File.add(bytes_)
+    name = request.args.get('filename', '')
+    file = File.add(name, current_token.user, bytes_)
     file.save()
     return file

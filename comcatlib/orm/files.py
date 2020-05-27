@@ -3,9 +3,10 @@
 from peewee import BigIntegerField, CharField, ForeignKeyField
 
 from filedb import File as FileDBFile
-from hisfs import QuotaExceeded, get_sparse_file
+from hisfs import get_sparse_file
 from mdb import Customer
 
+from comcatlib.exceptions import QuotaExceeded
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
@@ -78,15 +79,19 @@ class Quota(ComCatModel):
             return cls(customer=customer)
 
     @property
+    def users(self):
+        """Returns the amount of users."""
+        return User.select().where(User.customer == self.customer)
+
+    @property
     def customer_quota(self):
         """Returns the customer quota."""
-        users = User.select().where(User.customer == self.customer).count()
-        return self.quota * users
+        return self.quota * self.users.count()
 
     @property
     def files(self):
         """Yields file records of the respective customer."""
-        return File.select().where(File.user == self.user)
+        return File.select().join(User).where(User.customer == self.customer)
 
     @property
     def used(self):

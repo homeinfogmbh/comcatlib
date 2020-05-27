@@ -8,7 +8,8 @@ __all__ = [
     'InvalidSession',
     'InvalidSessionToken',
     'InvalidCredentials',
-    'NoSuchBaseChart'
+    'NoSuchBaseChart',
+    'QuotaExceeded'
 ]
 
 
@@ -38,3 +39,7 @@ class InvalidCredentials(ComCatException):
 
 class NoSuchBaseChart(ComCatException):
     """Indicates that the respective base chart was not found."""
+
+
+class QuotaExceeded(ComCatException):
+    """Indicates that a user has exceeded their disk quota."""
