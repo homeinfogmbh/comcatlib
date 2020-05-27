@@ -5,7 +5,7 @@ from peewee import ForeignKeyField
 
 from mdb import Customer
 
-from comcatlib.messages import INVALID_TENEMENT_VALUE, NO_SUCH_TENEMENT
+from comcatlib.messages import INVALID_TENEMENT, NO_SUCH_TENEMENT
 from comcatlib.orm.address import Address
 from comcatlib.orm.common import ComCatModel
 
@@ -53,7 +53,7 @@ class Tenement(ComCatModel):
             tenement.save()
             return tenement
 
-        raise INVALID_TENEMENT_VALUE
+        raise INVALID_TENEMENT
 
     def save(self, *args, **kwargs):
         """Saves the record."""
