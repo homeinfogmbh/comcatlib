@@ -24,7 +24,7 @@ setup(
     packages=[
         'comcatlib',
         'comcatlib.app',
-        'comcatlib.messages'
+        'comcatlib.messages',
         'comcatlib.oauth',
         'comcatlib.orm'
     ],
