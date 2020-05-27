@@ -6,7 +6,7 @@ from peewee import CharField, ForeignKeyField
 
 from mdb import Customer
 
-from comcatlib.messages import INVALID_ADDRESS_VALUE, NO_SUCH_ADDRESS
+from comcatlib.messages import INVALID_ADDRESS, NO_SUCH_ADDRESS
 from comcatlib.orm.common import ComCatModel
 
 
@@ -62,4 +62,4 @@ class Address(ComCatModel):
             address.save()
             return address
 
-        raise INVALID_ADDRESS_VALUE
+        raise INVALID_ADDRESS
