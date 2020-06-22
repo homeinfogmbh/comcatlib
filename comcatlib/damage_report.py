@@ -19,7 +19,8 @@ def list_(user):
 def submit(json, user):
     """Submits a damage report."""
 
-    damage_report = DamageReport.from_json(json, user.customer, user.address)
+    damage_report = DamageReport.from_json(
+        json, user.customer, user.tenement.address)
     damage_report.save()
     user_damage_report = UserDamageReport(
         user=user.id, damage_report=damage_report)
