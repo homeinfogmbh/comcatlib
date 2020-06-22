@@ -4,7 +4,6 @@ from comcatlib.app import init_oauth_endpoints
 from comcatlib.damage_report import list_ as list_damage_reports
 from comcatlib.damage_report import submit as submit_damage_reports
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
-from comcatlib.orm import Address
 from comcatlib.orm import File, Quota
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import Tenement
@@ -27,7 +26,6 @@ __all__ = [
     'decode_url',
     'encode_url',
     'proxy_url',
-    'Address',
     'File',
     'Quota',
     'GroupMemberUser',

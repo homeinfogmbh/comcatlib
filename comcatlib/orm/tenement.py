@@ -3,10 +3,9 @@
 from peewee import CharField
 from peewee import ForeignKeyField
 
-from mdb import Customer
+from mdb import Address, Customer
 
 from comcatlib.messages import INVALID_TENEMENT, NO_SUCH_TENEMENT
-from comcatlib.orm.address import Address
 from comcatlib.orm.common import ComCatModel
 
 

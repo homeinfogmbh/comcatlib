@@ -1,7 +1,6 @@
 """Object relational mappings."""
 
 
-from comcatlib.orm.address import Address
 from comcatlib.orm.common import DATABASE, ComCatModel
 from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.content import UserConfiguration
@@ -24,7 +23,6 @@ __all__ = [
     'create_tables',
     'get_user',
     'add_file',
-    'Address',
     'BaseChartMenu',
     'ComCatModel',
     'UserBaseChart',
@@ -45,7 +43,6 @@ __all__ = [
 
 # Order matters here.
 MODELS = (
-    Address,
     BaseChartMenu,
     Tenement,
     User,
