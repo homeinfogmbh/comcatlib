@@ -13,7 +13,6 @@ from comcatlib.orm.menu import BaseChartMenu
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.oauth import Client
 from comcatlib.orm.oauth import Token
-from comcatlib.orm.tenement import Tenement
 from comcatlib.orm.user import get_user, User
 
 
@@ -36,7 +35,6 @@ __all__ = [
     'AuthorizationCode',
     'Client',
     'Token',
-    'Tenement',
     'User'
 ]
 
@@ -44,7 +42,6 @@ __all__ = [
 # Order matters here.
 MODELS = (
     BaseChartMenu,
-    Tenement,
     User,
     Client,
     Token,

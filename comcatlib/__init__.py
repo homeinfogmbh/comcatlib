@@ -6,7 +6,6 @@ from comcatlib.damage_report import submit as submit_damage_reports
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.orm import File, Quota
 from comcatlib.orm import GroupMemberUser
-from comcatlib.orm import Tenement
 from comcatlib.orm import User
 from comcatlib.orm import UserBaseChart
 from comcatlib.orm import UserConfiguration
@@ -29,7 +28,6 @@ __all__ = [
     'File',
     'Quota',
     'GroupMemberUser',
-    'Tenement',
     'User',
     'UserBaseChart',
     'UserConfiguration',

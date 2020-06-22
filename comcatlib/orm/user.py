@@ -11,13 +11,13 @@ from peewee import IntegerField
 from peewee import UUIDField
 
 from his import CUSTOMER
-from mdb import Customer
+from mdb import Customer, Tenement
 from peeweeplus import Argon2Field
 
 from comcatlib.exceptions import InvalidCredentials, UserLocked
+from comcatlib.functions import get_tenement
 from comcatlib.messages import NO_SUCH_USER
 from comcatlib.orm.common import ComCatModel
-from comcatlib.orm.tenement import Tenement
 
 
 __all__ = ['get_user', 'User']
@@ -42,7 +42,7 @@ class User(ComCatModel):
     passwd = Argon2Field(null=True)
     customer = ForeignKeyField(Customer, column_name='customer')
     tenement = ForeignKeyField(
-        Tenement, column_name='tenement', null=True, on_delete='SET NULL',
+        Tenement, column_name='tenement', on_delete='SET NULL',
         on_update='CASCADE')
     created = DateTimeField(default=datetime.now)
     last_login = DateTimeField(null=True)
@@ -65,14 +65,10 @@ class User(ComCatModel):
     @classmethod
     def from_json(cls, json, customer, **kwargs):
         """Creates the user from the respective JSON data."""
-        tenement = json.pop('tenement', None)
-
-        if tenement is not None:
-            tenement = Tenement.by_value(tenement, customer)
-
+        tenement = json.pop('tenement')
         user = super().from_json(json, **kwargs)
         user.customer = customer
-        user.tenement = tenement
+        user.tenement = get_tenement(tenement, customer)
         return user
 
     @property
@@ -125,10 +121,9 @@ class User(ComCatModel):
         except KeyError:
             tenement = self.tenement
         else:
-            tenement = Tenement.by_value(tenement, self.customer)
+            self.tenement = get_tenement(tenement, self.customer)
 
         super().patch_json(json, **kwargs)
-        self.tenement = tenement
 
     def to_json(self, cascade=False, **kwargs):
         """Returns JSON-ish dict."""
