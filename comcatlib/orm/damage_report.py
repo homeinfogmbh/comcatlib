@@ -21,7 +21,6 @@ class UserDamageReport(ComCatModel):
     damage_report = ForeignKeyField(
         DamageReport, column_name='damage_report', on_delete='CASCADE')
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
-    private = BooleanField(default=True)
 
 
 class DamageReportAttachment(ComCatModel):
