@@ -43,7 +43,7 @@ class UserBaseChart(UserContent):
     @classmethod
     def from_json(cls, json, **kwargs):
         """Creates a new user content mapping."""
-        base_chart = json.pop('base_chart')
+        base_chart = json.pop('baseChart')
         record = super().from_json(json, **kwargs)
         record.base_chart = get_base_chart(base_chart)
         return record
