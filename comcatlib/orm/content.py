@@ -2,7 +2,7 @@
 
 from peewee import ForeignKeyField, IntegerField
 
-from cmslib.functions.charts import get_base_chart
+from cmslib.functions.charts import get_chart
 from cmslib.functions.configuration import get_configuration
 from cmslib.functions.menu import get_menu
 from cmslib.orm.charts import ChartMode, BaseChart
@@ -43,9 +43,9 @@ class UserBaseChart(UserContent):
     @classmethod
     def from_json(cls, json, **kwargs):
         """Creates a new user content mapping."""
-        base_chart = json.pop('baseChart')
+        chart_id = json.pop('chart')
         record = super().from_json(json, **kwargs)
-        record.base_chart = get_base_chart(base_chart)
+        record.base_chart = get_chart(chart_id).base
         return record
 
     @property
