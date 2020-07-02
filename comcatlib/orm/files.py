@@ -39,12 +39,12 @@ def add_file(bytes_):
 class File(ComCatModel):
     """A user's file."""
 
-    name = CharField(255)
+    name = CharField(255, null=True)
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     file = ForeignKeyField(FileDBFile, column_name='file')
 
     @classmethod
-    def add(cls, name, user, bytes_):
+    def add(cls, user, bytes_, name=None):
         """Adds the respective file."""
         file = cls()
         file.name = name
