@@ -85,7 +85,7 @@ class Quota(ComCatModel):
     """Per-customer file quota."""
 
     customer = ForeignKeyField(
-        Customer, column_name='quota', unique=True, on_delete='CASCADE',
+        Customer, column_name='customer', unique=True, on_delete='CASCADE',
         on_update='CASCADE')
     quota = BigIntegerField(default=DEFAULT_QUOTA)  # Per-user quota in bytes.
 
