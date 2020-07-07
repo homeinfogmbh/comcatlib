@@ -26,6 +26,9 @@ class UserDamageReport(ComCatModel):
 class DamageReportAttachment(ComCatModel):
     """Maps an attachment onto a user damage report."""
 
+    class Meta:     # pylint: disable=C0111,R0903
+        table_name = 'damage_report_attachment'
+
     user_damage_report = ForeignKeyField(
         UserDamageReport, column_name='user_damage_report',
         on_delete='CASCADE')
