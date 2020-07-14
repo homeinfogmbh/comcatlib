@@ -41,9 +41,7 @@ class User(ComCatModel):
     uuid = UUIDField(default=uuid4)
     passwd = Argon2Field(null=True)
     customer = ForeignKeyField(Customer, column_name='customer')
-    tenement = ForeignKeyField(
-        Tenement, column_name='tenement', on_delete='SET NULL',
-        on_update='CASCADE')
+    tenement = ForeignKeyField(Tenement, column_name='tenement')
     created = DateTimeField(default=datetime.now)
     last_login = DateTimeField(null=True)
     failed_logins = IntegerField(default=0)
