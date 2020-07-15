@@ -13,6 +13,7 @@ from comcatlib.orm.menu import BaseChartMenu
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.oauth import Client
 from comcatlib.orm.oauth import Token
+from comcatlib.orm.tenant2tenant import UserTenantMessage
 from comcatlib.orm.user import get_user, User
 
 
@@ -35,6 +36,7 @@ __all__ = [
     'AuthorizationCode',
     'Client',
     'Token',
+    'UserTenantMessage',
     'User'
 ]
 
@@ -50,6 +52,7 @@ MODELS = (
     UserConfiguration,
     UserMenu,
     UserDamageReport,
+    UserTenantMessage,
     GroupMemberUser,
     File,
     Quota
