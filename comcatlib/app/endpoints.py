@@ -2,7 +2,7 @@
 
 from flask import request
 
-from comcatlib.app.login import get_current_user, login, login_user
+from comcatlib.app.login import get_current_user, login
 from comcatlib.oauth import SERVER
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
@@ -25,7 +25,6 @@ def authorize():
         return render_template('authorize.html', grant=grant, user=end_user)
 
     confirmed = request.form['confirm']
-    end_user = login_user()
 
     if confirmed:
         # granted by resource owner
