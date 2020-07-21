@@ -1,6 +1,7 @@
 """OAuth 2.0 authorization server."""
 
 from authlib.integrations.flask_oauth2 import AuthorizationServer
+from authlib.oauth2.rfc6749.grants import ImplicitGrant
 
 from comcatlib.oauth.authorization_code_grant import AuthorizationCodeGrant
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
@@ -45,5 +46,6 @@ def init_oauth(application):
     SERVER.init_app(application)
     SERVER.register_grant(AuthorizationCodeGrant, [openid])
     SERVER.register_grant(RefreshTokenGrant)
+    SERVER.register_grant(ImplicitGrant)
     SERVER.register_endpoint(TokenRevocationEndpoint)
     SERVER.register_endpoint(TokenIntrospectionEndpoint)
