@@ -11,13 +11,27 @@ from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['Client', 'Token', 'AuthorizationCode']
+__all__ = [
+    'Client',
+    'RedirectURI',
+    'GrantType',
+    'ResponseType',
+    'Scope',
+    'Contact',
+    'JWKS',
+    'Token',
+    'AuthorizationCode'
+]
 
 
 class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
     """An OAuth client."""
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
+
+
+RedirectURI, GrantType, ResponseType, Scope, Contact, JWKS = \
+    Client.get_related_models(ComCatModel)
 
 
 class Token(ComCatModel, OAuth2TokenMixin):     # pylint: disable=R0901
