@@ -1,5 +1,6 @@
 """User login."""
 
+from logging import getLogger
 from urllib.parse import urlparse, ParseResult
 from uuid import UUID
 
@@ -16,6 +17,9 @@ from comcatlib.templates import render_template
 
 
 __all__ = ['get_current_user', 'login_user', 'login']
+
+
+LOGGER = getLogger('app.login')
 
 
 def get_current_user():
@@ -38,28 +42,34 @@ def login_user():
     uuid = request.form.get('uuid')
 
     if not uuid:
+        LOGGER.error('No UUID specified.')
         raise NO_SUCH_USER
 
     try:
         uuid = UUID(uuid)
     except ValueError:
+        LOGGER.error('User ID is not a valid UUID.')
         raise NO_USER_SPECIFIED
 
     passwd = request.form.get('passwd')
 
     if not passwd:
+        LOGGER.error('No password specified.')
         raise MISSING_PASSWORD
 
     try:
         user = User.get(User.uuid == uuid)
     except User.DoesNotExist:
+        LOGGER.error('No such user: %s', uuid.hex)
         raise INVALID_CREDENTIALS
 
     try:
         success = user.login(passwd)
     except InvalidCredentials:
+        LOGGER.error('Wrong password.')
         raise INVALID_CREDENTIALS
     except UserLocked:
+        LOGGER.error('User locked.')
         raise USER_LOCKED
 
     if success:
