@@ -42,13 +42,13 @@ def login_user():
     uuid = request.form.get('uuid')
 
     if not uuid:
-        LOGGER.error('No UUID specified.')
+        LOGGER.error('No UUID specified: "%s".', uuid)
         raise NO_SUCH_USER
 
     try:
         uuid = UUID(uuid)
     except ValueError:
-        LOGGER.error('User ID is not a valid UUID.')
+        LOGGER.error('User ID is not a valid UUID: %s.', uuid)
         raise NO_USER_SPECIFIED
 
     passwd = request.form.get('passwd')
