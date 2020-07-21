@@ -27,10 +27,11 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
 
     def query_authorization_code(self, code, client):
         """Returns the authorization code."""
+        condition = AuthorizationCode.code == code
+        condition &= AuthorizationCode.client_id == client.client_id
+
         try:
-            return AuthorizationCode.get(
-                (AuthorizationCode.code == code)
-                & (AuthorizationCode.client_id == client.client_id))
+            return AuthorizationCode.get(condition)
         except AuthorizationCode.DoesNotExist:
             return None
 

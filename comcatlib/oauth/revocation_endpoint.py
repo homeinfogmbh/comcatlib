@@ -18,14 +18,14 @@ class TokenRevocationEndpoint(RevocationEndpoint):
         refresh_token = Token.refresh_token == token
 
         if token_type_hint == 'access_token':
-            select = match_client & access_token
+            condition = match_client & access_token
         elif token_type_hint == 'refresh_token':
-            select = match_client & refresh_token
+            condition = match_client & refresh_token
         else:   # without token_type_hint
-            select = match_client & (access_token | refresh_token)
+            condition = match_client & (access_token | refresh_token)
 
         try:
-            return Token.get(select)
+            return Token.get(condition)
         except Token.DoesNotExist:
             return None
 
