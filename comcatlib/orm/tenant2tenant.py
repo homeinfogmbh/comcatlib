@@ -4,8 +4,8 @@ from peewee import ForeignKeyField
 
 from tenant2tenant import TenantMessage
 
-from comcalib.orm.common import ComCatModel
-from comcalib.orm.user import User
+from comcatlib.orm.common import ComCatModel
+from comcatlib.orm.user import User
 
 
 __all__ = ['UserTenantMessage']
