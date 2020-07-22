@@ -1,5 +1,6 @@
 """ORM models based on MySQL Alchemy."""
 
+from datetime import datetime
 from random import choices
 from string import ascii_letters, digits
 from uuid import uuid4
@@ -43,6 +44,9 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
         if json.get('clientSecret', None) is not None:
             raise ValueError('Setting of client secret is not allowed.')
 
+        if json.get('client_id_issued_at', None) is not None:
+            raise ValueError('Setting of ID issued timestamp is not allowed.')
+
         redirect_uris = json.pop('redirectURIs', None) or ()
         grant_types = json.pop('grantTypes', None) or ()
         response_types = json.pop('responseTypes', None) or ()
@@ -51,29 +55,30 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
         jwks = json.pop('jwks', None) or ()
         client = cls.from_json(json, **kwargs)
         client.client_id = uuid4().hex
-        client.client_secret = choices(ascii_letters+digits, k=32)
-        models = Transaction()
-        models.add(client, primary=True)
+        client.client_id_issued_at = datetime.now().timestamp()
+        client.client_secret = secret = choices(ascii_letters+digits, k=32)
+        transaction = Transaction()
+        transaction.add(client, primary=True)
 
         for uri in redirect_uris:
-            models.add(RedirectURI(client=client, uri=uri))
+            transaction.add(RedirectURI(client=client, uri=uri))
 
         for typ in grant_types:
-            models.add(GrantType(client=client, type=typ))
+            transaction.add(GrantType(client=client, type=typ))
 
         for typ in response_types:
-            models.add(ResponseType(client=client, type=typ))
+            transaction.add(ResponseType(client=client, type=typ))
 
         for scope in scopes:
-            models.add(Scope(client=client, scope=scope))
+            transaction.add(Scope(client=client, scope=scope))
 
         for contact in contacts:
-            models.add(Contact(client=client, contact=contact))
+            transaction.add(Contact(client=client, contact=contact))
 
         for jwk in jwks:
-            models.add(JWKS(client=client, jwk=jwk))
+            transaction.add(JWKS(client=client, jwk=jwk))
 
-        return models
+        return (transaction, secret)
 
 
 RedirectURI, GrantType, ResponseType, Scope, Contact, JWKS = \

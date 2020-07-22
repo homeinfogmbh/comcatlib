@@ -1,6 +1,7 @@
 """Object relational mappings."""
 
 
+from comcatlib.orm.clientreg import ClientRegistrationToken
 from comcatlib.orm.common import DATABASE, ComCatModel
 from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.content import UserConfiguration
@@ -24,6 +25,7 @@ __all__ = [
     'get_user',
     'add_file',
     'BaseChartMenu',
+    'ClientRegistrationToken',
     'ComCatModel',
     'UserBaseChart',
     'UserConfiguration',
