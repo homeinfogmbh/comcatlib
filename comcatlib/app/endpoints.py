@@ -2,6 +2,7 @@
 
 from flask import request
 
+from comcatlib.app.clientreg import register_client
 from comcatlib.app.login import get_current_user, login
 from comcatlib.oauth import SERVER
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
@@ -57,6 +58,7 @@ def introspect_token():
 def init_oauth_endpoints(application):
     """Adds OAuth endpoints to the respective application."""
 
+    application.route('/client', methods=['POST'])(register_client)
     application.route('/login', methods=['GET', 'POST'])(login)
     application.route('/oauth/authorize', methods=['GET', 'POST'])(authorize)
     application.route('/oauth/token', methods=['POST'])(issue_token)
