@@ -14,7 +14,7 @@ __all__ = ['register_client']
 def register_client():
     """Registers a client."""
 
-    token = request.args.get('client_registration_token')
+    token = request.args.get('registration_token')
 
     if not token:
         return NO_TOKEN_SPECIFIED
