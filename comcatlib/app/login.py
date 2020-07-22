@@ -1,12 +1,12 @@
 """User login."""
 
 from logging import getLogger
-from urllib.parse import urlparse, ParseResult
 from uuid import UUID
 
 from flask import redirect, request, session
 
 from comcatlib.exceptions import InvalidCredentials, UserLocked
+from comcatlib.functions import change_path_to
 from comcatlib.messages import INVALID_CREDENTIALS
 from comcatlib.messages import MISSING_PASSWORD
 from comcatlib.messages import NO_SUCH_USER
@@ -76,15 +76,6 @@ def login_user():
         session['uid'] = user.id
 
     return user
-
-
-def change_path_to(path):
-    """Changes the path of the current URL."""
-
-    url = urlparse(request.url)
-    new_url = ParseResult(
-        url.scheme, url.netloc, path, url.params, url.query, url.fragment)
-    return new_url.geturl()
 
 
 def login():
