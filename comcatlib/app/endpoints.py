@@ -41,7 +41,9 @@ def authorize():
 def issue_token():
     """Issues a token."""
 
-    return SERVER.create_token_response()
+    response = SERVER.create_token_response()
+    print('RESPONSE:', response, flush=True)
+    return response
 
 
 def revoke_token():
