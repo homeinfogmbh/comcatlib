@@ -27,11 +27,15 @@ def save_token(token_data, request):
     """Stores the respective token."""
 
     if request.user:
+        print('User set.', flush=True)
         user_id = request.user.id
     else:
+        print('User NOT set.', flush=True)
         user_id = request.client.user_id
 
+    print('User ID:', user_id, flush=True)
     client_id = request.client.client_id
+    print('Client ID:', client_id, flush=True)
     token = Token(client_id=client_id, user_id=user_id, **token_data)
     token.save()
 
