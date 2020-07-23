@@ -21,6 +21,9 @@ def authorize():
 
     end_user = get_current_user()
 
+    if not end_user:
+        return login()
+
     if request.method == 'GET':
         grant = SERVER.validate_consent_request(end_user=end_user)
         return render_template('authorize.html', grant=grant, user=end_user)
@@ -59,7 +62,6 @@ def init_oauth_endpoints(application):
     """Adds OAuth endpoints to the respective application."""
 
     application.route('/client', methods=['POST'])(register_client)
-    application.route('/login', methods=['GET', 'POST'])(login)
     application.route('/oauth/authorize', methods=['GET', 'POST'])(authorize)
     application.route('/oauth/token', methods=['POST'])(issue_token)
     application.route('/oauth/revoke', methods=['POST'])(revoke_token)
