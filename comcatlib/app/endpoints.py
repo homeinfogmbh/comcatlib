@@ -42,7 +42,7 @@ def issue_token():
     """Issues a token."""
 
     response = SERVER.create_token_response()
-    print('RESPONSE:', response, flush=True)
+    print('RESPONSE:', response, response.data, flush=True)
     return response
 
 
