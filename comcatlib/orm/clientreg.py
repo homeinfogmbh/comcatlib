@@ -12,7 +12,7 @@ from comcatlib.orm.user import User
 __all__ = ['ClientRegistrationToken']
 
 
-VALIDITY = timedelta(months=1)
+VALIDITY = timedelta(weeks=4)
 
 
 class ClientRegistrationToken(ComCatModel):
