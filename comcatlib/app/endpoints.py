@@ -38,15 +38,6 @@ def authorize():
     return SERVER.create_authorization_response(grant_user=None)
 
 
-def issue_token():
-    """Issues a token."""
-
-    print('FORM:', request.form, flush=True)
-    response = SERVER.create_token_response()
-    print('RESPONSE:', response, response.data, flush=True)
-    return response
-
-
 def revoke_token():
     """Revokes a token."""
 
@@ -66,6 +57,7 @@ def init_oauth_endpoints(application):
 
     application.route('/client', methods=['POST'])(register_client)
     application.route('/oauth/authorize', methods=['GET', 'POST'])(authorize)
-    application.route('/oauth/token', methods=['POST'])(issue_token)
+    application.route('/oauth/token', methods=['POST'])(
+        SERVER.create_token_response)
     application.route('/oauth/revoke', methods=['POST'])(revoke_token)
     application.route('/oauth/introspect', methods=['POST'])(introspect_token)
