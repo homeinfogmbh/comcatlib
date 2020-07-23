@@ -41,6 +41,7 @@ def authorize():
 def issue_token():
     """Issues a token."""
 
+    print('FORM:', request.form, flush=True)
     response = SERVER.create_token_response()
     print('RESPONSE:', response, response.data, flush=True)
     return response
