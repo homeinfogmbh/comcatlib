@@ -19,8 +19,7 @@ from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 __all__ = [
     'REQUIRE_OAUTH',
     'SERVER',
-    'init_oauth',
-    'init_oauth_endpoints',
+    'init_app',
     'list_damage_reports',
     'submit_damage_reports',
     'decode_url',
@@ -38,3 +37,12 @@ __all__ = [
     'UserMenu',
     'Presentation'
 ]
+
+
+def init_app(app):
+    """Initializes a flask application with an OAuth 2.0
+    authorization server and the respective endpoints.
+    """
+
+    init_oauth(app)
+    init_oauth_endpoints(app)
