@@ -1,6 +1,6 @@
 """Damage report mappings."""
 
-from peewee import BooleanField, ForeignKeyField
+from peewee import ForeignKeyField
 
 from damage_report import DamageReport
 
@@ -12,7 +12,7 @@ from comcatlib.orm.user import User
 __all__ = ['UserDamageReport', 'DamageReportAttachment']
 
 
-class UserDamageReport(ComCatModel):
+class UserDamageReport(ComCatModel):    # pylint: disable=R0903
     """Maps a damage report to a ComCat account."""
 
     class Meta:     # pylint: disable=C0111,R0903
@@ -23,7 +23,7 @@ class UserDamageReport(ComCatModel):
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
 
 
-class DamageReportAttachment(ComCatModel):
+class DamageReportAttachment(ComCatModel):  # pylint: disable=R0903
     """Maps an attachment onto a user damage report."""
 
     class Meta:     # pylint: disable=C0111,R0903
