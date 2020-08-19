@@ -9,14 +9,7 @@
 <form class="w3-container" action="" method="post">
   <input class="w3-check" type="checkbox" name="confirm">
   <label>Berechtigung erteilen</label>
-  {% if not user %}
-  <p>You haven't logged in. Log in with:</p>
-  <div>
-    <input class="w3-input" type="text" name="uuid" placeholder="Your UUID">
-    <br></br>
-    <input class="w3-input" type="password" name="passwd" placeholder="Your password">
-  </div>
-  {% endif %}
+  <br>
   <br>
   <button class="w3-btn w3-green">Submit</button>
 </form>
