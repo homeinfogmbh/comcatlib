@@ -53,7 +53,7 @@ class UserBaseChart(UserContent):
         """Returns the respective chart."""
         return self.base_chart.chart
 
-    def to_json(self, *args, chart=True, **kwargs):
+    def to_json(self, *args, chart=False, **kwargs):
         """Returns a JSON-ish dict."""
         json = super().to_json(*args, **kwargs)
 
