@@ -16,7 +16,7 @@ from comcatlib.orm.user import get_user, User
 __all__ = ['UserBaseChart', 'UserConfiguration', 'UserMenu']
 
 
-class UserContent(ComCatModel):
+class UserContent(ComCatModel):     # pylint: disable=R0903
     """Common abstract content mapping."""
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
@@ -53,13 +53,14 @@ class UserBaseChart(UserContent):
         """Returns the respective chart."""
         return self.base_chart.chart
 
-    def to_json(self):
+    def to_json(self, *args, chart=True, **kwargs):
         """Returns a JSON-ish dict."""
-        return {
-            'id': self.id,
-            'chart': self.chart.to_json(mode=ChartMode.BRIEF),
-            'index': self.index
-        }
+        json = super().to_json(*args, **kwargs)
+
+        if chart:
+            json['chart'] = self.chart.to_json(mode=ChartMode.BRIEF)
+
+        return json
 
 
 class UserConfiguration(UserContent):
