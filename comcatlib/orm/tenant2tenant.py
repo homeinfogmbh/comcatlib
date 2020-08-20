@@ -19,10 +19,4 @@ class UserTenantMessage(ComCatModel):   # pylint: disable=R0903
 
     tenant_message = ForeignKeyField(
         TenantMessage, column_name='tenant_message', on_delete='CASCADE')
-    issuer = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
-
-    def to_json(self, *args, **kwargs):
-        """Returns a JSON-ish dict."""
-        json = self.tenant_message.to_json(*args, **kwargs)
-        json['issuer'] = self.issuer_id     # pylint: disable=E1101
-        return json
+    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
