@@ -25,7 +25,7 @@ def register_client():
     except ClientRegistrationToken.DoesNotExist:
         return INVALID_TOKEN
 
-    if token.valid:
+    if not token.valid:
         return INVALID_TOKEN
 
     token.used = True
