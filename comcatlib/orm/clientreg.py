@@ -26,10 +26,4 @@ class ClientRegistrationToken(ComCatModel):
     @property
     def valid(self):
         """Determines whether the token is valid."""
-        if self.used:
-            return False
-
-        if self.best_before < datetime.now():
-            return False
-
-        return True
+        return not self.used and self.best_before > datetime.now()
