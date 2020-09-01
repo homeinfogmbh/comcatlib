@@ -19,4 +19,4 @@ class UserTenantMessage(ComCatModel):   # pylint: disable=R0903
 
     tenant_message = ForeignKeyField(
         TenantMessage, column_name='tenant_message', on_delete='CASCADE')
-    issuer = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
+    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
