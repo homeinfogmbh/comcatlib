@@ -4,7 +4,10 @@ from flask import request
 
 from wsgilib import JSON
 
-from comcatlib.messages import INVALID_TOKEN, NO_TOKEN_SPECIFIED
+from comcatlib.app.login import get_current_user
+from comcatlib.messages import INVALID_TOKEN
+from comcatlib.messages import NO_TOKEN_SPECIFIED
+from comcatlib.messages import NO_USER_SPECIFIED
 from comcatlib.orm import Client, ClientRegistrationToken
 
 
@@ -13,6 +16,11 @@ __all__ = ['register_client']
 
 def register_client():
     """Registers a client."""
+
+    user = get_current_user()
+
+    if user is None:
+        return NO_USER_SPECIFIED
 
     token = request.args.get('registration_token')
 
@@ -30,7 +38,7 @@ def register_client():
 
     token.used = True
     token.save()
-    transaction, secret = Client.from_json(request.json)
+    transaction, secret = Client.from_json(request.json, user)
     transaction.save()
     json = transaction.primary.to_json()
     json['clientSecret'] = secret

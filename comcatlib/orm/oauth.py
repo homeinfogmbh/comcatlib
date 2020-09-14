@@ -36,8 +36,11 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
 
     @classmethod
-    def from_json(cls, json, **kwargs):
+    def from_json(cls, json, user, **kwargs):
         """Creates a new client from a JSON-ish dict."""
+        if json.pop('user', None) is not None:
+            raise ValueError('Setting of user is not allowed.')
+
         if json.pop('clientId', None) is not None:
             raise ValueError('Setting of client ID is not allowed.')
 
@@ -53,7 +56,8 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
         scopes = json.pop('scopes', None) or ()
         contacts = json.pop('contacts', None) or ()
         jwks = json.pop('jwks', None) or ()
-        client = cls.from_json(json, **kwargs)
+        client = super().from_json(json, **kwargs)
+        client.user = user
         client.client_id = uuid4().hex
         client.client_id_issued_at = datetime.now().timestamp()
         client.client_secret = secret = choices(ascii_letters+digits, k=32)
