@@ -38,18 +38,6 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
     @classmethod
     def from_json(cls, json, user, **kwargs):
         """Creates a new client from a JSON-ish dict."""
-        if json.pop('user', None) is not None:
-            raise ValueError('Setting of user is not allowed.')
-
-        if json.pop('clientId', None) is not None:
-            raise ValueError('Setting of client ID is not allowed.')
-
-        if json.pop('clientSecret', None) is not None:
-            raise ValueError('Setting of client secret is not allowed.')
-
-        if json.pop('client_id_issued_at', None) is not None:
-            raise ValueError('Setting of ID issued timestamp is not allowed.')
-
         redirect_uris = json.pop('redirectURIs', None) or ()
         grant_types = json.pop('grantTypes', None) or ()
         response_types = json.pop('responseTypes', None) or ()
