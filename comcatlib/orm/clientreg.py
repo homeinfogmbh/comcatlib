@@ -18,6 +18,9 @@ VALIDITY = timedelta(weeks=4)
 class ClientRegistrationToken(ComCatModel):
     """One-time tokens for client registrations."""
 
+    class Meta:     # pylint: disable=C0111,R0903
+        table_name = 'client_registration_token'
+
     token = CharField(32, default=lambda: uuid4().hex)
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     used = BooleanField(default=False)

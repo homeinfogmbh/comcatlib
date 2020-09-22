@@ -98,6 +98,9 @@ class Token(ComCatModel, OAuth2TokenMixin):     # pylint: disable=R0901
 class AuthorizationCode(ComCatModel, OAuth2AuthorizationCodeMixin):
     """An OAuth authorization code."""  # pylint: disable=R0901
 
+    class Meta:     # pylint: disable=C0111,R0903
+        table_name = 'authorization_code'
+
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
 
     def create_authorization_code(self, client, grant_user, request):
