@@ -78,12 +78,15 @@ def login_user():
     return user
 
 
-def login():
+def login(redirect_to_authorize=False):
     """Renders the home screen."""
 
     if request.method == 'POST':
         if login_user():
-            return redirect(change_path_to('/oauth/authorize'))
+            if redirect_to_authorize:
+                return redirect(change_path_to('/oauth/authorize'))
+
+            return ('OK', 200)
 
         return INVALID_CREDENTIALS
 
