@@ -23,6 +23,7 @@ def register_client():
         return NO_USER_SPECIFIED
 
     token = request.args.get('registration_token')
+    print('[DEBUG] TOKEN:', token, flush=True)
 
     if not token:
         return NO_TOKEN_SPECIFIED
