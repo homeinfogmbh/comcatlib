@@ -9,6 +9,7 @@ __all__ = [
     'InvalidSession',
     'InvalidSessionToken',
     'InvalidCredentials',
+    'NonceUsed',
     'NoSuchBaseChart',
     'QuotaExceeded'
 ]
@@ -40,6 +41,10 @@ class InvalidSessionToken(ComCatException):
 
 class InvalidCredentials(ComCatException):
     """Indicates that an invalid account name or password were provided."""
+
+
+class NonceUsed(ComCatException):
+    """Indicates that a nonce has already been used."""
 
 
 class NoSuchBaseChart(ComCatException):
