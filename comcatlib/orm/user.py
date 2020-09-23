@@ -40,12 +40,11 @@ class User(ComCatModel):
     admin = BooleanField(default=False)     # Admin across entire customer.
 
     @classmethod
-    def from_json(cls, json, customer, **kwargs):
+    def from_json(cls, json, tenement, **kwargs):
         """Creates the user from the respective JSON data."""
         tenement = json.pop('tenement')
         user = super().from_json(json, **kwargs)
-        user.customer = customer
-        user.tenement = get_tenement(tenement, customer)
+        user.tenement = tenement
 
         if user.unique:
             return user
