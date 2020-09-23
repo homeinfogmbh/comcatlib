@@ -9,6 +9,7 @@ from peewee import ForeignKeyField
 from his import CUSTOMER
 from mdb import Tenement
 
+from comcatlib.exceptions import DuplicateUser
 from comcatlib.functions import get_tenement
 from comcatlib.messages import NO_SUCH_USER
 from comcatlib.orm.common import ComCatModel
@@ -45,7 +46,11 @@ class User(ComCatModel):
         user = super().from_json(json, **kwargs)
         user.customer = customer
         user.tenement = get_tenement(tenement, customer)
-        return user
+
+        if user.unique:
+            return user
+
+        raise DuplicateUser()
 
     @property
     def expired(self):
@@ -56,6 +61,22 @@ class User(ComCatModel):
     def valid(self):
         """Determines whether the user may be used."""
         return not self.locked and not self.expired
+
+    @property
+    def duplicates(self):
+        """Returns the duplicates of this user."""
+        cls = type(self)
+        condition = cls.tenement == self.tenement
+
+        if self.id is not None:
+            condition &= cls.id != self.id
+
+        return cls.select().where(condition)
+
+    @property
+    def is_unique(self):
+        """Checks whether the user is unique for the tenement."""
+        return not self.duplicates
 
     def patch_json(self, json, **kwargs):
         """Patches the user with the respective JSON data."""

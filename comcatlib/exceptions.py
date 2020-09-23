@@ -3,6 +3,7 @@
 
 __all__ = [
     'ComCatException',
+    'DuplicateUser',
     'UserLocked',
     'DurationOutOfBounds',
     'InvalidSession',
@@ -15,6 +16,10 @@ __all__ = [
 
 class ComCatException(Exception):
     """Common ComCat exception."""
+
+
+class DuplicateUser(ComCatException):
+    """Indicates a duplicate user."""
 
 
 class UserLocked(ComCatException):
