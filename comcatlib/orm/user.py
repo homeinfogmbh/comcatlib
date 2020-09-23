@@ -70,7 +70,7 @@ class User(ComCatModel):
         """Returns JSON-ish dict."""
         dictionary = super().to_json(**kwargs)
 
-        if tenement and self.tenement is not None:
+        if tenement:
             dictionary['tenement'] = self.tenement.to_json(**kwargs)
 
         return dictionary
