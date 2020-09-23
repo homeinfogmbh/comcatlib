@@ -4,14 +4,15 @@
 __all__ = [
     'ComCatException',
     'DuplicateUser',
-    'UserLocked',
     'DurationOutOfBounds',
     'InvalidSession',
     'InvalidSessionToken',
     'InvalidCredentials',
     'NonceUsed',
     'NoSuchBaseChart',
-    'QuotaExceeded'
+    'QuotaExceeded',
+    'UserExpired',
+    'UserLocked'
 ]
 
 
@@ -21,10 +22,6 @@ class ComCatException(Exception):
 
 class DuplicateUser(ComCatException):
     """Indicates a duplicate user."""
-
-
-class UserLocked(ComCatException):
-    """Indicates that the respective user is locked."""
 
 
 class DurationOutOfBounds(ComCatException):
@@ -53,3 +50,11 @@ class NoSuchBaseChart(ComCatException):
 
 class QuotaExceeded(ComCatException):
     """Indicates that a user has exceeded their disk quota."""
+
+
+class UserExpired(ComCatException):
+    """Indicates that the user is expired."""
+
+
+class UserLocked(ComCatException):
+    """Indicates that the user is locked."""

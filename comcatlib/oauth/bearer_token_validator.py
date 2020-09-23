@@ -1,12 +1,11 @@
 """Validation of bearer tokens."""
 
-from authlib.integrations.flask_oauth2 import ResourceProtector
 from authlib.oauth2 import rfc6750
 
 from comcatlib.orm import Token
 
 
-__all__ = ['REQUIRE_OAUTH']
+__all__ = ['BearerTokenValidator']
 
 
 class BearerTokenValidator(rfc6750.BearerTokenValidator):
@@ -26,7 +25,3 @@ class BearerTokenValidator(rfc6750.BearerTokenValidator):
     def token_revoked(self, token):
         """Determines whether the token is revoked."""
         return token.revoked
-
-
-REQUIRE_OAUTH = ResourceProtector()
-REQUIRE_OAUTH.register_token_validator(BearerTokenValidator())
