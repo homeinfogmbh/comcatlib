@@ -6,7 +6,7 @@ from werkzeug.local import LocalProxy
 from comcatlib.exceptions import UserExpired, UserLocked
 
 
-__all__ = ['USER', 'TENEMENT', 'CUSTOMER', 'get_user']
+__all__ = ['ADDRESS', 'CUSTOMER', 'TENEMENT', 'USER', 'get_user']
 
 
 def get_user():
@@ -25,4 +25,5 @@ def get_user():
 
 USER = LocalProxy(get_user)
 TENEMENT = LocalProxy(lambda: USER.tenement)
+ADDRESS = LocalProxy(lambda: TENEMENT.address)
 CUSTOMER = LocalProxy(lambda: TENEMENT.customer)
