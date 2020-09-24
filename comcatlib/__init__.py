@@ -1,9 +1,10 @@
 """Comcat backend."""
 
 from comcatlib.app import init_oauth_endpoints
-from comcatlib.authentication import oauth
+from comcatlib.authentication import USER, get_user
 from comcatlib.damage_report import list_ as list_damage_reports
 from comcatlib.damage_report import submit as submit_damage_reports
+from comcatlib.exceptions import UserExpired, UserLocked
 from comcatlib.oauth import SERVER, init_oauth
 from comcatlib.orm import BaseChartMenu
 from comcatlib.orm import File, Quota
@@ -19,6 +20,10 @@ from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
 __all__ = [
     'SERVER',
+    'USER',
+    'UserExpired',
+    'UserLocked',
+    'get_user',
     'init_app',
     'list_damage_reports',
     'oauth',

@@ -1,25 +1,26 @@
 """Authentication checks."""
 
-from authlib.integrations.flask_oauth2 import current_token, ResourceProtector
+from authlib.integrations.flask_oauth2 import current_token
+from werkzeug.local import LocalProxy
 
 from comcatlib.exceptions import UserExpired, UserLocked
-from comcatlib.oauth import BearerTokenValidator
 
 
-__all__ = ['oauth']
+__all__ = ['USER', 'get_user']
 
 
-RESOURCE_PROTECTOR = ResourceProtector()
-RESOURCE_PROTECTOR.register_token_validator(BearerTokenValidator())
-
-
-def oauth(*args, **kwargs):
+def get_user():
     """Performs authentication checks."""
 
-    RESOURCE_PROTECTOR(*args, **kwargs)
+    user = current_token.user
 
-    if current_token.user.expired:
+    if user.expired:
         raise UserExpired()
 
-    if current_token.user.locked:
+    if user.locked:
         raise UserLocked()
+
+    return user
+
+
+USER = LocalProxy(get_user)
