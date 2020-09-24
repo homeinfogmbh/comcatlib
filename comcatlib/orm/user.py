@@ -52,6 +52,11 @@ class User(ComCatModel):
         raise DuplicateUser()
 
     @property
+    def customer(self):
+        """Delegates to the tenement's customer."""
+        return self.tenement.customer
+
+    @property
     def expired(self):
         """Determines whether the user is expired."""
         return self.expires is not None and self.expires <= datetime.now()
