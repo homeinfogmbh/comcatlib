@@ -1,11 +1,11 @@
 """Comcat backend."""
 
 from comcatlib.app import init_oauth_endpoints
-from comcatlib.authentication import ADDRESS
-from comcatlib.authentication import CUSTOMER
-from comcatlib.authentication import TENEMENT
-from comcatlib.authentication import USER
-from comcatlib.authentication import get_user
+from comcatlib.localproxies import ADDRESS
+from comcatlib.localproxies import CUSTOMER
+from comcatlib.localproxies import TENEMENT
+from comcatlib.localproxies import USER
+from comcatlib.localproxies import get_user
 from comcatlib.damage_report import list_ as list_damage_reports
 from comcatlib.damage_report import submit as submit_damage_reports
 from comcatlib.exceptions import UserExpired, UserLocked
