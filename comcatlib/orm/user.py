@@ -27,7 +27,7 @@ def get_user(ident):
     try:
         return User.select().join(Tenement).where(condition).get()
     except User.DoesNotExist:
-        raise NO_SUCH_USER
+        raise NO_SUCH_USER from None
 
 
 class User(ComCatModel):
