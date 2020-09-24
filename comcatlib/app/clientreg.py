@@ -10,7 +10,7 @@ from comcatlib.exceptions import NonceUsed
 from comcatlib.messages import INVALID_UUID
 from comcatlib.messages import INVALID_NONCE
 from comcatlib.messages import MISSING_NONCE
-from comcatlib.orm import Client, InitializationNonce
+from comcatlib.orm import AuthorizationNonce, Client, InitializationNonce
 
 
 __all__ = ['register_client']
@@ -34,8 +34,9 @@ def register_client():
     except NonceUsed:
         return INVALID_NONCE
 
-    transaction, secret = Client.add(request.json, user)
+    transaction, secret = Client.add(user)
     transaction.save()
     json = transaction.primary.to_json()
     json['clientSecret'] = secret
+    json['authorizationNonce'] = AuthorizationNonce.add(user)
     return JSON(json)
