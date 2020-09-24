@@ -1,14 +1,16 @@
 """Client registration."""
 
+from uuid import UUID
+
 from flask import request
 
 from wsgilib import JSON
 
-from comcatlib.app.login import get_current_user
-from comcatlib.messages import INVALID_TOKEN
-from comcatlib.messages import NO_TOKEN_SPECIFIED
-from comcatlib.messages import NO_USER_SPECIFIED
-from comcatlib.orm import Client, ClientRegistrationToken
+from comcatlib.exceptions import NonceUsed
+from comcatlib.messages import INVALID_UUID
+from comcatlib.messages import INVALID_NONCE
+from comcatlib.messages import MISSING_NONCE
+from comcatlib.orm import Client, InitializationNonce
 
 
 __all__ = ['register_client']
@@ -17,28 +19,21 @@ __all__ = ['register_client']
 def register_client():
     """Registers a client."""
 
-    user = get_current_user()
+    nonce = request.json.pop('nonce', None)
 
-    if user is None:
-        return NO_USER_SPECIFIED
-
-    token = request.args.get('registration_token')
-    print('[DEBUG] TOKEN:', token, flush=True)
-
-    if not token:
-        return NO_TOKEN_SPECIFIED
+    if nonce is None:
+        return MISSING_NONCE
 
     try:
-        token = ClientRegistrationToken.get(
-            ClientRegistrationToken.token == token)
-    except ClientRegistrationToken.DoesNotExist:
-        return INVALID_TOKEN
+        uuid = UUID(nonce)
+    except ValueError:
+        return INVALID_UUID
 
-    if not token.valid:
-        return INVALID_TOKEN
+    try:
+        user = InitializationNonce.use(uuid)
+    except NonceUsed:
+        return INVALID_NONCE
 
-    token.used = True
-    token.save()
     transaction, secret = Client.from_json(request.json, user)
     transaction.save()
     json = transaction.primary.to_json()

@@ -1,6 +1,7 @@
 """ORM models based on MySQL Alchemy."""
 
 from datetime import datetime
+from enum import Enum
 from random import choices
 from string import ascii_letters, digits
 from uuid import uuid4
@@ -30,10 +31,57 @@ __all__ = [
 ]
 
 
+class Defaults(Enum):
+    """Client defaults."""
+
+    REDIRECT_URIS = [
+        'https://comcat.homeinfo.de/oauth/authorize',
+        'https://comcat.homeinfo.de/oauth/token',
+        'de.homeinfo.comcat://auth',
+        'de.homeinfo.comcat://token'
+    ]
+    GRANT_TYPES = ['authorization_code', 'refresh_token']
+    RESPONSE_TYPES = ['code', 'token']
+    SCOPES = ['comcat']
+    CONTACTS = []
+    JWKS = []
+
+
 class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
     """An OAuth client."""
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
+
+    @classmethod
+    def add(cls, user):
+        """Adds a new client for the given user."""
+        client = cls(user=user)
+        client.client_id = uuid4().hex
+        client.client_id_issued_at = datetime.now().timestamp()
+        client.client_secret = secret = choices(ascii_letters+digits, k=32)
+        transaction = Transaction()
+        transaction.add(client, primary=True)
+
+        for uri in Defaults.REDIRECT_URIS:
+            transaction.add(RedirectURI(client=client, uri=uri))
+
+        for typ in Defaults.GRANT_TYPES:
+            transaction.add(GrantType(client=client, type=typ))
+
+        for typ in Defaults.RESPONSE_TYPES:
+            transaction.add(ResponseType(client=client, type=typ))
+
+        for scope in Defaults.SCOPES:
+            transaction.add(Scope(client=client, scope=scope))
+
+        for contact in Defaults.CONTACTS:
+            transaction.add(Contact(client=client, contact=contact))
+
+        for jwk in Defaults.JWKS:
+            transaction.add(JWKS(client=client, jwk=jwk))
+
+        return (transaction, secret)
+
 
     @classmethod
     def from_json(cls, json, user, **kwargs):

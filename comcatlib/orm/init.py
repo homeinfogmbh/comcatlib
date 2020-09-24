@@ -12,19 +12,19 @@ from comcatlib.orm.user import User
 __all__ = ['InitializationNonce']
 
 
-class InitializationNonce(ComCatModel):
+class InitializationNonce(ComCatModel):     # pylint: disable=R0903
     """Nonces to initialize clients for users."""
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
-    nonce = UUIDField(default=uuid4)
+    uuid = UUIDField(default=uuid4)
 
     @classmethod
-    def use(cls, nonce):
+    def use(cls, uuid):
         """Uses a nonce and returns its user."""
         try:
-            nonce = cls.get(cls.nonce == nonce)
+            nonce = cls.get(cls.uuid == uuid)
         except cls.DoesNotExist:
-            raise NonceUsed()
+            raise NonceUsed() from None
 
         nonce.delete_instance()
         return nonce.user

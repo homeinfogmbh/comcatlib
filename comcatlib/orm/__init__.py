@@ -8,6 +8,7 @@ from comcatlib.orm.content import UserMenu
 from comcatlib.orm.damage_report import UserDamageReport
 from comcatlib.orm.files import Quota, UserFile
 from comcatlib.orm.group import GroupMemberUser
+from comcatlib.orm.init import InitializationNonce
 from comcatlib.orm.menu import BaseChartMenu
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.oauth import Client
@@ -23,6 +24,7 @@ __all__ = [
     'get_user',
     'BaseChartMenu',
     'ComCatModel',
+    'InitializationNonce',
     'UserBaseChart',
     'UserConfiguration',
     'UserMenu',
