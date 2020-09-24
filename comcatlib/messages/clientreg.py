@@ -3,7 +3,9 @@
 from wsgilib import JSONMessage
 
 
-__all__ = ['INVALID_TOKEN', 'NO_TOKEN_SPECIFIED']
+__all__ = ['INVALID_UUID', 'INVALID_NONCE', 'MISSING_NONCE']
 
-INVALID_TOKEN = JSONMessage('Invalid token.', status=400)
-NO_TOKEN_SPECIFIED = JSONMessage('No token specified.', status=400)
+
+INVALID_UUID = JSONMessage('Invalid UUID.', status=400)
+INVALID_NONCE = JSONMessage('Invalid nonde.', status=400)
+MISSING_NONCE = JSONMessage('Missing nonce.', status=400)

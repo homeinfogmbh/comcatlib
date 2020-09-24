@@ -82,7 +82,6 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
 
         return (transaction, secret)
 
-
     @classmethod
     def from_json(cls, json, user, **kwargs):
         """Creates a new client from a JSON-ish dict."""
