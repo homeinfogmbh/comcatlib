@@ -34,7 +34,7 @@ def register_client():
     except NonceUsed:
         return INVALID_NONCE
 
-    transaction, secret = Client.from_json(request.json, user)
+    transaction, secret = Client.add(request.json, user)
     transaction.save()
     json = transaction.primary.to_json()
     json['clientSecret'] = secret
