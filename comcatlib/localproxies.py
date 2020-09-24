@@ -1,4 +1,4 @@
-"""Authentication checks."""
+"""Local proxies for authentication checks."""
 
 from authlib.integrations.flask_oauth2 import current_token
 from werkzeug.local import LocalProxy

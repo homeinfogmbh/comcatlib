@@ -2,10 +2,10 @@
 
 from flask import request
 
-from comcatlib.authentication import CUSTOMER, USER
 from comcatlib.exceptions import QuotaExceeded
-from comcatlib.orm.files import UserFile, Quota
+from comcatlib.localproxies import CUSTOMER, USER
 from comcatlib.messages.files import QUOTA_EXCEEDED
+from comcatlib.orm.files import UserFile, Quota
 
 
 __all__ = ['add_file']
