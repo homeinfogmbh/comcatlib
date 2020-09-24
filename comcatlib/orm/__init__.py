@@ -12,6 +12,12 @@ from comcatlib.orm.init import AuthorizationNonce, InitializationNonce
 from comcatlib.orm.menu import BaseChartMenu
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.oauth import Client
+from comcatlib.orm.oauth import Contact
+from comcatlib.orm.oauth import GrantType
+from comcatlib.orm.oauth import JWKS
+from comcatlib.orm.oauth import RedirectURI
+from comcatlib.orm.oauth import ResponseType
+from comcatlib.orm.oauth import Scope
 from comcatlib.orm.oauth import Token
 from comcatlib.orm.tenant2tenant import UserTenantMessage
 from comcatlib.orm.user import get_user, User
@@ -43,21 +49,27 @@ __all__ = [
 
 # Order matters here.
 MODELS = (
-    BaseChartMenu,
     User,
     Client,
+    Contact,
+    GrantType,
+    GroupMemberUser,
+    JWKS,
+    RedirectURI,
+    ResponseType,
+    Scope,
     Token,
     AuthorizationCode,
     AuthorizationNonce,
+    BaseChartMenu,
     InitializationNonce,
     UserBaseChart,
     UserConfiguration,
-    UserMenu,
     UserDamageReport,
-    UserTenantMessage,
-    GroupMemberUser,
     UserFile,
-    Quota
+    Quota,
+    UserMenu,
+    UserTenantMessage
 )
 
 
