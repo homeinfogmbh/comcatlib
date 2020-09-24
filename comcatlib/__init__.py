@@ -5,14 +5,15 @@ from comcatlib.authentication import USER, get_user
 from comcatlib.damage_report import list_ as list_damage_reports
 from comcatlib.damage_report import submit as submit_damage_reports
 from comcatlib.exceptions import UserExpired, UserLocked
+from comcatlib.files import add_file
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.orm import BaseChartMenu
-from comcatlib.orm import File, Quota
+from comcatlib.orm import Quota, UserFile
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import User
 from comcatlib.orm import UserBaseChart
 from comcatlib.orm import UserConfiguration
-from comcatlib.orm import UserDamageReport, DamageReportAttachment
+from comcatlib.orm import UserDamageReport
 from comcatlib.orm import UserMenu
 from comcatlib.presentation import Presentation
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
@@ -24,6 +25,7 @@ __all__ = [
     'USER',
     'UserExpired',
     'UserLocked',
+    'add_file',
     'get_user',
     'init_app',
     'list_damage_reports',
@@ -33,14 +35,13 @@ __all__ = [
     'encode_url',
     'proxy_url',
     'BaseChartMenu',
-    'File',
     'Quota',
+    'UserFile',
     'GroupMemberUser',
     'User',
     'UserBaseChart',
     'UserConfiguration',
     'UserDamageReport',
-    'DamageReportAttachment',
     'UserMenu',
     'Presentation'
 ]

@@ -1,7 +1,5 @@
 """HISFS-like file associations and quotas."""
 
-from authlib.integrations.flask_oauth2 import current_token
-from flask import request
 from peewee import BigIntegerField, CharField, ForeignKeyField
 
 from filedb import File as FileDBFile
@@ -9,35 +7,21 @@ from hisfs import get_sparse_file
 from mdb import Customer
 
 from comcatlib.exceptions import QuotaExceeded
-from comcatlib.messages import QUOTA_EXCEEDED
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['add_file', 'File', 'Quota']
+__all__ = ['UserFile', 'Quota']
 
 
 DEFAULT_QUOTA = 10 * (1024 ** 2)    # 10 MiB.
 
 
-def add_file(bytes_):
-    """Adds a file."""
-
-    quota = Quota.for_customer(current_token.user.customer_id)
-
-    try:
-        quota.alloc(len(bytes_))
-    except QuotaExceeded:
-        raise QUOTA_EXCEEDED
-
-    name = request.args.get('filename', '')
-    file = File.add(name, current_token.user, bytes_)
-    file.save()
-    return file
-
-
-class File(ComCatModel):
+class UserFile(ComCatModel):
     """A user's file."""
+
+    class Meta:     # pylint: disable=C0115,R0903
+        table_name = 'user_file'
 
     name = CharField(255, null=True)
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
@@ -110,7 +94,8 @@ class Quota(ComCatModel):
     @property
     def files(self):
         """Yields file records of the respective customer."""
-        return File.select().join(User).where(User.customer == self.customer)
+        condition = User.customer == self.customer
+        return UserFile.select().join(User).where(condition)
 
     @property
     def used(self):
