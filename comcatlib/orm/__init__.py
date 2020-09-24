@@ -28,28 +28,38 @@ __all__ = [
     'MODELS',
     'create_tables',
     'get_user',
+    'User',
+    # OAuth
+    'Client',
+    'Contact',
+    'GrantType',
+    'GroupMemberUser',
+    'JWKS',
+    'RedirectURI',
+    'ResponseType',
+    'Scope',
+    'Token',
+    'AuthorizationCode',
+    # Nonces
     'AuthorizationNonce',
-    'BaseChartMenu',
-    'ComCatModel',
     'InitializationNonce',
+    # User-related stuff.
     'UserBaseChart',
     'UserConfiguration',
-    'UserMenu',
     'UserDamageReport',
-    'Quota',
     'UserFile',
-    'GroupMemberUser',
-    'AuthorizationCode',
-    'Client',
-    'Token',
+    'UserMenu',
     'UserTenantMessage',
-    'User'
+    # Misc
+    'BaseChartMenu',
+    'Quota'
 ]
 
 
 # Order matters here.
 MODELS = (
     User,
+    # OAuth
     Client,
     Contact,
     GrantType,
@@ -60,16 +70,19 @@ MODELS = (
     Scope,
     Token,
     AuthorizationCode,
+    # Nonces
     AuthorizationNonce,
-    BaseChartMenu,
     InitializationNonce,
+    # User-related stuff.
     UserBaseChart,
     UserConfiguration,
     UserDamageReport,
     UserFile,
-    Quota,
     UserMenu,
-    UserTenantMessage
+    UserTenantMessage,
+    # Misc
+    BaseChartMenu,
+    Quota
 )
 
 
