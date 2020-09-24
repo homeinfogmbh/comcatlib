@@ -17,13 +17,9 @@ from comcatlib.messages.damage_report import DAMAGE_REPORT_SUBMITTED
 from comcatlib.messages.damage_report import NO_SUCH_DAMAGE_REPORT
 from comcatlib.messages.files import NO_SUCH_FILE
 from comcatlib.messages.files import QUOTA_EXCEEDED
-from comcatlib.messages.login import INVALID_CREDENTIALS
-from comcatlib.messages.login import MISSING_PASSWORD
 from comcatlib.messages.news import NEWS_NOT_ENABLED
 from comcatlib.messages.news import NO_SUCH_ARTICLE
 from comcatlib.messages.news import NO_SUCH_ARTICLE_IMAGE
-from comcatlib.messages.session import NOT_LOGGED_IN
-from comcatlib.messages.session import SESSION_EXPIRED
 from comcatlib.messages.tenement import INVALID_TENEMENT
 from comcatlib.messages.tenement import NO_SUCH_TENEMENT
 from comcatlib.messages.tenement import TENEMENT_ADDED
@@ -56,13 +52,9 @@ __all__ = [
     'NO_SUCH_DAMAGE_REPORT',
     'NO_SUCH_FILE',
     'QUOTA_EXCEEDED',
-    'INVALID_CREDENTIALS',
-    'MISSING_PASSWORD',
     'NEWS_NOT_ENABLED',
     'NO_SUCH_ARTICLE',
     'NO_SUCH_ARTICLE_IMAGE',
-    'NOT_LOGGED_IN',
-    'SESSION_EXPIRED',
     'INVALID_TENEMENT',
     'NO_SUCH_TENEMENT',
     'TENEMENT_ADDED',
