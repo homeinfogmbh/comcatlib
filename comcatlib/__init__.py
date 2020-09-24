@@ -1,7 +1,7 @@
 """Comcat backend."""
 
 from comcatlib.app import init_oauth_endpoints
-from comcatlib.authentication import USER, get_user
+from comcatlib.authentication import USER, TENEMENT, CUSTOMER, get_user
 from comcatlib.damage_report import list_ as list_damage_reports
 from comcatlib.damage_report import submit as submit_damage_reports
 from comcatlib.exceptions import UserExpired, UserLocked
@@ -23,6 +23,8 @@ __all__ = [
     'REQUIRE_OAUTH',
     'SERVER',
     'USER',
+    'TENEMENT',
+    'CUSTOMER',
     'UserExpired',
     'UserLocked',
     'add_file',
