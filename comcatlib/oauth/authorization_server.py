@@ -7,7 +7,6 @@ from comcatlib.oauth.authorization_code_grant import AuthorizationCodeGrant
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.refresh_token_grant import RefreshTokenGrant
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
-from comcatlib.openid import OpenIDCode
 from comcatlib.orm.oauth import Client, Token
 
 
@@ -42,9 +41,8 @@ SERVER = AuthorizationServer(query_client=query_client, save_token=save_token)
 def init_oauth(application):
     """Initializes OAuth 2.0 for the given application."""
 
-    openid = OpenIDCode(require_nonce=True)
     SERVER.init_app(application)
-    SERVER.register_grant(AuthorizationCodeGrant, [openid])
+    SERVER.register_grant(AuthorizationCodeGrant)
     SERVER.register_grant(RefreshTokenGrant)
     SERVER.register_grant(ImplicitGrant)
     SERVER.register_endpoint(TokenRevocationEndpoint)
