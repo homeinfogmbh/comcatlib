@@ -6,8 +6,6 @@ from comcatlib.localproxies import CUSTOMER
 from comcatlib.localproxies import TENEMENT
 from comcatlib.localproxies import USER
 from comcatlib.localproxies import get_user
-from comcatlib.damage_report import list_ as list_damage_reports
-from comcatlib.damage_report import submit as submit_damage_reports
 from comcatlib.exceptions import UserExpired, UserLocked
 from comcatlib.files import add_file
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
@@ -35,9 +33,7 @@ __all__ = [
     'add_file',
     'get_user',
     'init_app',
-    'list_damage_reports',
     'oauth',
-    'submit_damage_reports',
     'decode_url',
     'encode_url',
     'proxy_url',
