@@ -5,7 +5,7 @@ from comcatlib.authentication import USER, get_user
 from comcatlib.damage_report import list_ as list_damage_reports
 from comcatlib.damage_report import submit as submit_damage_reports
 from comcatlib.exceptions import UserExpired, UserLocked
-from comcatlib.oauth import SERVER, init_oauth
+from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.orm import BaseChartMenu
 from comcatlib.orm import File, Quota
 from comcatlib.orm import GroupMemberUser
@@ -19,6 +19,7 @@ from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
 
 __all__ = [
+    'REQUIRE_OAUTH',
     'SERVER',
     'USER',
     'UserExpired',
