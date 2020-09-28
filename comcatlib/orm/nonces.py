@@ -38,7 +38,7 @@ class NonceMixin:
         return nonce.user
 
 
-class InitializationNonce(ComCatModel, NonceMixin):
+class InitializationNonce(NonceMixin, ComCatModel):
     """Nonces to initialize clients for users."""
 
     class Meta:     # pylint: disable=C0115,R0903
@@ -50,7 +50,7 @@ class InitializationNonce(ComCatModel, NonceMixin):
         return f'de.homeinfo.comcat://register/{self.uuid.hex}'
 
 
-class AuthorizationNonce(ComCatModel, NonceMixin):
+class AuthorizationNonce(NonceMixin, ComCatModel):
     """Nonces to authorize clients for users."""
 
     class Meta:     # pylint: disable=C0115,R0903
