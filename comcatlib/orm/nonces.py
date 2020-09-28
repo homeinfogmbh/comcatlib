@@ -12,7 +12,7 @@ from comcatlib.orm.user import User
 __all__ = ['AuthorizationNonce', 'InitializationNonce']
 
 
-class NonceMixin:
+class _Nonce(ComCatModel):
     """Basic Nonce."""
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
@@ -38,7 +38,7 @@ class NonceMixin:
         return nonce.user
 
 
-class InitializationNonce(NonceMixin, ComCatModel):
+class InitializationNonce(_Nonce):
     """Nonces to initialize clients for users."""
 
     class Meta:     # pylint: disable=C0115,R0903
@@ -50,7 +50,7 @@ class InitializationNonce(NonceMixin, ComCatModel):
         return f'de.homeinfo.comcat://register/{self.uuid.hex}'
 
 
-class AuthorizationNonce(NonceMixin, ComCatModel):
+class AuthorizationNonce(_Nonce):
     """Nonces to authorize clients for users."""
 
     class Meta:     # pylint: disable=C0115,R0903
