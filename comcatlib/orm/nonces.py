@@ -40,6 +40,11 @@ class InitializationNonce(ComCatModel):     # pylint: disable=R0903
         #nonce.delete_instance()
         return nonce.user
 
+    @property
+    def url(self):
+        """Returns the URL."""
+        return f'de.homeinfo.comcat://register/{self.uuid.hex}'
+
 
 class AuthorizationNonce(InitializationNonce):
     """Nonces to authorize clients for users."""
