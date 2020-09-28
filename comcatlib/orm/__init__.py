@@ -8,7 +8,7 @@ from comcatlib.orm.content import UserMenu
 from comcatlib.orm.damage_report import UserDamageReport
 from comcatlib.orm.files import Quota, UserFile
 from comcatlib.orm.group import GroupMemberUser
-from comcatlib.orm.init import AuthorizationNonce, InitializationNonce
+from comcatlib.orm.nonces import AuthorizationNonce, InitializationNonce
 from comcatlib.orm.menu import BaseChartMenu
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.oauth import Client
