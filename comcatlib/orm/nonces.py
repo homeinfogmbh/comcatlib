@@ -1,4 +1,4 @@
-"""Client initialization."""
+"""Nonces for client initialization."""
 
 from uuid import uuid4
 
@@ -36,7 +36,8 @@ class InitializationNonce(ComCatModel):     # pylint: disable=R0903
         except cls.DoesNotExist:
             raise NonceUsed() from None
 
-        nonce.delete_instance()
+        # XXX: Allow repeated usage for testing only.
+        #nonce.delete_instance()
         return nonce.user
 
 
