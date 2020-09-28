@@ -12,11 +12,8 @@ from comcatlib.orm.user import User
 __all__ = ['AuthorizationNonce', 'InitializationNonce']
 
 
-class InitializationNonce(ComCatModel):     # pylint: disable=R0903
-    """Nonces to initialize clients for users."""
-
-    class Meta:     # pylint: disable=C0115,R0903
-        table_name = 'initialization_nonce'
+class _Nonce(ComCatModel):
+    """Basic Nonce."""
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     uuid = UUIDField(default=uuid4)
@@ -40,13 +37,20 @@ class InitializationNonce(ComCatModel):     # pylint: disable=R0903
         #nonce.delete_instance()
         return nonce.user
 
+
+class InitializationNonce(_Nonce):
+    """Nonces to initialize clients for users."""
+
+    class Meta:     # pylint: disable=C0115,R0903
+        table_name = 'initialization_nonce'
+
     @property
     def url(self):
         """Returns the URL."""
         return f'de.homeinfo.comcat://register/{self.uuid.hex}'
 
 
-class AuthorizationNonce(InitializationNonce):
+class AuthorizationNonce(_Nonce):
     """Nonces to authorize clients for users."""
 
     class Meta:     # pylint: disable=C0115,R0903
