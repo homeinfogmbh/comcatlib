@@ -61,22 +61,22 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
         transaction = Transaction()
         transaction.add(client, primary=True)
 
-        for uri in Defaults.REDIRECT_URIS:
+        for uri in Defaults.REDIRECT_URIS.value:
             transaction.add(RedirectURI(client=client, uri=uri))
 
-        for typ in Defaults.GRANT_TYPES:
+        for typ in Defaults.GRANT_TYPES.value:
             transaction.add(GrantType(client=client, type=typ))
 
-        for typ in Defaults.RESPONSE_TYPES:
+        for typ in Defaults.RESPONSE_TYPES.value:
             transaction.add(ResponseType(client=client, type=typ))
 
-        for scope in Defaults.SCOPES:
+        for scope in Defaults.SCOPES.value:
             transaction.add(Scope(client=client, scope=scope))
 
-        for contact in Defaults.CONTACTS:
+        for contact in Defaults.CONTACTS.value:
             transaction.add(Contact(client=client, contact=contact))
 
-        for jwk in Defaults.JWKS:
+        for jwk in Defaults.JWKS.value:
             transaction.add(JWKS(client=client, jwk=jwk))
 
         return (transaction, secret)
