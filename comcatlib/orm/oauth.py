@@ -2,8 +2,6 @@
 
 from datetime import datetime
 from enum import Enum
-from random import choices
-from string import ascii_letters, digits
 from uuid import uuid4
 
 from peewee import ForeignKeyField
@@ -15,6 +13,7 @@ from peeweeplus.authlib import OAuth2TokenMixin
 from peeweeplus.authlib import OAuth2AuthorizationCodeMixin
 
 from comcatlib.orm.common import ComCatModel
+from comcatlib.functions import genpw
 from comcatlib.orm.user import User
 
 
@@ -58,7 +57,7 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
         client = cls(user=user)
         client.client_id = uuid4().hex
         client.client_id_issued_at = datetime.now().timestamp()
-        client.client_secret = secret = choices(ascii_letters+digits, k=32)
+        client.client_secret = secret = genpw()
         transaction = Transaction()
         transaction.add(client, primary=True)
 
@@ -95,7 +94,7 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
         client.user = user
         client.client_id = uuid4().hex
         client.client_id_issued_at = datetime.now().timestamp()
-        client.client_secret = secret = choices(ascii_letters+digits, k=32)
+        client.client_secret = secret = genpw()
         transaction = Transaction()
         transaction.add(client, primary=True)
 

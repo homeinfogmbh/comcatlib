@@ -1,5 +1,7 @@
 """Common functions."""
 
+from random import choices
+from string import ascii_letters, digits
 from urllib.parse import urlparse, ParseResult
 
 from flask import request
@@ -17,6 +19,12 @@ def change_path_to(path):
     new_url = ParseResult(
         url.scheme, url.netloc, path, url.params, url.query, url.fragment)
     return new_url.geturl()
+
+
+def genpw(*, pool=ascii_letters+digits, length=32):
+    """Generates a random password."""
+
+    return ''.join(choices(pool, k=length))
 
 
 def get_tenement(ident, customer):
