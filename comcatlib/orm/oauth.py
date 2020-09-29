@@ -81,43 +81,6 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
 
         return (transaction, secret)
 
-    @classmethod
-    def from_json(cls, json, user, **kwargs):
-        """Creates a new client from a JSON-ish dict."""
-        redirect_uris = json.pop('redirectURIs', None) or ()
-        grant_types = json.pop('grantTypes', None) or ()
-        response_types = json.pop('responseTypes', None) or ()
-        scopes = json.pop('scopes', None) or ()
-        contacts = json.pop('contacts', None) or ()
-        jwks = json.pop('jwks', None) or ()
-        client = super().from_json(json, **kwargs)
-        client.user = user
-        client.client_id = uuid4().hex
-        client.client_id_issued_at = datetime.now().timestamp()
-        client.client_secret = secret = genpw()
-        transaction = Transaction()
-        transaction.add(client, primary=True)
-
-        for uri in redirect_uris:
-            transaction.add(RedirectURI(client=client, uri=uri))
-
-        for typ in grant_types:
-            transaction.add(GrantType(client=client, type=typ))
-
-        for typ in response_types:
-            transaction.add(ResponseType(client=client, type=typ))
-
-        for scope in scopes:
-            transaction.add(Scope(client=client, scope=scope))
-
-        for contact in contacts:
-            transaction.add(Contact(client=client, contact=contact))
-
-        for jwk in jwks:
-            transaction.add(JWKS(client=client, jwk=jwk))
-
-        return (transaction, secret)
-
 
 RedirectURI, GrantType, ResponseType, Scope, Contact, JWKS = \
     Client.get_related_models(ComCatModel)
