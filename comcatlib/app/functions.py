@@ -74,7 +74,7 @@ def register_client():
         return INVALID_NONCE
 
     transaction, secret = Client.add(user)
-    transaction.save()
+    transaction.commit()
     json = transaction.primary.to_json()
     json['clientSecret'] = secret
     json['authorizationNonce'] = AuthorizationNonce.add(user)
