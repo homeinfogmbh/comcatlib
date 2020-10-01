@@ -30,7 +30,6 @@ def authorize_client():
     form on this authorization page.
     """
 
-    print('FORM:', request.form, flush=True)
     nonce = request.form.get('nonce')
 
     if nonce is None:
