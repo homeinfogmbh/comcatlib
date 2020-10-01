@@ -30,7 +30,7 @@ def authorize_client():
     form on this authorization page.
     """
 
-    nonce = request.json.pop('nonce', None)
+    nonce = request.form.pop('nonce', None)
 
     if nonce is None:
         return MISSING_NONCE
