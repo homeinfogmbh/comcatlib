@@ -16,7 +16,7 @@ def init_oauth_endpoints(application):
 
     application.route('/client', methods=['POST'])(register_client)
     application.route('/authorize', methods=['POST'])(authorize_client)
-    application.route('/initnonce', methods=['POST'])(
+    application.route('/initnonce', methods=['GET'])(
         generate_initialization_nonce)
     application.route('/oauth/token', methods=['POST'])(
         SERVER.create_token_response)
