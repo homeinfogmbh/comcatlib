@@ -51,11 +51,13 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
     @classmethod
     def add(cls, user):
         """Adds a new client for the given user."""
-        client = cls(user=user)
-        client.client_id = uuid4().hex
-        client.client_id_issued_at = datetime.now().timestamp()
+        client = cls(
+            user=user,
+            client_id = uuid4().hex,
+            client_id_issued_at = datetime.now().timestamp(),
+            token_endpoint_auth_method = TOKEN_ENDPOINT_AUTH_METHOD
+        )
         client.client_secret = secret = genpw()
-        client.token_endpoint_auth_method = TOKEN_ENDPOINT_AUTH_METHOD
         transaction = Transaction()
         transaction.add(client, primary=True)
 
