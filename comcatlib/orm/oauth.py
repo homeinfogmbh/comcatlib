@@ -29,7 +29,7 @@ __all__ = [
 ]
 
 
-TOKEN_ENDPOINT_AUTH_METHOD = 'client_secret_basic'
+TOKEN_ENDPOINT_AUTH_METHOD = 'client_secret_post'
 REDIRECT_URIS = [
     'https://comcat.homeinfo.de/oauth/authorize',
     'https://comcat.homeinfo.de/oauth/token',
