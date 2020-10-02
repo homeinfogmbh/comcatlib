@@ -90,7 +90,7 @@ def revoke_token():
         TokenRevocationEndpoint.ENDPOINT_NAME)
 
 
-@REQUIRE_OAUTH
+@REQUIRE_OAUTH('comcat')
 def generate_initialization_nonce():
     """Generates a new initialization nonce."""
 
