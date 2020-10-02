@@ -7,10 +7,11 @@ from flask import request
 from wsgilib import JSON
 
 from comcatlib.exceptions import NonceUsed
+from comcatlib.localproxies import USER
 from comcatlib.messages import INVALID_UUID
 from comcatlib.messages import INVALID_NONCE
 from comcatlib.messages import MISSING_NONCE
-from comcatlib.oauth import SERVER
+from comcatlib.oauth import REQUIRE_OAUTH, SERVER
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
 from comcatlib.orm import AuthorizationNonce, Client, InitializationNonce
@@ -20,7 +21,8 @@ __all__ = [
     'register_client',
     'authorize_client',
     'revoke_token',
-    'introspect_token'
+    'introspect_token',
+    'generate_initialization_nonce'
 ]
 
 
@@ -77,7 +79,7 @@ def register_client():
     transaction.commit()
     json = transaction.primary.to_json()
     json['clientSecret'] = secret
-    json['authorizationNonce'] = AuthorizationNonce.add(user)
+    json['authorizationNonce'] = AuthorizationNonce.add(user).uuid.hex
     return JSON(json)
 
 
@@ -86,3 +88,15 @@ def revoke_token():
 
     return SERVER.create_endpoint_response(
         TokenRevocationEndpoint.ENDPOINT_NAME)
+
+
+@REQUIRE_OAUTH
+def generate_initialization_nonce():
+    """Generates a new initialization nonce."""
+
+    try:
+        nonce = InitializationNonce.get(InitializationNonce.user == USER.id)
+    except InitializationNonce.DoesNotExist:
+        nonce = InitializationNonce.add(user=USER.id)
+
+    return JSON(nonce.to_json())

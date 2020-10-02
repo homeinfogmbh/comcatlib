@@ -23,7 +23,7 @@ class _Nonce(ComCatModel):
         """Returns a new nonce for the given user."""
         nonce = cls(user=user)
         nonce.save()
-        return nonce.uuid.hex   # pylint: disable=E1101
+        return nonce
 
     @classmethod
     def use(cls, uuid):
