@@ -13,6 +13,7 @@ class RefreshTokenGrant(grants.RefreshTokenGrant):
     """Handles refresh token grants."""
 
     TOKEN_ENDPOINT_AUTH_METHODS = ['client_secret_post']
+    INCLUDE_NEW_REFRESH_TOKEN = True
 
     def authenticate_refresh_token(self, refresh_token):
         """Authenticates the refresh token."""
