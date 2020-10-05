@@ -29,9 +29,6 @@ class RefreshTokenGrant(grants.RefreshTokenGrant):
 
     def authenticate_user(self, credential):
         """Authenticates the user."""
-        print('DEBUG:', credential, flush=True)
-        print('DEBUG:', credential.user_id, flush=True)
-
         try:
             return User[credential.user_id]
         except User.DoesNotExist:
