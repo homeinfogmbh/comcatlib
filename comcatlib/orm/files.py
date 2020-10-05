@@ -33,7 +33,8 @@ class UserFile(ComCatModel):
         file = cls()
         file.name = name
         file.user = user
-        file.file = FileDBFile.from_bytes(bytes_)
+        file.file = FileDBFile.from_bytes(bytes_, save=True)
+        file.save()
         return file
 
     @property
