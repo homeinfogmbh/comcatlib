@@ -22,10 +22,10 @@ class RefreshTokenGrant(grants.RefreshTokenGrant):
         except Token.DoesNotExist:
             return None
 
-        if refresh_token.is_valid():
-            return refresh_token
+        if refresh_token.revoked:
+            return None
 
-        return None
+        return refresh_token
 
     def authenticate_user(self, credential):
         """Authenticates the user."""
