@@ -10,17 +10,17 @@ from requests import get
 __all__ = ['decode_url', 'encode_url', 'proxy_url']
 
 
-def decode_url(json):
+def decode_url(json: dict) -> str:
     """Returns the URL from a JSON-ish dict."""
 
-    parse_result = ParseResult(
+    return ParseResult(
         scheme=json['scheme'], netloc=json['netloc'],
         path=json.get('path', ''), params=json.get('params', ''),
-        query=json.get('query', ''), fragment=json('fragment', ''))
-    return parse_result.geturl()
+        query=json.get('query', ''), fragment=json('fragment', '')
+    ).geturl()
 
 
-def encode_url(url):
+def encode_url(url: str) -> dict:
     """Encodes a URL into a JSON object."""
 
     parse_result = urlparse(url)
@@ -34,7 +34,7 @@ def encode_url(url):
     }
 
 
-def proxy_url(url):
+def proxy_url(url: str) -> Response:
     """Proxies the respective URL."""
 
     response = get(url)
