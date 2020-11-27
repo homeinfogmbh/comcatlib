@@ -8,6 +8,9 @@ from comcatlib.messages.address import NO_SUCH_ADDRESS
 from comcatlib.messages.attachments import ATTACHMENT_ADDED
 from comcatlib.messages.attachments import ATTACHMENT_DELETED
 from comcatlib.messages.attachments import NO_SUCH_ATTACHMENT
+from comcatlib.messages.base_chart_menu import BASE_CHART_MENU_ADDED
+from comcatlib.messages.base_chart_menu import BASE_CHART_MENU_DELETED
+from comcatlib.messages.base_chart_menu import NO_SUCH_BASE_CHART_MENU
 from comcatlib.messages.clientreg import INVALID_UUID
 from comcatlib.messages.clientreg import INVALID_NONCE
 from comcatlib.messages.clientreg import MISSING_NONCE
@@ -45,6 +48,9 @@ __all__ = [
     'NO_SUCH_ADDRESS',
     'ATTACHMENT_ADDED',
     'NO_SUCH_ATTACHMENT',
+    'BASE_CHART_MENU_ADDED',
+    'BASE_CHART_MENU_DELETED',
+    'NO_SUCH_BASE_CHART_MENU',
     'INVALID_UUID',
     'INVALID_NONCE',
     'MISSING_NONCE',
