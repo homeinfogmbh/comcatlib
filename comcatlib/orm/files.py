@@ -1,5 +1,8 @@
 """HISFS-like file associations and quotas."""
 
+from __future__ import annotations
+from typing import Generator, Iterable
+
 from peewee import BigIntegerField, CharField, ForeignKeyField
 
 from filedb import File as FileDBFile
@@ -28,7 +31,7 @@ class UserFile(ComCatModel):
     file = ForeignKeyField(FileDBFile, column_name='file')
 
     @classmethod
-    def add(cls, user, bytes_, name=None):
+    def add(cls, user: User, bytes_: bytes, name: str = None) -> UserFile:
         """Adds the respective file."""
         file = cls()
         file.name = name
@@ -47,18 +50,18 @@ class UserFile(ComCatModel):
         """Returns the file's bytes."""
         return self.file.bytes
 
-    def stream(self):
+    def stream(self) -> Generator[bytes, None, None]:
         """Returns HTTP stream."""
         return self.file.stream()
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> int:
         """Saves the filedb.File first."""
         if self.file:
             self.file.save(*args, **kwargs)
 
         return super().save(*args, **kwargs)
 
-    def to_json(self, *args, **kwargs):
+    def to_json(self, *args, **kwargs) -> dict:
         """Returns a JSON-ish dict."""
         json = super().to_json(*args, **kwargs)
         metadata = self.metadata.to_json(*args, **kwargs)
@@ -75,7 +78,7 @@ class Quota(ComCatModel):
     quota = BigIntegerField(default=DEFAULT_QUOTA)  # Per-user quota in bytes.
 
     @classmethod
-    def for_customer(cls, customer):
+    def for_customer(cls, customer: Customer) -> Quota:
         """Returns the quota for the respective customer."""
         try:
             return cls.get(cls.customer == customer)
@@ -83,39 +86,39 @@ class Quota(ComCatModel):
             return cls(customer=customer)
 
     @property
-    def users(self):
+    def users(self) -> Iterable[User]:
         """Returns the amount of users."""
         return User.select().where(User.customer == self.customer)
 
     @property
-    def customer_quota(self):
+    def customer_quota(self) -> int:
         """Returns the customer quota."""
         return self.quota * self.users.count()
 
     @property
-    def files(self):
+    def files(self) -> Iterable[UserFile]:
         """Yields file records of the respective customer."""
         condition = User.customer == self.customer
         return UserFile.select().join(User).where(condition)
 
     @property
-    def used(self):
+    def used(self) -> int:
         """Returns used space."""
         return sum(file.metadata.size for file in self.files.iterator())
 
     @property
-    def free(self):
+    def free(self) -> int:
         """Returns free space for the respective customer."""
         return self.quota - self.used
 
-    def alloc(self, size):
+    def alloc(self, size: int) -> bool:
         """Tries to allocate the requested size in bytes."""
         if size > self.free:
             raise QuotaExceeded(quota=self.quota, free=self.free, size=size)
 
         return True
 
-    def to_json(self, **kwargs):
+    def to_json(self, **kwargs) -> dict:
         """Returns a JSON-ish dictionary."""
         json = super().to_json(**kwargs)
         json.update({'free': self.free, 'used': self.used})

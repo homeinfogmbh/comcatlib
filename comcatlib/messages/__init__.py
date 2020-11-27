@@ -25,11 +25,13 @@ from comcatlib.messages.tenement import NO_SUCH_TENEMENT
 from comcatlib.messages.tenement import TENEMENT_ADDED
 from comcatlib.messages.tenement import TENEMENT_DELETED
 from comcatlib.messages.tenement import TENEMENT_PATCHED
-from comcatlib.messages.user import NO_SUCH_CUSTOMER
+from comcatlib.messages.user import INVALID_CREDENTIALS
+from comcatlib.messages.user import MISSING_USER_ID
+from comcatlib.messages.user import MISSING_USER_PW
 from comcatlib.messages.user import NO_SUCH_USER
-from comcatlib.messages.user import NO_USER_SPECIFIED
 from comcatlib.messages.user import USER_ADDED
 from comcatlib.messages.user import USER_DELETED
+from comcatlib.messages.user import USER_EXPIRED
 from comcatlib.messages.user import USER_LOCKED
 from comcatlib.messages.user import USER_PATCHED
 
@@ -60,11 +62,13 @@ __all__ = [
     'TENEMENT_ADDED',
     'TENEMENT_DELETED',
     'TENEMENT_PATCHED',
-    'NO_SUCH_CUSTOMER',
+    'INVALID_CREDENTIALS',
+    'MISSING_USER_ID',
+    'MISSING_USER_PW',
     'NO_SUCH_USER',
-    'NO_USER_SPECIFIED',
     'USER_ADDED',
     'USER_DELETED',
+    'USER_EXPIRED',
     'USER_LOCKED',
     'USER_PATCHED'
 ]

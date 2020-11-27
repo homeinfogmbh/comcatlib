@@ -4,12 +4,13 @@ from authlib.integrations.flask_oauth2 import current_token
 from werkzeug.local import LocalProxy
 
 from comcatlib.exceptions import UserExpired, UserLocked
+from comcatlib.orm.user import User
 
 
 __all__ = ['ADDRESS', 'CUSTOMER', 'TENEMENT', 'USER', 'get_user']
 
 
-def get_user():
+def get_user() -> User:
     """Performs authentication checks."""
 
     user = current_token.user

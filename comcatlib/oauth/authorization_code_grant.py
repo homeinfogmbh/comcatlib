@@ -2,6 +2,7 @@
 
 from authlib.oauth2.rfc6749 import grants
 
+from comcatlib.orm.client import Client
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.user import User
 
@@ -14,7 +15,7 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
 
     TOKEN_ENDPOINT_AUTH_METHODS = ['client_secret_post']
 
-    def save_authorization_code(self, code, request):
+    def save_authorization_code(self, code: str, request: object):
         """Saves an authorization code."""
         authorization_code = AuthorizationCode(
             code=code,
@@ -25,7 +26,8 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
         )
         authorization_code.save()
 
-    def query_authorization_code(self, code, client):
+    def query_authorization_code(self, code: str, client: Client) \
+            -> AuthorizationCode:
         """Returns the authorization code."""
         condition = AuthorizationCode.code == code
         condition &= AuthorizationCode.client_id == client.client_id
@@ -35,11 +37,11 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
         except AuthorizationCode.DoesNotExist:
             return None
 
-    def delete_authorization_code(self, authorization_code):
+    def delete_authorization_code(self, authorization_code: AuthorizationCode):
         """Deletes the respective authorization code."""
         authorization_code.delete_instance()
 
-    def authenticate_user(self, authorization_code):
+    def authenticate_user(self, authorization_code: AuthorizationCode) -> User:
         """Authenticates a user."""
         if authorization_code.user_id is None:
             return None

@@ -1,5 +1,6 @@
 """Presentations for ComCat accounts."""
 
+from cmslib.dom import presentation
 from cmslib.exceptions import NoConfigurationFound
 from cmslib.orm.charts import BaseChart
 from cmslib.orm.configuration import Configuration
@@ -7,7 +8,10 @@ from cmslib.orm.menu import Menu
 from cmslib.presentation.common import PresentationMixin
 
 from comcatlib.orm import GroupMemberUser
-from comcatlib.orm import UserBaseChart, UserConfiguration, UserMenu
+from comcatlib.orm import User
+from comcatlib.orm import UserBaseChart
+from comcatlib.orm import UserConfiguration
+from comcatlib.orm import UserMenu
 
 
 __all__ = ['Presentation']
@@ -16,7 +20,7 @@ __all__ = ['Presentation']
 class Presentation(PresentationMixin):
     """Accumulates content for a ComCat user."""
 
-    def __init__(self, user):
+    def __init__(self, user: User):
         """Sets the respective user."""
         self.user = user
         self.cache = {}
@@ -40,7 +44,7 @@ class Presentation(PresentationMixin):
             return Configuration.select().join(UserConfiguration).where(
                 UserConfiguration.user == self.user).get()
         except Configuration.DoesNotExist:
-            raise NoConfigurationFound()
+            raise NoConfigurationFound() from None
 
     @property
     def groups(self):
@@ -54,13 +58,13 @@ class Presentation(PresentationMixin):
         """Yields menus of this user."""
         return Menu.select().join(UserMenu).where(UserMenu.user == self.user)
 
-    def to_dom(self):
+    def to_dom(self) -> presentation.typeDefinition():
         """Returns an XML DOM."""
         xml = super().to_dom()
         xml.user = self.user.uuid.hex
         return xml
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         json = super().to_json()
         json['user'] = self.user.uuid.hex

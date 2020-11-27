@@ -1,5 +1,6 @@
 """ORM models based on MySQL Alchemy."""
 
+from __future__ import annotations
 from datetime import datetime
 from uuid import uuid4
 
@@ -49,7 +50,7 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
 
     @classmethod
-    def add(cls, user):
+    def add(cls, user: User) -> Client:
         """Adds a new client for the given user."""
         client = cls(
             user=user,
@@ -100,7 +101,8 @@ class AuthorizationCode(ComCatModel, OAuth2AuthorizationCodeMixin):
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
 
-    def create_authorization_code(self, client, grant_user, request):
+    def create_authorization_code(self, client: Client, grant_user: User,
+                                  request: object) -> str:
         """Method override with addional nonce for OpenID Connect."""
         code = generate_token(48)
         record = type(self)(

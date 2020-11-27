@@ -1,6 +1,7 @@
 """Nonces for client initialization."""
 
-from uuid import uuid4
+from __future__ import annotations
+from uuid import UUID, uuid4
 
 from peewee import ForeignKeyField, UUIDField
 
@@ -9,48 +10,34 @@ from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['AuthorizationNonce', 'InitializationNonce']
+__all__ = ['AuthorizationNonce']
 
 
-class _Nonce(ComCatModel):
+class Nonce(ComCatModel):
     """Basic Nonce."""
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
     uuid = UUIDField(default=uuid4)
 
     @classmethod
-    def add(cls, user):
+    def add(cls, user: User) -> Nonce:
         """Returns a new nonce for the given user."""
         nonce = cls(user=user)
         nonce.save()
         return nonce
 
     @classmethod
-    def use(cls, uuid):
+    def use(cls, uuid: UUID) -> User:
         """Uses a nonce and returns its user."""
         try:
             nonce = cls.get(cls.uuid == uuid)
         except cls.DoesNotExist:
             raise NonceUsed() from None
 
-        # XXX: Allow repeated usage for testing only.
-        #nonce.delete_instance()
         return nonce.user
 
 
-class InitializationNonce(_Nonce):
-    """Nonces to initialize clients for users."""
-
-    class Meta:     # pylint: disable=C0115,R0903
-        table_name = 'initialization_nonce'
-
-    @property
-    def url(self):
-        """Returns the URL."""
-        return f'de.homeinfo.comcat://register/{self.uuid.hex}'
-
-
-class AuthorizationNonce(_Nonce):
+class AuthorizationNonce(Nonce):
     """Nonces to authorize clients for users."""
 
     class Meta:     # pylint: disable=C0115,R0903

@@ -11,7 +11,7 @@ from comcatlib.orm.files import UserFile, Quota
 __all__ = ['add_file']
 
 
-def add_file(bytes_):
+def add_file(bytes_: bytes) -> UserFile:
     """Adds a file."""
 
     quota = Quota.for_customer(CUSTOMER.id)

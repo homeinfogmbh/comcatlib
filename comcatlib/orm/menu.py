@@ -1,5 +1,6 @@
 """ComCat menu tagging."""
 
+from __future__ import annotations
 from enum import Enum
 
 from peewee import ForeignKeyField
@@ -22,7 +23,7 @@ class Menu(Enum):
     NEWS = 'news'
 
 
-class BaseChartMenu(ComCatModel):
+class BaseChartMenu(ComCatModel):   # pylint: disable=R0903
     """Many-to-many mapping of charts an menus."""
 
     class Meta:     # pylint: disable=C0115,R0903
@@ -33,7 +34,7 @@ class BaseChartMenu(ComCatModel):
     menu = EnumField(Menu)
 
     @classmethod
-    def add(cls, base_chart, menu):
+    def add(cls, base_chart: BaseChart, menu: Menu) -> BaseChartMenu:
         """Creates a new record from a JSON-ish dict."""
         condition = cls.base_chart == base_chart
         condition &= cls.menu == menu

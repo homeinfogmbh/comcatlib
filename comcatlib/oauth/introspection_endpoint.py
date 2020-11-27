@@ -2,7 +2,7 @@
 
 from authlib.oauth2.rfc7662 import IntrospectionEndpoint
 
-from comcatlib.orm.oauth import Token
+from comcatlib.orm.oauth import Client, Token
 
 
 __all__ = ['TokenIntrospectionEndpoint']
@@ -11,7 +11,7 @@ __all__ = ['TokenIntrospectionEndpoint']
 URL = 'https://comcat.homeinfo.de/'
 
 
-def get_token(token, token_type_hint):  # pylint: disable=R0911
+def get_token(token: str, token_type_hint: str) -> Token:
     """Returns the respective token."""
 
     if token_type_hint == 'access_token':
@@ -29,7 +29,8 @@ def get_token(token, token_type_hint):  # pylint: disable=R0911
 class TokenIntrospectionEndpoint(IntrospectionEndpoint):
     """Introspection of bearer tokens."""
 
-    def query_token(self, token, token_type_hint, client):
+    def query_token(self, token: Token, token_type_hint: str,
+                    client: Client) -> Token:
         """Returns the respective token."""
         try:
             token = get_token(token, token_type_hint)
@@ -41,7 +42,7 @@ class TokenIntrospectionEndpoint(IntrospectionEndpoint):
 
         return None
 
-    def introspect_token(self, token):
+    def introspect_token(self, token: Token) -> dict:
         """Returns a JSON-ish dict of the token."""
         return {
             'active': True,

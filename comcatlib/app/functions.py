@@ -2,16 +2,26 @@
 
 from uuid import UUID
 
-from flask import request
+from flask import request, Reponse
 
 from wsgilib import JSON
 
+from comcatlib.exceptions import InvalidPassword
 from comcatlib.exceptions import NonceUsed
-from comcatlib.messages import INVALID_UUID, INVALID_NONCE, MISSING_NONCE
+from comcatlib.exceptions import UserExpired
+from comcatlib.exceptions import UserLocked
+from comcatlib.messages import INVALID_CREDENTIALS
+from comcatlib.messages import INVALID_UUID
+from comcatlib.messages import INVALID_NONCE
+from comcatlib.messages import MISSING_NONCE
+from comcatlib.messages import MISSING_USER_ID
+from comcatlib.messages import MISSING_USER_PW
+from comcatlib.messages import USER_EXPIRED
+from comcatlib.messages import USER_LOCKED
 from comcatlib.oauth import SERVER
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
 from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
-from comcatlib.orm import AuthorizationNonce, Client, InitializationNonce
+from comcatlib.orm import AuthorizationNonce, Client, User
 
 
 __all__ = [
@@ -22,7 +32,7 @@ __all__ = [
 ]
 
 
-def authorize_client():
+def authorize_client() -> Reponse:
     """Login is required since we need to know the current resource owner.
     It can be done with a redirection to the login page, or a login
     form on this authorization page.
@@ -46,30 +56,39 @@ def authorize_client():
     return SERVER.create_authorization_response(grant_user=user)
 
 
-def introspect_token():
+def introspect_token() -> Reponse:
     """Introspects a token."""
 
     return SERVER.create_endpoint_response(
         TokenIntrospectionEndpoint.ENDPOINT_NAME)
 
 
-def register_client():
+def register_client() -> JSON:
     """Registers a client."""
 
-    nonce = request.json.pop('nonce', None)
+    ident = request.json.get('id')
 
-    if nonce is None:
-        return MISSING_NONCE
+    if ident is None:
+        return MISSING_USER_ID
+
+    passwd = request.json.get('passwd')
+
+    if passwd is None:
+        return MISSING_USER_PW
 
     try:
-        uuid = UUID(nonce)
-    except ValueError:
-        return INVALID_UUID
+        user = User[ident]
+    except User.DoesNotExist:
+        return INVALID_CREDENTIALS
 
     try:
-        user = InitializationNonce.use(uuid)
-    except NonceUsed:
-        return INVALID_NONCE
+        user.authenticate(passwd)
+    except UserLocked:
+        return USER_LOCKED
+    except UserExpired:
+        return USER_EXPIRED
+    except InvalidPassword:
+        return INVALID_CREDENTIALS
 
     transaction, secret = Client.add(user)
     transaction.commit()
@@ -79,7 +98,7 @@ def register_client():
     return JSON(json)
 
 
-def revoke_token():
+def revoke_token() -> Reponse:
     """Revokes a token."""
 
     return SERVER.create_endpoint_response(

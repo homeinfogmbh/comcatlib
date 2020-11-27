@@ -1,8 +1,10 @@
 """Content assigned to ComCat accounts."""
 
+from __future__ import annotations
+
 from peewee import ForeignKeyField, IntegerField
 
-from cmslib.functions.charts import get_chart
+from cmslib.functions.charts import Chart, get_chart
 from cmslib.functions.configuration import get_configuration
 from cmslib.functions.menu import get_menu
 from cmslib.orm.charts import ChartMode, BaseChart
@@ -22,7 +24,7 @@ class UserContent(ComCatModel):     # pylint: disable=R0903
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
 
     @classmethod
-    def from_json(cls, json, **kwargs):
+    def from_json(cls, json: dict, **kwargs) -> UserContent:
         """Creates a new user content mapping."""
         user = json.pop('user')
         record = super().from_json(json, **kwargs)
@@ -41,7 +43,7 @@ class UserBaseChart(UserContent):
     index = IntegerField(default=0)
 
     @classmethod
-    def from_json(cls, json, **kwargs):
+    def from_json(cls, json: dict, **kwargs) -> UserBaseChart:
         """Creates a new user content mapping."""
         chart_id = json.pop('chart')
         record = super().from_json(json, **kwargs)
@@ -49,11 +51,11 @@ class UserBaseChart(UserContent):
         return record
 
     @property
-    def chart(self):
+    def chart(self) -> Chart:
         """Returns the respective chart."""
         return self.base_chart.chart
 
-    def to_json(self, *args, chart=False, **kwargs):
+    def to_json(self, *args, chart: bool = False, **kwargs) -> dict:
         """Returns a JSON-ish dict."""
         json = super().to_json(*args, **kwargs)
 
@@ -73,14 +75,14 @@ class UserConfiguration(UserContent):
         Configuration, column_name='configuration', on_delete='CASCADE')
 
     @classmethod
-    def from_json(cls, json, **kwargs):
+    def from_json(cls, json: dict, **kwargs) -> UserConfiguration:
         """Creates a new user content mapping."""
         configuration = json.pop('configuration')
         record = super().from_json(json, **kwargs)
         record.configuration = get_configuration(configuration)
         return record
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         return {'id': self.id, 'configuration': self.configuration_id}
 
@@ -94,13 +96,13 @@ class UserMenu(UserContent):
     menu = ForeignKeyField(Menu, column_name='menu', on_delete='CASCADE')
 
     @classmethod
-    def from_json(cls, json, **kwargs):
+    def from_json(cls, json: dict, **kwargs) -> UserMenu:
         """Creates a new user content mapping."""
         menu = json.pop('menu')
         record = super().from_json(json, **kwargs)
         record.menu = get_menu(menu)
         return record
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         return {'id': self.id, 'menu': self.menu_id}

@@ -1,5 +1,7 @@
 """OAuth 2.0 authorization server."""
 
+from flask import Flask
+
 from authlib.integrations.flask_oauth2 import AuthorizationServer
 from authlib.oauth2.rfc6749.grants import ImplicitGrant
 
@@ -13,7 +15,7 @@ from comcatlib.orm.oauth import Client, Token
 __all__ = ['SERVER', 'init_oauth']
 
 
-def query_client(client_id):
+def query_client(client_id: int) -> Client:
     """Returns a c lient by its ID."""
 
     try:
@@ -22,7 +24,7 @@ def query_client(client_id):
         return None
 
 
-def save_token(token_data, request):
+def save_token(token_data: dict, request: object):
     """Stores the respective token."""
 
     if request.user:
@@ -38,7 +40,7 @@ def save_token(token_data, request):
 SERVER = AuthorizationServer(query_client=query_client, save_token=save_token)
 
 
-def init_oauth(application):
+def init_oauth(application: Flask):
     """Initializes OAuth 2.0 for the given application."""
 
     SERVER.init_app(application)

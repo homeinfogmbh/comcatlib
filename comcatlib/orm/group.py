@@ -1,5 +1,7 @@
 """Group membership of users."""
 
+from __future__ import annotations
+
 from peewee import ForeignKeyField, IntegerField
 
 from cmslib.orm.group import Group
@@ -23,14 +25,14 @@ class GroupMemberUser(ComCatModel):  # pylint: disable=R0901
     index = IntegerField(default=0)
 
     @classmethod
-    def from_json(cls, json, group):
+    def from_json(cls, json: dict, group: Group) -> GroupMemberUser:
         """Creates a member for the given group
         from the respective JSON-ish dictionary.
         """
         try:
             user = json.pop('user')
         except KeyError:
-            raise MISSING_KEY_ERROR.update(keys=['user'])
+            raise MISSING_KEY_ERROR.update(keys=['user']) from None
 
         user = get_user(user)
         index = json.pop('index', 0)
@@ -40,7 +42,7 @@ class GroupMemberUser(ComCatModel):  # pylint: disable=R0901
 
         return cls(group=group, user=user, index=index)
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         return {
             'id': self.id,

@@ -4,9 +4,10 @@ from wsgilib import JSONMessage
 
 
 __all__ = [
-    'NO_SUCH_CUSTOMER',
+    'INVALID_CREDENTIALS',
+    'MISSING_USER_ID',
+    'MISSING_USER_PW',
     'NO_SUCH_USER',
-    'NO_USER_SPECIFIED',
     'USER_ADDED',
     'USER_DELETED',
     'USER_EXPIRED',
@@ -15,9 +16,10 @@ __all__ = [
 ]
 
 
-NO_SUCH_CUSTOMER = JSONMessage('No such customer.', status=404)
+INVALID_CREDENTIALS = JSONMessage('Invalid credentials.', status=400)
+MISSING_USER_ID = JSONMessage('Missing user ID.', status=400)
+MISSING_USER_PW = JSONMessage('Missing user password.', status=400)
 NO_SUCH_USER = JSONMessage('The requested user does not exists.', status=404)
-NO_USER_SPECIFIED = JSONMessage('No user specified.', status=400)
 USER_ADDED = JSONMessage('The user has been added.', status=201)
 USER_DELETED = JSONMessage('The user has been deleted.', status=200)
 USER_EXPIRED = JSONMessage('This user is expired.', status=401)
