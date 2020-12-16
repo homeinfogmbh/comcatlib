@@ -101,7 +101,7 @@ class User(ComCatModel):
         except VerifyMismatchError:
             raise InvalidPassword() from None
 
-        self.rehash(passwd)
+        self.passwd.rehash(passwd)
         self.save()
         return True
 
