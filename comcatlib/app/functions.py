@@ -82,7 +82,7 @@ def register_client() -> JSON:
         return INVALID_CREDENTIALS
 
     try:
-        user.authenticate(passwd)
+        user.login(passwd)
     except UserLocked:
         return USER_LOCKED
     except UserExpired:
