@@ -2,7 +2,7 @@
 
 from uuid import UUID
 
-from flask import request, Reponse
+from flask import request, Response
 
 from wsgilib import JSON
 
@@ -32,7 +32,7 @@ __all__ = [
 ]
 
 
-def authorize_client() -> Reponse:
+def authorize_client() -> Response:
     """Login is required since we need to know the current resource owner.
     It can be done with a redirection to the login page, or a login
     form on this authorization page.
@@ -56,7 +56,7 @@ def authorize_client() -> Reponse:
     return SERVER.create_authorization_response(grant_user=user)
 
 
-def introspect_token() -> Reponse:
+def introspect_token() -> Response:
     """Introspects a token."""
 
     return SERVER.create_endpoint_response(
@@ -98,7 +98,7 @@ def register_client() -> JSON:
     return JSON(json)
 
 
-def revoke_token() -> Reponse:
+def revoke_token() -> Response:
     """Revokes a token."""
 
     return SERVER.create_endpoint_response(
