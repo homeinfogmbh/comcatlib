@@ -2,8 +2,7 @@
 
 from authlib.oauth2.rfc6749 import grants
 
-from comcatlib.orm.client import Client
-from comcatlib.orm.oauth import AuthorizationCode
+from comcatlib.orm.oauth import AuthorizationCode, Client
 from comcatlib.orm.user import User
 
 
