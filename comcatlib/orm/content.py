@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from peewee import ForeignKeyField, IntegerField
 
-from cmslib.functions.charts import Chart, get_chart
+from cmslib.functions.charts import get_chart
 from cmslib.functions.configuration import get_configuration
 from cmslib.functions.menu import get_menu
-from cmslib.orm.charts import ChartMode, BaseChart
+from cmslib.orm.charts import Chart, ChartMode, BaseChart
 from cmslib.orm.configuration import Configuration
 from cmslib.orm.menu import Menu
 
