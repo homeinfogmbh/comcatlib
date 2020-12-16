@@ -9,9 +9,9 @@ from comcatlib.localproxies import get_user
 from comcatlib.exceptions import UserExpired, UserLocked
 from comcatlib.files import add_file
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
+from comcatlib.orm import AuthorizationNonce
 from comcatlib.orm import BaseChartMenu
 from comcatlib.orm import GroupMemberUser
-from comcatlib.orm import InitializationNonce
 from comcatlib.orm import Quota
 from comcatlib.orm import User
 from comcatlib.orm import UserBaseChart
@@ -39,9 +39,9 @@ __all__ = [
     'decode_url',
     'encode_url',
     'proxy_url',
+    'AuthorizationNonce',
     'BaseChartMenu',
     'GroupMemberUser',
-    'InitializationNonce',
     'Quota',
     'User',
     'UserBaseChart',
