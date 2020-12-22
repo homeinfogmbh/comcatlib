@@ -43,7 +43,7 @@ class User(ComCatModel):
     expires = DateTimeField(null=True)
     locked = BooleanField(default=False)
     admin = BooleanField(default=False)     # Admin across entire customer.
-    passwd = Argon2Field(default=genpw)
+    passwd = Argon2Field()
 
     @classmethod
     def from_json(cls, json: dict, tenement: Tenement,
@@ -53,7 +53,7 @@ class User(ComCatModel):
         user.tenement = tenement
 
         if 'passwd' not in json:
-            passwd = genpw()
+            user.passwd = passwd = genpw()
         else:
             passwd = None
 
