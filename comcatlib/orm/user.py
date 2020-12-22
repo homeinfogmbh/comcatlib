@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from datetime import datetime
-from typing import Iterable
+from typing import Iterable, Tuple
 
 from argon2.exceptions import VerifyMismatchError
 from peewee import BooleanField, DateTimeField, ForeignKeyField
@@ -23,7 +23,7 @@ from comcatlib.orm.common import ComCatModel
 __all__ = ['get_user', 'User']
 
 
-def get_user(ident):
+def get_user(ident: int) -> User:
     """Returns the respective user."""
 
     condition = User.id == ident
@@ -46,14 +46,19 @@ class User(ComCatModel):
     passwd = Argon2Field(default=genpw)
 
     @classmethod
-    def from_json(cls, json: dict, tenement: Tenement, **kwargs) -> User:
+    def from_json(cls, json: dict, tenement: Tenement,
+                  **kwargs) -> Tuple[str, User]:
         """Creates the user from the respective JSON data."""
-        tenement = json.pop('tenement')
         user = super().from_json(json, **kwargs)
         user.tenement = tenement
 
+        if 'passwd' not in json:
+            passwd = genpw()
+        else:
+            passwd = None
+
         if user.unique:
-            return user
+            return (passwd, user)
 
         raise DuplicateUser()
 
