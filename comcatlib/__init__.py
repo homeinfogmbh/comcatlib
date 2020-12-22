@@ -6,7 +6,7 @@ from comcatlib.localproxies import CUSTOMER
 from comcatlib.localproxies import TENEMENT
 from comcatlib.localproxies import USER
 from comcatlib.localproxies import get_user
-from comcatlib.exceptions import UserExpired, UserLocked
+from comcatlib.exceptions import DuplicateUser, UserExpired, UserLocked
 from comcatlib.files import add_file
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.orm import AuthorizationNonce
@@ -30,6 +30,7 @@ __all__ = [
     'CUSTOMER',
     'TENEMENT',
     'USER',
+    'DuplicateUser',
     'UserExpired',
     'UserLocked',
     'add_file',

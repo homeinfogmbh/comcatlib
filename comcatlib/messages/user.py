@@ -4,6 +4,7 @@ from wsgilib import JSONMessage
 
 
 __all__ = [
+    'DUPLICATE_USER',
     'INVALID_CREDENTIALS',
     'MISSING_USER_ID',
     'MISSING_USER_PW',
@@ -16,6 +17,7 @@ __all__ = [
 ]
 
 
+DUPLICATE_USER = JSONMessage('Duplicate user.', status=400)
 INVALID_CREDENTIALS = JSONMessage('Invalid credentials.', status=400)
 MISSING_USER_ID = JSONMessage('Missing user ID.', status=400)
 MISSING_USER_PW = JSONMessage('Missing user password.', status=400)

@@ -57,7 +57,7 @@ class User(ComCatModel):
         else:
             passwd = None
 
-        if user.unique:
+        if user.is_unique:
             return (passwd, user)
 
         raise DuplicateUser()
