@@ -100,7 +100,9 @@ class User(ComCatModel):
         except VerifyMismatchError:
             raise InvalidPassword() from None
 
-        self.passwd.rehash(passwd)
+        if self.passwd.needs_rehash:
+            self.passwd = passwd
+
         self.save()
         return True
 
