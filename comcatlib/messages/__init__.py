@@ -27,6 +27,7 @@ from comcatlib.messages.tenement import INVALID_TENEMENT
 from comcatlib.messages.tenement import NO_SUCH_TENEMENT
 from comcatlib.messages.tenement import TENEMENT_ADDED
 from comcatlib.messages.tenement import TENEMENT_DELETED
+from comcatlib.messages.tenement import TENEMENT_IN_USE
 from comcatlib.messages.tenement import TENEMENT_PATCHED
 from comcatlib.messages.user import DUPLICATE_USER
 from comcatlib.messages.user import INVALID_CREDENTIALS
@@ -68,6 +69,7 @@ __all__ = [
     'NO_SUCH_TENEMENT',
     'TENEMENT_ADDED',
     'TENEMENT_DELETED',
+    'TENEMENT_IN_USE',
     'TENEMENT_PATCHED',
     'DUPLICATE_USER',
     'INVALID_CREDENTIALS',

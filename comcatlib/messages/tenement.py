@@ -17,5 +17,6 @@ NO_SUCH_TENEMENT = JSONMessage(
     'The requested tenement does not eixst.', status=404)
 TENEMENT_ADDED = JSONMessage('The tenement has been added.', status=201)
 TENEMENT_DELETED = JSONMessage('The tenement has been deleted.', status=200)
+TENEMENT_IN_USE = JSONMessage('The tenement is in use.', status=400)
 TENEMENT_PATCHED = JSONMessage(
     'The requested tenement has been patched.', status=200)
