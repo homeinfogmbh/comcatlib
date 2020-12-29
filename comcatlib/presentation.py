@@ -67,11 +67,11 @@ class Presentation(PresentationMixin):
     def to_dom(self) -> PresentationDOM:
         """Returns an XML DOM."""
         xml = super().to_dom()
-        xml.user = self.user.uuid.hex
+        xml.user = self.user.id
         return xml
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         json = super().to_json()
-        json['user'] = self.user.uuid.hex
+        json['user'] = self.user.id
         return json
