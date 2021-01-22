@@ -1,5 +1,7 @@
 """Flask based OAuth endpoints."""
 
+from flask import Flask
+
 from comcatlib.app.functions import authorize_client
 from comcatlib.app.functions import introspect_token
 from comcatlib.app.functions import register_client
@@ -10,7 +12,7 @@ from comcatlib.oauth import SERVER
 __all__ = ['init_oauth_endpoints']
 
 
-def init_oauth_endpoints(application):
+def init_oauth_endpoints(application: Flask) -> None:
     """Adds OAuth endpoints to the respective application."""
 
     application.route('/client', methods=['POST'])(register_client)

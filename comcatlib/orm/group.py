@@ -1,14 +1,15 @@
 """Group membership of users."""
 
 from __future__ import annotations
+from typing import Union
 
-from peewee import ForeignKeyField, IntegerField
+from peewee import ForeignKeyField, IntegerField, ModelSelect
 
 from cmslib.orm.group import Group
-from his.messages.data import MISSING_KEY_ERROR, INVALID_KEYS
+from mdb import Address, Company, Customer, Tenement
 
 from comcatlib.orm.common import ComCatModel
-from comcatlib.orm.user import get_user, User
+from comcatlib.orm.user import User
 
 
 __all__ = ['GroupMemberUser']
@@ -20,27 +21,33 @@ class GroupMemberUser(ComCatModel):  # pylint: disable=R0901
     class Meta:     # pylint: disable=C0111,R0903
         table_name = 'group_member_user'
 
-    group = ForeignKeyField(Group, column_name='group', on_delete='CASCADE')
-    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
+    group = ForeignKeyField(
+        Group, column_name='group', on_delete='CASCADE', lazy_load=False)
+    user = ForeignKeyField(
+        User, column_name='user', on_delete='CASCADE', lazy_load=False)
     index = IntegerField(default=0)
 
     @classmethod
-    def from_json(cls, json: dict, group: Group) -> GroupMemberUser:
+    def from_json(cls, json: dict, user: Union[User, int],
+                  group: Union[Group, int], **kwargs) -> GroupMemberUser:
         """Creates a member for the given group
         from the respective JSON-ish dictionary.
         """
-        try:
-            user = json.pop('user')
-        except KeyError:
-            raise MISSING_KEY_ERROR.update(keys=['user']) from None
+        record = super().from_json(json, **kwargs)
+        record.user = user
+        record.group = group
+        return record
 
-        user = get_user(user)
-        index = json.pop('index', 0)
+    @classmethod
+    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+        """Selects group <> user mappings."""
+        if not cascade:
+            return super().select(*args, **kwargs)
 
-        if json:
-            raise INVALID_KEYS.update(keys=tuple(json))
-
-        return cls(group=group, user=user, index=index)
+        args = {cls, Group, User, Tenement, Customer, Company, Address, *args}
+        return super().select(*args, **kwargs).join(Group).join_from(
+            cls, User).join(Tenement).join(Customer).join(Company).join_from(
+            Tenement, Address)
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""

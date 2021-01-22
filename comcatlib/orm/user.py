@@ -5,10 +5,10 @@ from datetime import datetime
 from typing import Iterable, Tuple
 
 from argon2.exceptions import VerifyMismatchError
-from peewee import BooleanField, DateTimeField, ForeignKeyField
+from peewee import BooleanField, DateTimeField, ForeignKeyField, ModelSelect
 
 from his import CUSTOMER
-from mdb import Customer, Tenement
+from mdb import Address, Company, Customer, Tenement
 from peeweeplus import Argon2Field
 
 from comcatlib.exceptions import DuplicateUser
@@ -30,7 +30,7 @@ def get_user(ident: int) -> User:
     condition &= Tenement.customer == CUSTOMER.id
 
     try:
-        return User.select().join(Tenement).where(condition).get()
+        return User.select(cascade=True).where(condition).get()
     except User.DoesNotExist:
         raise NO_SUCH_USER from None
 
@@ -38,7 +38,8 @@ def get_user(ident: int) -> User:
 class User(ComCatModel):
     """A ComCat user."""
 
-    tenement = ForeignKeyField(Tenement, column_name='tenement')
+    tenement = ForeignKeyField(
+        Tenement, column_name='tenement', lazy_load=False)
     created = DateTimeField(default=datetime.now)
     expires = DateTimeField(null=True)
     locked = BooleanField(default=False)
@@ -61,6 +62,16 @@ class User(ComCatModel):
             return (user, passwd)
 
         raise DuplicateUser()
+
+    @classmethod
+    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+        """Selects clients."""
+        if not cascade:
+            return super().select(*args, **kwargs)
+
+        args = {cls, Tenement, Customer, Company, Address, *args}
+        return super().select(*args, **kwargs).join(Tenement).join(
+            Customer).join(Company).join_from(Tenement, Address)
 
     @property
     def customer(self) -> Customer:

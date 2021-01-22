@@ -3,11 +3,11 @@
 from __future__ import annotations
 from typing import Generator, Iterable
 
-from peewee import BigIntegerField, CharField, ForeignKeyField
+from peewee import BigIntegerField, CharField, ForeignKeyField, ModelSelect
 
-from filedb import File as FileDBFile
+from filedb import File
 from hisfs import get_sparse_file
-from mdb import Customer
+from mdb import Address, Company, Customer, Tenement
 
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.orm.common import ComCatModel
@@ -27,18 +27,28 @@ class UserFile(ComCatModel):
         table_name = 'user_file'
 
     name = CharField(255, null=True)
-    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
-    file = ForeignKeyField(FileDBFile, column_name='file')
+    user = ForeignKeyField(
+        User, column_name='user', on_delete='CASCADE', lazy_load=False)
+    file = ForeignKeyField(File, column_name='file', lazy_load=False)
 
     @classmethod
     def add(cls, user: User, bytes_: bytes, name: str = None) -> UserFile:
         """Adds the respective file."""
-        file = cls()
-        file.name = name
-        file.user = user
-        file.file = FileDBFile.from_bytes(bytes_, save=True)
+        file = cls(name=name, user=user)
+        file.file = File.from_bytes(bytes_, save=True)
         file.save()
         return file
+
+    @classmethod
+    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+        """Selects user files."""
+        if not cascade:
+            return super().select(*args, **kwargs)
+
+        args = {cls, User, Tenement, Customer, Company, Address, File, *args}
+        return super().select(*args, **kwargs).join(User).join(Tenement).join(
+            Customer).join(Company).join_from(Tenement, Address).join_from(
+            cls, File)
 
     @property
     def metadata(self):
@@ -74,21 +84,31 @@ class Quota(ComCatModel):
 
     customer = ForeignKeyField(
         Customer, column_name='customer', unique=True, on_delete='CASCADE',
-        on_update='CASCADE')
+        on_update='CASCADE', lazy_load=False)
     quota = BigIntegerField(default=DEFAULT_QUOTA)  # Per-user quota in bytes.
 
     @classmethod
     def for_customer(cls, customer: Customer) -> Quota:
         """Returns the quota for the respective customer."""
         try:
-            return cls.get(cls.customer == customer)
+            return cls.select(cascade=True).where(
+                cls.customer == customer).get()
         except cls.DoesNotExist:
             return cls(customer=customer)
 
+    @classmethod
+    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+        """Selects customer file quotas."""
+        if not cascade:
+            return super().select(*args, **kwargs)
+
+        args = {cls, Customer, Company, *args}
+        return super().select(*args, **kwargs).join(Customer).join(Company)
+
     @property
-    def users(self) -> Iterable[User]:
+    def users(self) -> ModelSelect:
         """Returns the amount of users."""
-        return User.select().where(User.customer == self.customer)
+        return User.select(cascade=True).where(User.customer == self.customer)
 
     @property
     def customer_quota(self) -> int:
@@ -98,8 +118,8 @@ class Quota(ComCatModel):
     @property
     def files(self) -> Iterable[UserFile]:
         """Yields file records of the respective customer."""
-        condition = User.customer == self.customer
-        return UserFile.select().join(User).where(condition)
+        return UserFile.select(cascade=True).where(
+            User.customer == self.customer)
 
     @property
     def used(self) -> int:

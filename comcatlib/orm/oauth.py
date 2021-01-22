@@ -4,9 +4,10 @@ from __future__ import annotations
 from datetime import datetime
 from uuid import uuid4
 
-from peewee import ForeignKeyField
+from peewee import ForeignKeyField, ModelSelect
 
 from authlib.common.security import generate_token
+from mdb import Address, Company, Customer, Tenement
 from peeweeplus import Transaction
 from peeweeplus.authlib import OAuth2ClientMixin
 from peeweeplus.authlib import OAuth2TokenMixin
@@ -47,7 +48,8 @@ JWKS = []
 class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
     """An OAuth client."""
 
-    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
+    user = ForeignKeyField(
+        User, column_name='user', on_delete='CASCADE', lazy_load=False)
 
     @classmethod
     def add(cls, user: User) -> Client:
@@ -58,7 +60,7 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
             client_id_issued_at = datetime.now().timestamp(),
             token_endpoint_auth_method = TOKEN_ENDPOINT_AUTH_METHOD
         )
-        client.client_secret = secret = genpw()
+        client.client_secret = secret = genpw()     # pylint: disable=W0201
         transaction = Transaction()
         transaction.add(client, primary=True)
 
@@ -82,6 +84,16 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
 
         return (transaction, secret)
 
+    @classmethod
+    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+        """Selects clients."""
+        if not cascade:
+            return super().select(*args, **kwargs)
+
+        args = {cls, User, Tenement, Customer, Company, Address, *args}
+        return super().select(*args, **kwargs).join(User).join(Tenement).join(
+            Customer).join(Company).join_from(Tenement, Address)
+
 
 RedirectURI, GrantType, ResponseType, Scope, Contact, JWKS = \
     Client.get_related_models(ComCatModel)
@@ -90,7 +102,18 @@ RedirectURI, GrantType, ResponseType, Scope, Contact, JWKS = \
 class Token(ComCatModel, OAuth2TokenMixin):     # pylint: disable=R0901
     """An OAuth bearer token."""
 
-    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
+    user = ForeignKeyField(
+        User, column_name='user', on_delete='CASCADE', lazy_load=False)
+
+    @classmethod
+    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+        """Selects clients."""
+        if not cascade:
+            return super().select(*args, **kwargs)
+
+        args = {cls, User, Tenement, Customer, Company, Address, *args}
+        return super().select(*args, **kwargs).join(User).join(Tenement).join(
+            Customer).join(Company).join_from(Tenement, Address)
 
 
 class AuthorizationCode(ComCatModel, OAuth2AuthorizationCodeMixin):
@@ -99,7 +122,18 @@ class AuthorizationCode(ComCatModel, OAuth2AuthorizationCodeMixin):
     class Meta:     # pylint: disable=C0111,R0903
         table_name = 'authorization_code'
 
-    user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
+    user = ForeignKeyField(
+        User, column_name='user', on_delete='CASCADE', lazy_load=False)
+
+    @classmethod
+    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+        """Selects clients."""
+        if not cascade:
+            return super().select(*args, **kwargs)
+
+        args = {cls, User, Tenement, Customer, Company, Address, *args}
+        return super().select(*args, **kwargs).join(User).join(Tenement).join(
+            Customer).join(Company).join_from(Tenement, Address)
 
     def create_authorization_code(self, client: Client, grant_user: User,
                                   request: object) -> str:

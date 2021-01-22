@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 from enum import Enum
+from typing import Union
 
-from peewee import ForeignKeyField
+from peewee import ForeignKeyField, ModelSelect
 
 from cmslib.orm.charts import BaseChart
+from mdb import Company, Customer
 from peeweeplus import EnumField
 
 from comcatlib.orm.common import ComCatModel
@@ -30,16 +32,30 @@ class BaseChartMenu(ComCatModel):   # pylint: disable=R0903
         table_name = 'base_chart_menu'
 
     base_chart = ForeignKeyField(
-        BaseChart, column_name='base_chart', on_delete='CASCADE')
+        BaseChart, column_name='base_chart', on_delete='CASCADE',
+        lazy_load=False)
     menu = EnumField(Menu)
 
     @classmethod
-    def add(cls, base_chart: BaseChart, menu: Menu) -> BaseChartMenu:
+    def add(cls, base_chart: Union[BaseChart, int],
+            menu: Union[Menu, int]) -> BaseChartMenu:
         """Creates a new record from a JSON-ish dict."""
         condition = cls.base_chart == base_chart
         condition &= cls.menu == menu
 
         try:
-            return cls.get(condition)
+            return cls.select(cascade=True).where(condition).get()
         except cls.DoesNotExist:
-            return cls(base_chart=base_chart, menu=menu)
+            record = cls(base_chart=base_chart, menu=menu)
+            record.save()
+            return record
+
+    @classmethod
+    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+        """Selects base chart menus."""
+        if not cascade:
+            return super().select(*args, **kwargs)
+
+        args = {cls, BaseChart, Customer, Company, *args}
+        return super().select(*args, **kwargs).join(BaseChart).join(
+            Customer).join(Company)
