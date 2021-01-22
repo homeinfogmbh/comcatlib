@@ -1,12 +1,12 @@
 """HISFS-like file associations and quotas."""
 
 from __future__ import annotations
+from datetime import datetime
 from typing import Generator, Iterable
 
 from peewee import BigIntegerField, CharField, ForeignKeyField, ModelSelect
 
 from filedb import File
-from hisfs import get_sparse_file
 from mdb import Address, Company, Customer, Tenement
 
 from comcatlib.exceptions import QuotaExceeded
@@ -51,14 +51,39 @@ class UserFile(ComCatModel):
             cls, File)
 
     @property
-    def metadata(self):
-        """Returns file meta data."""
-        return get_sparse_file(self.file_id)
-
-    @property
     def bytes(self):
         """Returns the file's bytes."""
         return self.file.bytes
+
+    @property
+    def mimetype(self) -> str:
+        """Returns the MIME type."""
+        return self.filedb_file.mimetype
+
+    @property
+    def sha256sum(self) -> str:
+        """Returns the SHA-256 checksum."""
+        return self.filedb_file.sha256sum
+
+    @property
+    def size(self) -> int:
+        """Returns the file size."""
+        return self.filedb_file.size
+
+    @property
+    def created(self) -> datetime:
+        """Returns the create datetime."""
+        return self.filedb_file.created
+
+    @property
+    def last_access(self) -> datetime:
+        """Returns the last access datetime."""
+        return self.filedb_file.last_access
+
+    @property
+    def accessed(self) -> int:
+        """Returns the access count."""
+        return self.filedb_file.accessed
 
     def stream(self) -> Generator[bytes, None, None]:
         """Returns HTTP stream."""
@@ -71,12 +96,17 @@ class UserFile(ComCatModel):
 
         return super().save(*args, **kwargs)
 
-    def to_json(self, *args, **kwargs) -> dict:
+    def to_json(self, **_) -> dict:
         """Returns a JSON-ish dict."""
-        json = super().to_json(*args, **kwargs)
-        metadata = self.metadata.to_json(*args, **kwargs)
-        json.update(metadata)
-        return json
+        return {
+            'id': self.id,
+            'mimetype': self.mimetype,
+            'sha256sum': self.sha256sum,
+            'size': self.size,
+            'created': self.created,
+            'lastAccess': self.last_access,
+            'accessed': self.accessed
+        }
 
 
 class Quota(ComCatModel):
@@ -108,7 +138,7 @@ class Quota(ComCatModel):
     @property
     def users(self) -> ModelSelect:
         """Returns the amount of users."""
-        return User.select(cascade=True).where(User.customer == self.customer)
+        return User.select(cascade=True).where(Tenement.customer == self.customer)
 
     @property
     def customer_quota(self) -> int:
@@ -119,12 +149,12 @@ class Quota(ComCatModel):
     def files(self) -> Iterable[UserFile]:
         """Yields file records of the respective customer."""
         return UserFile.select(cascade=True).where(
-            User.customer == self.customer)
+            Tenement.customer == self.customer)
 
     @property
     def used(self) -> int:
         """Returns used space."""
-        return sum(file.metadata.size for file in self.files.iterator())
+        return sum(file.size for file in self.files.iterator())
 
     @property
     def free(self) -> int:
