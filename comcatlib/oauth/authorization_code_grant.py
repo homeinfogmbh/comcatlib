@@ -1,5 +1,7 @@
 """Authorization code grants."""
 
+from typing import Any, Optional
+
 from authlib.oauth2.rfc6749 import grants
 
 from comcatlib.orm.oauth import AuthorizationCode, Client
@@ -14,7 +16,7 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
 
     TOKEN_ENDPOINT_AUTH_METHODS = ['client_secret_post']
 
-    def save_authorization_code(self, code: str, request: object):
+    def save_authorization_code(self, code: str, request: Any) -> None:
         """Saves an authorization code."""
         authorization_code = AuthorizationCode(
             code=code,
@@ -26,26 +28,26 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
         authorization_code.save()
 
     def query_authorization_code(self, code: str, client: Client) \
-            -> AuthorizationCode:
+            -> Optional[AuthorizationCode]:
         """Returns the authorization code."""
         condition = AuthorizationCode.code == code
         condition &= AuthorizationCode.client_id == client.client_id
 
         try:
-            return AuthorizationCode.get(condition)
+            return AuthorizationCode.select(cascade=True).where(
+                condition).get()
         except AuthorizationCode.DoesNotExist:
             return None
 
-    def delete_authorization_code(self, authorization_code: AuthorizationCode):
+    def delete_authorization_code(
+            self, authorization_code: AuthorizationCode) -> None:
         """Deletes the respective authorization code."""
         authorization_code.delete_instance()
 
-    def authenticate_user(self, authorization_code: AuthorizationCode) -> User:
+    def authenticate_user(
+            self, authorization_code: AuthorizationCode) -> Optional[User]:
         """Authenticates a user."""
-        if authorization_code.user_id is None:
+        if authorization_code.is_expired():
             return None
 
-        try:
-            return User[authorization_code.user_id]
-        except User.DoesNotExist:
-            return None
+        return authorization_code.user

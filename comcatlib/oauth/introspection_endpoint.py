@@ -1,5 +1,7 @@
 """Token introspection endpoint."""
 
+from typing import Optional
+
 from authlib.oauth2.rfc7662 import IntrospectionEndpoint
 
 from comcatlib.orm.oauth import Client, Token
@@ -15,22 +17,21 @@ def get_token(token: str, token_type_hint: str) -> Token:
     """Returns the respective token."""
 
     if token_type_hint == 'access_token':
-        return Token.get(Token.access_token == token)
+        condition = Token.access_token == token
+    elif token_type_hint == 'refresh_token':
+        condition = Token.refresh_token == token
+    else:
+        condition = Token.access_token == token
+        condition |= Token.refresh_token == token
 
-    if token_type_hint == 'refresh_token':
-        return Token.get(Token.refresh_token == token)
-
-    try:
-        return Token.get(Token.access_token == token)
-    except Token.DoesNotExist:
-        return Token.get(Token.refresh_token == token)
+    return Token.select(cascade=True).where(condition).get()
 
 
 class TokenIntrospectionEndpoint(IntrospectionEndpoint):
     """Introspection of bearer tokens."""
 
     def query_token(self, token: Token, token_type_hint: str,
-                    client: Client) -> Token:
+                    client: Client) -> Optional[Token]:
         """Returns the respective token."""
         try:
             token = get_token(token, token_type_hint)

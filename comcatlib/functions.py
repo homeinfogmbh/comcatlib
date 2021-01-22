@@ -2,6 +2,7 @@
 
 from random import choices
 from string import ascii_letters, digits
+from typing import Union
 from urllib.parse import urlparse, ParseResult
 
 from flask import request
@@ -27,9 +28,9 @@ def genpw(*, pool: str = ascii_letters+digits, length: int = 32) -> str:
     return ''.join(choices(pool, k=length))
 
 
-def get_tenement(ident: int, customer: Customer) -> Tenement:
+def get_tenement(ident: int, customer: Union[Customer, int]) -> Tenement:
     """Returns a tenement by its ID and customer."""
 
     condition = Tenement.id == ident
     condition &= Tenement.customer == customer
-    return Tenement.get(condition)
+    return Tenement.select(cascade=True).where(condition)

@@ -1,5 +1,7 @@
 """OAuth 2.0 authorization server."""
 
+from typing import Any, Optional
+
 from flask import Flask
 
 from authlib.integrations.flask_oauth2 import AuthorizationServer
@@ -15,16 +17,17 @@ from comcatlib.orm.oauth import Client, Token
 __all__ = ['SERVER', 'init_oauth']
 
 
-def query_client(client_id: int) -> Client:
+def query_client(client_id: int) -> Optional[Client]:
     """Returns a c lient by its ID."""
 
     try:
-        return Client.get(Client.client_id == client_id)
+        return Client.select(cascade=True).where(
+            Client.client_id == client_id).get()
     except Client.DoesNotExist:
         return None
 
 
-def save_token(token_data: dict, request: object):
+def save_token(token_data: dict, request: Any) -> None:
     """Stores the respective token."""
 
     if request.user:

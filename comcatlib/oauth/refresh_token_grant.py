@@ -1,5 +1,7 @@
 """Handling of refresh tokens."""
 
+from typing import Optional
+
 from authlib.oauth2.rfc6749 import grants
 
 from comcatlib.orm.oauth import Token
@@ -15,10 +17,12 @@ class RefreshTokenGrant(grants.RefreshTokenGrant):
     TOKEN_ENDPOINT_AUTH_METHODS = ['client_secret_post']
     INCLUDE_NEW_REFRESH_TOKEN = True
 
-    def authenticate_refresh_token(self, refresh_token: str) -> Token:
+    def authenticate_refresh_token(
+            self, refresh_token: str) -> Optional[Token]:
         """Authenticates the refresh token."""
         try:
-            refresh_token = Token.get(refresh_token=refresh_token)
+            refresh_token = Token.select(cascade=True).where(
+                refresh_token=refresh_token).get()
         except Token.DoesNotExist:
             return None
 
@@ -27,14 +31,14 @@ class RefreshTokenGrant(grants.RefreshTokenGrant):
 
         return refresh_token
 
-    def authenticate_user(self, credential: Token) -> User:
+    def authenticate_user(self, credential: Token) -> Optional[User]:
         """Authenticates the user."""
-        try:
-            return User[credential.user_id]
-        except User.DoesNotExist:
-            return None
+        if credential.is_valid():
+            return credential.user
 
-    def revoke_old_credential(self, credential: Token):
+        return None
+
+    def revoke_old_credential(self, credential: Token) -> None:
         """Revokes the credential."""
         credential.revoked = True
         credential.save()

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from datetime import datetime
+from typing import Any
 from uuid import uuid4
 
 from peewee import ForeignKeyField, ModelSelect
@@ -136,7 +137,7 @@ class AuthorizationCode(ComCatModel, OAuth2AuthorizationCodeMixin):
             Customer).join(Company).join_from(Tenement, Address)
 
     def create_authorization_code(self, client: Client, grant_user: User,
-                                  request: object) -> str:
+                                  request: Any) -> str:
         """Method override with addional nonce for OpenID Connect."""
         code = generate_token(48)
         record = type(self)(
