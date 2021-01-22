@@ -39,15 +39,16 @@ class Presentation(PresentationMixin):
     @property
     def base_charts(self) -> Iterable[UserBaseChart]:
         """Yields the user's base charts."""
-        return UserBaseChart.select().join(BaseChart).where(
+        return UserBaseChart.select(cascade=True).where(
             (UserBaseChart.user == self.user)
-            & (BaseChart.trashed == 0)).order_by(UserBaseChart.index)
+            & (BaseChart.trashed == 0)
+        ).order_by(UserBaseChart.index)
 
     @property
     def configuration(self) -> Configuration:
         """Returns the user's configuration."""
         try:
-            return Configuration.select().join(UserConfiguration).where(
+            return Configuration.select(cascade=True).where(
                 UserConfiguration.user == self.user).get()
         except Configuration.DoesNotExist:
             raise NoConfigurationFound() from None
@@ -55,7 +56,7 @@ class Presentation(PresentationMixin):
     @property
     def groups(self) -> GroupMemberUser:
         """Yields groups this user is a member of."""
-        for gma in GroupMemberUser.select().where(
+        for gma in GroupMemberUser.select(cascade=True).where(
                 GroupMemberUser.user == self.user):
             yield gma.group
 
