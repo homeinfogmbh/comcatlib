@@ -17,12 +17,12 @@ class RefreshTokenGrant(grants.RefreshTokenGrant):
     TOKEN_ENDPOINT_AUTH_METHODS = ['client_secret_post']
     INCLUDE_NEW_REFRESH_TOKEN = True
 
-    def authenticate_refresh_token(
-            self, refresh_token: str) -> Optional[Token]:
+    def authenticate_refresh_token(self, refresh_token: str) \
+            -> Optional[Token]:
         """Authenticates the refresh token."""
         try:
             refresh_token = Token.select(cascade=True).where(
-                refresh_token=refresh_token).get()
+                Token.refresh_token == refresh_token).get()
         except Token.DoesNotExist:
             return None
 
