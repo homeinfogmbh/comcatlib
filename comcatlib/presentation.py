@@ -7,7 +7,7 @@ from cmslib import Configuration
 from cmslib import Menu
 from cmslib import Presentation
 from cmslib import get_trashed
-from cmslib import presentation
+from cmslib.dom import presentation
 
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import User
