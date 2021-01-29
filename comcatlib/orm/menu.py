@@ -6,7 +6,7 @@ from typing import Union
 
 from peewee import ForeignKeyField, ModelSelect
 
-from cmslib.orm.charts import BaseChart
+from cmslib import BaseChart
 from mdb import Company, Customer
 from peeweeplus import EnumField
 

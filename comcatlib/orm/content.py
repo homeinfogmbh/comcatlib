@@ -5,9 +5,7 @@ from typing import Union
 
 from peewee import ForeignKeyField, IntegerField, ModelSelect
 
-from cmslib.orm.charts import Chart, ChartMode, BaseChart
-from cmslib.orm.configuration import Configuration
-from cmslib.orm.menu import Menu
+from cmslib import BaseChart, Chart, ChartMode, Configuration, Menu
 from mdb import Address, Company, Customer, Tenement
 
 from comcatlib.orm.common import ComCatModel

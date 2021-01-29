@@ -2,12 +2,12 @@
 
 from typing import Iterable
 
-from cmslib.dom import presentation
-from cmslib.exceptions import NoConfigurationFound
-from cmslib.functions.charts import get_trashed
-from cmslib.orm.configuration import Configuration
-from cmslib.orm.menu import Menu
-from cmslib.presentation.common import Presentation
+from cmslib import NoConfigurationFound
+from cmslib import Configuration
+from cmslib import Menu
+from cmslib import Presentation
+from cmslib import get_trashed
+from cmslib import presentation
 
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import User

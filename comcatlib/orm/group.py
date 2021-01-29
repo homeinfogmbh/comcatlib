@@ -5,7 +5,7 @@ from typing import Union
 
 from peewee import ForeignKeyField, IntegerField, ModelSelect
 
-from cmslib.orm.group import Group
+from cmslib import Group
 from mdb import Address, Company, Customer, Tenement
 
 from comcatlib.orm.common import ComCatModel
