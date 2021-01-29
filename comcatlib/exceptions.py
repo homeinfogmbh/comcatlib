@@ -2,8 +2,9 @@
 
 
 __all__ = [
-    'ComCatException',
     'DuplicateUser',
+    'InvalidAddress',
+    'InvalidPassword',
     'NonceUsed',
     'QuotaExceeded',
     'UserExpired',
@@ -11,29 +12,29 @@ __all__ = [
 ]
 
 
-class ComCatException(Exception):
-    """Common ComCat exception."""
-
-
-class DuplicateUser(ComCatException):
+class DuplicateUser(Exception):
     """Indicates a duplicate user."""
 
 
-class NonceUsed(ComCatException):
-    """Indicates that a nonce has already been used."""
+class InvalidAddress(Exception):
+    """Indicates that an invalid address value was provided."""
 
 
-class QuotaExceeded(ComCatException):
-    """Indicates that a user has exceeded their disk quota."""
-
-
-class UserExpired(ComCatException):
-    """Indicates that the user is expired."""
-
-
-class UserLocked(ComCatException):
+class InvalidPassword(Exception):
     """Indicates that the user is locked."""
 
 
-class InvalidPassword(ComCatException):
+class NonceUsed(Exception):
+    """Indicates that a nonce has already been used."""
+
+
+class QuotaExceeded(Exception):
+    """Indicates that a user has exceeded their disk quota."""
+
+
+class UserExpired(Exception):
+    """Indicates that the user is expired."""
+
+
+class UserLocked(Exception):
     """Indicates that the user is locked."""
