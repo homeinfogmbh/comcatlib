@@ -4,11 +4,10 @@ from typing import Iterable
 
 from cmslib.dom import presentation
 from cmslib.exceptions import NoConfigurationFound
-from cmslib.orm.charts import BaseChart
+from cmslib.functions.charts import get_trashed
 from cmslib.orm.configuration import Configuration
 from cmslib.orm.menu import Menu
-from cmslib.presentation.common import PresentationMixin
-from mdb import Customer
+from cmslib.presentation.common import Presentation
 
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import User
@@ -23,25 +22,19 @@ __all__ = ['Presentation']
 PresentationDOM = presentation.typeDefinition()
 
 
-class Presentation(PresentationMixin):
+class Presentation(Presentation):   # pylint: disable=E0102
     """Accumulates content for a ComCat user."""
 
     def __init__(self, user: User):
         """Sets the respective user."""
         self.user = user
-        self.cache = {}
-
-    @property
-    def customer(self) -> Customer:
-        """Returns the respective customer."""
-        return self.user.customer
+        super().__init__(user.tenement.customer)
 
     @property
     def base_charts(self) -> Iterable[UserBaseChart]:
         """Yields the user's base charts."""
         return UserBaseChart.select(cascade=True).where(
-            (UserBaseChart.user == self.user)
-            & (BaseChart.trashed == 0)
+            (UserBaseChart.user == self.user) & get_trashed()
         ).order_by(UserBaseChart.index)
 
     @property
@@ -63,7 +56,8 @@ class Presentation(PresentationMixin):
     @property
     def menus(self) -> Menu:
         """Yields menus of this user."""
-        return Menu.select().join(UserMenu).where(UserMenu.user == self.user)
+        return Menu.select(cascade=True).join_from(Menu, UserMenu).where(
+            UserMenu.user == self.user)
 
     def to_dom(self) -> PresentationDOM:
         """Returns an XML DOM."""
