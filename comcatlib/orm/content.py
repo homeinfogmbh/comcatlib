@@ -67,7 +67,8 @@ class UserBaseChart(UserContent):
             return super().select(*args, **kwargs)
 
         args = {cls, BaseChart, *args}
-        return super().select(*args, cascade=True, **kwargs).join(BaseChart)
+        return super().select(*args, cascade=True, **kwargs).join_from(
+            cls, BaseChart)
 
     @property
     def chart(self) -> Chart:
@@ -110,8 +111,8 @@ class UserConfiguration(UserContent):
             return super().select(*args, **kwargs)
 
         args = {cls, Configuration, *args}
-        return super().select(*args, cascade=True, **kwargs).join(
-            Configuration)
+        return super().select(*args, cascade=True, **kwargs).join_from(
+            cls, Configuration)
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
@@ -142,7 +143,8 @@ class UserMenu(UserContent):
             return super().select(*args, **kwargs)
 
         args = {cls, Menu, *args}
-        return super().select(*args, cascade=True, **kwargs).join(Menu)
+        return super().select(*args, cascade=True, **kwargs).join_from(
+            cls, Menu)
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
