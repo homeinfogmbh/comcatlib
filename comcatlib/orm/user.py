@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from datetime import datetime
-from typing import Iterable, Tuple
+from typing import Iterable, Tuple, Union
 
 from argon2.exceptions import VerifyMismatchError
 from peewee import BooleanField, DateTimeField, ForeignKeyField, ModelSelect
@@ -15,7 +15,7 @@ from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidPassword
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
-from comcatlib.functions import genpw, get_tenement
+from comcatlib.functions import genpw
 from comcatlib.messages import NO_SUCH_USER
 from comcatlib.orm.common import ComCatModel
 
@@ -47,7 +47,7 @@ class User(ComCatModel):
     passwd = Argon2Field()
 
     @classmethod
-    def from_json(cls, json: dict, tenement: Tenement,
+    def from_json(cls, json: dict, tenement: Union[Tenement, int],
                   **kwargs) -> Tuple[User, str]:
         """Creates the user from the respective JSON data."""
         if 'passwd' in json:
@@ -123,14 +123,15 @@ class User(ComCatModel):
         self.save()
         return True
 
-    def patch_json(self, json: dict, **kwargs):
+    def patch_json(self, json: dict, tenement: Union[Tenement, int] = None,
+                   **kwargs) -> User:
         """Patches the user with the respective JSON data."""
-        tenement = json.pop('tenement', None)
+        super().patch_json(json, **kwargs)
 
         if tenement is not None:
-            self.tenement = get_tenement(tenement, self.customer)
+            self.tenement = tenement
 
-        super().patch_json(json, **kwargs)
+        return self
 
     def to_json(self, tenement: bool = False, **kwargs) -> dict:
         """Returns JSON-ish dict."""
