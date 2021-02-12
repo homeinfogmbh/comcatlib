@@ -37,7 +37,8 @@ REDIRECT_URIS = [
     'https://comcat.homeinfo.de/oauth/authorize',
     'https://comcat.homeinfo.de/oauth/token',
     'de.homeinfo.comcat://auth',
-    'de.homeinfo.comcat://token'
+    'de.homeinfo.comcat://token',
+    'http://localhost:4200/grantAccess' # Sebastian Test.
 ]
 GRANT_TYPES = ['authorization_code', 'refresh_token']
 RESPONSE_TYPES = ['code', 'token']
