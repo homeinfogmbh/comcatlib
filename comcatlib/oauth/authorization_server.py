@@ -40,6 +40,16 @@ def save_token(token_data: dict, request: Any) -> None:
     token.save()
 
 
+class AuthorizationServer(AuthorizationServer):
+    """Subclass of the original flask authorization server."""
+
+    def create_authorization_response(self, *args, **kwargs) -> Any:
+        """Enhanced authorization response generation."""
+        result = super().create_authorization_response(*args, **kwargs)
+        print('AUTHORIZATION RESPONSE:', type(result), result, flush=True)
+        return result
+
+
 SERVER = AuthorizationServer(query_client=query_client, save_token=save_token)
 
 
