@@ -2,7 +2,7 @@
 
 from typing import Any, Optional
 
-from flask import Flask
+from flask import Flask, Response, request
 
 from authlib.integrations.flask_oauth2 import AuthorizationServer
 from authlib.oauth2.rfc6749.grants import ImplicitGrant
@@ -40,14 +40,17 @@ def save_token(token_data: dict, request: Any) -> None:
     token.save()
 
 
-class AuthorizationServer(AuthorizationServer):
+class AuthorizationServer(AuthorizationServer):     # pylint: disable=E0102
     """Subclass of the original flask authorization server."""
 
-    def create_authorization_response(self, *args, **kwargs) -> Any:
+    def create_authorization_response(self, *args, **kwargs) -> Response:
         """Enhanced authorization response generation."""
-        result = super().create_authorization_response(*args, **kwargs)
-        print('AUTHORIZATION RESPONSE:', type(result), result, flush=True)
-        return result
+        response = super().create_authorization_response(*args, **kwargs)
+
+        if request.args.get('no_redirect') is not None:
+            response.status_code = 403
+
+        return response
 
 
 SERVER = AuthorizationServer(query_client=query_client, save_token=save_token)
