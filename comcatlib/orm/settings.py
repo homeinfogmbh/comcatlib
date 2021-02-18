@@ -1,6 +1,11 @@
 """Customer-specific settings."""
 
-from peewee import IntegerField
+from __future__ import annotations
+from typing import Union
+
+from peewee import JOIN, ForeignKeyField, IntegerField, ModelSelect
+
+from mdb import Address, Company, Customer
 
 from comcatlib.orm.common import ComCatModel
 
@@ -14,4 +19,22 @@ USER_QUOTA = 10
 class Settings(ComCatModel):
     """Customer-specific settings model."""
 
+    customer = ForeignKeyField(
+        Customer, column_name='customer', on_delete='CASCADE',
+        on_update='DELETE')
     user_quota = IntegerField(default=USER_QUOTA)
+
+    @classmethod
+    def for_customer(cls, customer: Union[Customer, int]) -> Settings:
+        """Returns the settings for the specified customer."""
+        return cls.select(cascade=True).where(cls.customer == customer).get()
+
+    @classmethod
+    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+        """"Selects Settings."""
+        if not cascade:
+            return super().select(*args, **kwargs)
+
+        args = {cls, Customer, Company, Address, *args}
+        return cls.select(*args, **kwargs).join(Customer).join(Company).join(
+            Address, join_type=JOIN.LEFT_OUTER)
