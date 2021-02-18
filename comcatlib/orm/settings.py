@@ -26,8 +26,16 @@ class Settings(ComCatModel):
 
     @classmethod
     def for_customer(cls, customer: Union[Customer, int]) -> Settings:
-        """Returns the settings for the specified customer."""
-        return cls.select(cascade=True).where(cls.customer == customer).get()
+        """Returns the settings for the specified customer
+        or creates a record if none exists yet.
+        """
+        try:
+            return cls.select(cascade=True).where(
+                cls.customer == customer).get()
+        except cls.DoesNotExist:
+            record = cls(customer=customer)
+            record.save()
+            return record
 
     @classmethod
     def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
