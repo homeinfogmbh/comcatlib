@@ -11,6 +11,7 @@ from comcatlib.exceptions import InvalidAddress
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
 from comcatlib.files import add_file
+from comcatlib.functions import genpw
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.orm import AuthorizationNonce
 from comcatlib.orm import GroupMemberUser
@@ -38,11 +39,12 @@ __all__ = [
     'UserExpired',
     'UserLocked',
     'add_file',
+    'decode_url',
+    'encode_url',
+    'genpw',
     'get_user',
     'init_app',
     'oauth',
-    'decode_url',
-    'encode_url',
     'proxy_url',
     'AuthorizationNonce',
     'GroupMemberUser',
