@@ -25,6 +25,7 @@ from comcatlib.orm import UserConfiguration
 from comcatlib.orm import UserDamageReport
 from comcatlib.orm import UserFile
 from comcatlib.orm import UserMenu
+from comcatlib.orm import UserTenantMessage
 from comcatlib.presentation import Presentation
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
@@ -60,6 +61,7 @@ __all__ = [
     'UserDamageReport',
     'UserFile',
     'UserMenu',
+    'UserTenantMessage',
     'Presentation'
 ]
 
