@@ -58,32 +58,32 @@ class UserFile(ComCatModel):
     @property
     def mimetype(self) -> str:
         """Returns the MIME type."""
-        return self.filedb_file.mimetype
+        return self.file.mimetype
 
     @property
     def sha256sum(self) -> str:
         """Returns the SHA-256 checksum."""
-        return self.filedb_file.sha256sum
+        return self.file.sha256sum
 
     @property
     def size(self) -> int:
         """Returns the file size."""
-        return self.filedb_file.size
+        return self.file.size
 
     @property
     def created(self) -> datetime:
         """Returns the create datetime."""
-        return self.filedb_file.created
+        return self.file.created
 
     @property
     def last_access(self) -> datetime:
         """Returns the last access datetime."""
-        return self.filedb_file.last_access
+        return self.file.last_access
 
     @property
     def accessed(self) -> int:
         """Returns the access count."""
-        return self.filedb_file.accessed
+        return self.file.accessed
 
     def stream(self) -> Generator[bytes, None, None]:
         """Returns HTTP stream."""
