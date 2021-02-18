@@ -2,10 +2,11 @@
 
 from typing import Any, Optional
 
-from flask import Flask, Response, request
-
 from authlib.integrations.flask_oauth2 import AuthorizationServer
 from authlib.oauth2.rfc6749.grants import ImplicitGrant
+from flask import Flask, Response
+
+from wsgilib import get_int
 
 from comcatlib.oauth.authorization_code_grant import AuthorizationCodeGrant
 from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
@@ -46,10 +47,7 @@ class AuthorizationServer(AuthorizationServer):     # pylint: disable=E0102
     def create_authorization_response(self, *args, **kwargs) -> Response:
         """Enhanced authorization response generation."""
         response = super().create_authorization_response(*args, **kwargs)
-
-        if request.args.get('no_redirect') is not None:
-            response.status_code = 403
-
+        response.status_code = get_int('redirect_status_code', 301)
         return response
 
 
