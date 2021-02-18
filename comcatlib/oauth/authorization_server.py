@@ -47,7 +47,7 @@ class AuthorizationServer(AuthorizationServer):     # pylint: disable=E0102
     def create_authorization_response(self, *args, **kwargs) -> Response:
         """Enhanced authorization response generation."""
         response = super().create_authorization_response(*args, **kwargs)
-        response.status_code = get_int('redirect_status_code', 301)
+        response.status_code = get_int('redirect_status_code', 302)
         return response
 
 
