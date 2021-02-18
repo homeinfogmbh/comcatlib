@@ -22,7 +22,7 @@ class Settings(ComCatModel):
 
     customer = ForeignKeyField(
         Customer, column_name='customer', on_delete='CASCADE',
-        on_update='DELETE')
+        on_update='CASCADE')
     user_quota = IntegerField(default=USER_QUOTA)
 
     @classmethod
