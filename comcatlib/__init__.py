@@ -17,6 +17,7 @@ from comcatlib.orm import AuthorizationNonce
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import MenuBaseChart
 from comcatlib.orm import Quota
+from comcatlib.orm import Settings
 from comcatlib.orm import User
 from comcatlib.orm import UserBaseChart
 from comcatlib.orm import UserConfiguration
@@ -50,6 +51,7 @@ __all__ = [
     'GroupMemberUser',
     'MenuBaseChart',
     'Quota',
+    'Settings',
     'User',
     'UserBaseChart',
     'UserConfiguration',
