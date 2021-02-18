@@ -5,9 +5,10 @@ from typing import Union
 
 from peewee import JOIN, ForeignKeyField, IntegerField, ModelSelect
 
-from mdb import Address, Company, Customer
+from mdb import Address, Company, Customer, Tenement
 
 from comcatlib.orm.common import ComCatModel
+from comcatlib.orm.user import User
 
 
 __all__ = ['Settings']
@@ -46,3 +47,9 @@ class Settings(ComCatModel):
         args = {cls, Customer, Company, Address, *args}
         return cls.select(*args, **kwargs).join(Customer).join(Company).join(
             Address, join_type=JOIN.LEFT_OUTER)
+
+    def allocate_user(self) -> bool:
+        """Allocates a user account."""
+        users = User.select(cascade=True).where(
+            Tenement.customer == self.customer)
+        return len(users) < self.user_quota
