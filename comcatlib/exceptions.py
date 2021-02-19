@@ -31,6 +31,12 @@ class NonceUsed(Exception):
 class QuotaExceeded(Exception):
     """Indicates that a user has exceeded their disk quota."""
 
+    def __init__(self, quota: int, free: int, size: int):
+        super().__init__()
+        self.quota = quota
+        self.free = free
+        self.size = size
+
 
 class UserExpired(Exception):
     """Indicates that the user is expired."""
