@@ -3,8 +3,6 @@
 from comcatlib.messages.clientreg import INVALID_UUID
 from comcatlib.messages.clientreg import INVALID_NONCE
 from comcatlib.messages.clientreg import MISSING_NONCE
-from comcatlib.messages.files import NO_SUCH_FILE
-from comcatlib.messages.files import QUOTA_EXCEEDED
 from comcatlib.messages.news import NEWS_NOT_ENABLED
 from comcatlib.messages.news import NO_SUCH_ARTICLE
 from comcatlib.messages.news import NO_SUCH_ARTICLE_IMAGE
@@ -24,8 +22,6 @@ __all__ = [
     'INVALID_UUID',
     'INVALID_NONCE',
     'MISSING_NONCE',
-    'NO_SUCH_FILE',
-    'QUOTA_EXCEEDED',
     'NEWS_NOT_ENABLED',
     'NO_SUCH_ARTICLE',
     'NO_SUCH_ARTICLE_IMAGE',
