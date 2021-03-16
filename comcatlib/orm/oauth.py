@@ -38,7 +38,8 @@ REDIRECT_URIS = [
     'https://comcat.homeinfo.de/oauth/token',
     'de.homeinfo.comcat://auth',
     'de.homeinfo.comcat://token',
-    'http://localhost:4200/grantAccess' # Sebastian Test.
+    'http://localhost:4200/grantAccess',    # Sebastian Test.
+    'https://webapphi.web.app/grantAccess'  # Web App.
 ]
 GRANT_TYPES = ['authorization_code', 'refresh_token']
 RESPONSE_TYPES = ['code', 'token']
