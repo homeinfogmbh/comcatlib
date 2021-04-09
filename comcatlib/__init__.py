@@ -8,6 +8,7 @@ from comcatlib.localproxies import USER
 from comcatlib.localproxies import get_user
 from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidAddress
+from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
 from comcatlib.files import add_file
@@ -39,6 +40,7 @@ __all__ = [
     'USER',
     'DuplicateUser',
     'InvalidAddress',
+    'QuotaExceeded',
     'UserExpired',
     'UserLocked',
     'add_file',

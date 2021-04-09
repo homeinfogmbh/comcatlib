@@ -38,6 +38,7 @@ REDIRECT_URIS = [
     'https://comcat.homeinfo.de/oauth/token',
     'de.homeinfo.comcat://auth',
     'de.homeinfo.comcat://token',
+    'https://webapphi.web.app/grantAccess',     # Web App.
     # Sebastian Test.
     'http://localhost:4200/grantAccess',
     'https://testing.homeinfo.de/comcat/grantAccess'
