@@ -6,7 +6,6 @@ from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.content import UserConfiguration
 from comcatlib.orm.content import UserMenu
 from comcatlib.orm.damage_report import UserDamageReport
-from comcatlib.orm.files import Quota, UserFile
 from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.menu import MenuBaseChart
 from comcatlib.orm.nonces import AuthorizationNonce
@@ -48,12 +47,10 @@ __all__ = [
     'UserBaseChart',
     'UserConfiguration',
     'UserDamageReport',
-    'UserFile',
     'UserMenu',
     'UserTenantMessage',
     # Misc
-    'MenuBaseChart',
-    'Quota'
+    'MenuBaseChart'
 ]
 
 
@@ -78,12 +75,10 @@ MODELS = (
     UserBaseChart,
     UserConfiguration,
     UserDamageReport,
-    UserFile,
     UserMenu,
     UserTenantMessage,
     # Misc
-    MenuBaseChart,
-    Quota
+    MenuBaseChart
 )
 
 

@@ -11,7 +11,7 @@ __all__ = ['DATABASE', 'ComCatModel']
 DATABASE = MySQLDatabase.from_config(CONFIG['db'])
 
 
-class ComCatModel(JSONModel):
+class ComCatModel(JSONModel):   # pylint: disable=R0903
     """Basic comcat model."""
 
     class Meta:     # pylint: disable=C0111,R0903

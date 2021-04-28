@@ -11,20 +11,17 @@ from comcatlib.exceptions import InvalidAddress
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
-from comcatlib.files import add_file
 from comcatlib.functions import genpw
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.orm import AuthorizationNonce
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import MenuBaseChart
-from comcatlib.orm import Quota
 from comcatlib.orm import Settings
 from comcatlib.orm import Token
 from comcatlib.orm import User
 from comcatlib.orm import UserBaseChart
 from comcatlib.orm import UserConfiguration
 from comcatlib.orm import UserDamageReport
-from comcatlib.orm import UserFile
 from comcatlib.orm import UserMenu
 from comcatlib.orm import UserTenantMessage
 from comcatlib.presentation import Presentation
@@ -43,7 +40,6 @@ __all__ = [
     'QuotaExceeded',
     'UserExpired',
     'UserLocked',
-    'add_file',
     'decode_url',
     'encode_url',
     'genpw',
@@ -54,14 +50,12 @@ __all__ = [
     'AuthorizationNonce',
     'GroupMemberUser',
     'MenuBaseChart',
-    'Quota',
     'Token',
     'Settings',
     'User',
     'UserBaseChart',
     'UserConfiguration',
     'UserDamageReport',
-    'UserFile',
     'UserMenu',
     'UserTenantMessage',
     'Presentation'
