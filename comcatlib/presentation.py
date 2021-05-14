@@ -25,10 +25,14 @@ PresentationDOM = presentation.typeDefinition()
 class Presentation(Presentation):   # pylint: disable=E0102
     """Accumulates content for a ComCat user."""
 
-    def __init__(self, user: User):
+    def __init__(self, user: User):     # pylint: disable=W0231
         """Sets the respective user."""
         self.user = user
-        super().__init__(user.tenement.customer)
+
+    @property
+    def customer(self):
+        """Returns the customer."""
+        return user.tenement.customer
 
     @property
     def base_charts(self) -> Iterable[UserBaseChart]:
