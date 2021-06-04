@@ -30,6 +30,8 @@ def get_token(token: str, token_type_hint: str) -> Token:
 class TokenIntrospectionEndpoint(IntrospectionEndpoint):
     """Introspection of bearer tokens."""
 
+    TOKEN_ENDPOINT_AUTH_METHODS = ['client_secret_post']
+
     def query_token(self, token: Token, token_type_hint: str,
                     client: Client) -> Optional[Token]:
         """Returns the respective token."""

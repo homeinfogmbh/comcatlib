@@ -21,8 +21,6 @@ __all__ = ['SERVER', 'init_oauth']
 def query_client(client_id: int) -> Optional[Client]:
     """Returns a c lient by its ID."""
 
-    print('[DEBUG] Client ID = ', client_id, flush=True)
-
     try:
         return Client.select(cascade=True).where(
             Client.client_id == client_id).get()

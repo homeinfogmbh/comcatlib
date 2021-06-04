@@ -13,6 +13,8 @@ __all__ = ['TokenRevocationEndpoint']
 class TokenRevocationEndpoint(RevocationEndpoint):
     """A Token revocation endpoint."""
 
+    TOKEN_ENDPOINT_AUTH_METHODS = ['client_secret_post']
+
     def query_token(self, token: str, token_type_hint: str,
                     client: Client) -> Optional[Token]:
         """Queries a token from the database."""
