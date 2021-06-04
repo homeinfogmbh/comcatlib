@@ -18,7 +18,7 @@ from comcatlib.orm.oauth import Client, Token
 __all__ = ['SERVER', 'init_oauth']
 
 
-def query_client(client_id: int) -> Optional[Client]:
+def query_client(client_id: str) -> Optional[Client]:
     """Returns a c lient by its ID."""
 
     try:
