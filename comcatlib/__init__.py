@@ -6,6 +6,7 @@ from comcatlib.localproxies import CUSTOMER
 from comcatlib.localproxies import TENEMENT
 from comcatlib.localproxies import USER
 from comcatlib.localproxies import get_user
+from comcatlib.exceptions import AlreadyRegistered
 from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidAddress
 from comcatlib.exceptions import QuotaExceeded
@@ -23,6 +24,7 @@ from comcatlib.orm import UserBaseChart
 from comcatlib.orm import UserConfiguration
 from comcatlib.orm import UserDamageReport
 from comcatlib.orm import UserMenu
+from comcatlib.orm import UserRegistration
 from comcatlib.orm import UserTenantMessage
 from comcatlib.presentation import Presentation
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
@@ -35,6 +37,7 @@ __all__ = [
     'CUSTOMER',
     'TENEMENT',
     'USER',
+    'AlreadyRegistered',
     'DuplicateUser',
     'InvalidAddress',
     'QuotaExceeded',
@@ -57,6 +60,7 @@ __all__ = [
     'UserConfiguration',
     'UserDamageReport',
     'UserMenu',
+    'UserRegistration',
     'UserTenantMessage',
     'Presentation'
 ]

@@ -18,6 +18,7 @@ from comcatlib.orm.oauth import RedirectURI
 from comcatlib.orm.oauth import ResponseType
 from comcatlib.orm.oauth import Scope
 from comcatlib.orm.oauth import Token
+from comcatlib.orm.registration import UserRegistration
 from comcatlib.orm.settings import Settings
 from comcatlib.orm.tenant2tenant import UserTenantMessage
 from comcatlib.orm.user import get_user, User
@@ -48,6 +49,7 @@ __all__ = [
     'UserConfiguration',
     'UserDamageReport',
     'UserMenu',
+    'UserRegistration',
     'UserTenantMessage',
     # Misc
     'MenuBaseChart'

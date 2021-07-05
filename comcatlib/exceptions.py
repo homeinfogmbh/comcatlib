@@ -2,6 +2,7 @@
 
 
 __all__ = [
+    'AlreadyRegistered',
     'DuplicateUser',
     'InvalidAddress',
     'InvalidPassword',
@@ -10,6 +11,10 @@ __all__ = [
     'UserExpired',
     'UserLocked'
 ]
+
+
+class AlreadyRegistered(Exception):
+    """Indicates that the respective tenant ID is alerady registered."""
 
 
 class DuplicateUser(Exception):
