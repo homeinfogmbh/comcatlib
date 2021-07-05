@@ -1,6 +1,5 @@
 """Object relational mappings."""
 
-
 from comcatlib.orm.common import DATABASE
 from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.content import UserConfiguration
