@@ -50,12 +50,12 @@ class User(ComCatModel):
     def from_json(cls, json: dict, tenement: Union[Tenement, int],
                   **kwargs) -> Tuple[User, str]:
         """Creates the user from the respective JSON data."""
-        if 'passwd' in json:
-            passwd = None
-        else:
-            json['passwd'] = passwd = genpw()
+        passwd = json.get('passwd')
 
-        user = super().from_json(json, **kwargs)
+        if not passwd:
+            passwd = genpw()
+
+        user = super().from_json({**json, 'passwd': passwd}, **kwargs)
         user.tenement = tenement
 
         if user.is_unique:
