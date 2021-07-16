@@ -18,8 +18,7 @@ __all__ = ['UserRegistration']
 class UserRegistration(ComCatModel):
     """A user registration."""
 
-    first_name = CharField()
-    last_name = CharField()
+    name = CharField()
     email = CharField()
     tenant_id = CharField()
     customer = ForeignKeyField(
@@ -27,7 +26,7 @@ class UserRegistration(ComCatModel):
     registered = DateTimeField(default=datetime.now)
 
     @classmethod
-    def add(cls, first_name: str, last_name: str, email: str, tenant_id: str,
+    def add(cls, name: str, email: str, tenant_id: str,
             customer: Union[Customer, int]) -> UserRegistration:
         """Adds a new user registration."""
         try:
@@ -38,7 +37,7 @@ class UserRegistration(ComCatModel):
                 ) & (cls.customer == customer)
             ).get()
         except cls.DoesNotExist:
-            return cls(first_name=first_name, last_name=last_name, email=email,
-                       tenant_id=tenant_id, customer=customer)
+            return cls(name=name, email=email, tenant_id=tenant_id,
+                       customer=customer)
 
         raise AlreadyRegistered(record)
