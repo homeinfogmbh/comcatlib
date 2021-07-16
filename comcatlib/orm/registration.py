@@ -15,8 +15,11 @@ from comcatlib.orm.common import ComCatModel
 __all__ = ['UserRegistration']
 
 
-class UserRegistration(ComCatModel):
+class UserRegistration(ComCatModel):    # pylint: disable=R0903
     """A user registration."""
+
+    class Meta:     # pylint: disable=R0903,C0115
+        table_name = 'user_registration'
 
     name = CharField()
     email = CharField()
