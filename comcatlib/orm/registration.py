@@ -27,7 +27,7 @@ class UserRegistration(ComCatModel):
     registered = DateTimeField(default=datetime.now)
 
     @classmethod
-    def add(cls, first_name: str, last_name: str, email: str,tenant_id: str,
+    def add(cls, first_name: str, last_name: str, email: str, tenant_id: str,
             customer: Union[Customer, int]) -> UserRegistration:
         """Adds a new user registration."""
         try:
