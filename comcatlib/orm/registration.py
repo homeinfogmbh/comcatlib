@@ -6,10 +6,12 @@ from typing import Union
 
 from peewee import CharField, DateTimeField, ForeignKeyField, ModelSelect
 
-from mdb import Customer
+from mdb import Customer, Tenement
 
-from comcatlib.exceptions import AlreadyRegistered
+from comcatlib.exceptions import AlreadyRegistered, DuplicateUser
+from comcatlib.functions import genpw
 from comcatlib.orm.common import ComCatModel
+from comcatlib.orm.user import User
 
 
 __all__ = ['UserRegistration']
@@ -52,3 +54,14 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
                        customer=customer)
 
         raise AlreadyRegistered(record)
+
+    def confirm(self, tenement: Tenement):
+        """Confirm the user registration."""
+        passwd = genpw()
+        user = User(tenement=tenement, passwd=passwd)
+        self.delete_instance()
+
+        if user.is_unique:
+            return (user, passwd)
+
+        raise DuplicateUser()
