@@ -31,6 +31,13 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
     registered = DateTimeField(default=datetime.now)
 
     @classmethod
+    def from_json(cls, json: dict, customer: Customer, **kwargs):
+        """Creates a record froma JSON-ish dict."""
+        record = super().from_json(json, **kwargs)
+        record.customer = customer
+        return record
+
+    @classmethod
     def same_ids_sel(cls, tenant_id: str, email: str) -> ModelSelect:
         """Returns a select condition to match records with the same IDs."""
         return (cls.tenant_id == tenant_id) | (cls.email == email)
