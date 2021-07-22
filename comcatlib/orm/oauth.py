@@ -41,7 +41,8 @@ REDIRECT_URIS = [
     'https://webapphi.web.app/grantAccess',     # Web App.
     # Sebastian Test.
     'http://localhost:4200/grantAccess',
-    'https://testing.homeinfo.de/comcat/grantAccess'
+    'https://testing.homeinfo.de/comcat/grantAccess',
+    'capacitor://localhost:4200/grantAccess'
 ]
 GRANT_TYPES = ['authorization_code', 'refresh_token']
 RESPONSE_TYPES = ['code', 'token']
