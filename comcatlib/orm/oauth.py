@@ -14,8 +14,9 @@ from peeweeplus.authlib import OAuth2ClientMixin
 from peeweeplus.authlib import OAuth2TokenMixin
 from peeweeplus.authlib import OAuth2AuthorizationCodeMixin
 
-from comcatlib.orm.common import ComCatModel
+from comcatlib.config import OAUTH2
 from comcatlib.functions import genpw
+from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
@@ -32,25 +33,6 @@ __all__ = [
 ]
 
 
-TOKEN_ENDPOINT_AUTH_METHOD = 'client_secret_post'
-REDIRECT_URIS = [
-    'https://comcat.homeinfo.de/oauth/authorize',
-    'https://comcat.homeinfo.de/oauth/token',
-    'de.homeinfo.comcat://auth',
-    'de.homeinfo.comcat://token',
-    'https://webapphi.web.app/grantAccess',     # Web App.
-    # Sebastian Test.
-    'http://localhost:4200/grantAccess',
-    'https://testing.homeinfo.de/comcat/grantAccess',
-    'capacitor://localhost:4200/grantAccess'
-]
-GRANT_TYPES = ['authorization_code', 'refresh_token']
-RESPONSE_TYPES = ['code', 'token']
-SCOPES = ['comcat']
-CONTACTS = []
-JWKS = []
-
-
 class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
     """An OAuth client."""
 
@@ -64,28 +46,28 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
             user=user,
             client_id=uuid4().hex,
             client_id_issued_at=datetime.now().timestamp(),
-            token_endpoint_auth_method=TOKEN_ENDPOINT_AUTH_METHOD
+            token_endpoint_auth_method=OAUTH2.get('token_endpoint_auth_method')
         )
         client.client_secret = secret = genpw()     # pylint: disable=W0201
         transaction = Transaction()
         transaction.add(client, primary=True)
 
-        for uri in REDIRECT_URIS:
+        for uri in OAUTH2.get('redirect_uris', []):
             transaction.add(RedirectURI(client=client, uri=uri))
 
-        for typ in GRANT_TYPES:
+        for typ in OAUTH2.get('grant_types', []):
             transaction.add(GrantType(client=client, type=typ))
 
-        for typ in RESPONSE_TYPES:
+        for typ in OAUTH2.get('response_types', []):
             transaction.add(ResponseType(client=client, type=typ))
 
-        for scope in SCOPES:
+        for scope in OAUTH2.get('scopes', []):
             transaction.add(Scope(client=client, scope=scope))
 
-        for contact in CONTACTS:
+        for contact in OAUTH2.get('contacts', []):
             transaction.add(Contact(client=client, contact=contact))
 
-        for jwk in JWKS:
+        for jwk in OAUTH2.get('jwks', []):
             transaction.add(JWKS(client=client, jwk=jwk))
 
         return (transaction, secret)
