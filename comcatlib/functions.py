@@ -7,16 +7,7 @@ from urllib.parse import urlparse, ParseResult
 from flask import request
 
 
-__all__ = ['change_path_to', 'genpw']
-
-
-def change_path_to(path: str) -> str:
-    """Changes the path of the current URL."""
-
-    url = urlparse(request.url)
-    new_url = ParseResult(
-        url.scheme, url.netloc, path, url.params, url.query, url.fragment)
-    return new_url.geturl()
+__all__ = ['genpw']
 
 
 def genpw(*, pool: str = ascii_letters+digits, length: int = 32) -> str:
