@@ -1,12 +1,14 @@
 """User registration."""
 
 from __future__ import annotations
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Union
+from xml.etree.ElementTree import Element, SubElement
 
 from peewee import CharField, DateTimeField, ForeignKeyField, ModelSelect
 
 from mdb import Customer, Tenement
+from notificationlib import get_email_orm_model
 
 from comcatlib.exceptions import AlreadyRegistered, DuplicateUser
 from comcatlib.functions import genpw
@@ -14,7 +16,7 @@ from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['UserRegistration']
+__all__ = ['UserRegistration', 'RegistrationNotificationEmails']
 
 
 class UserRegistration(ComCatModel):    # pylint: disable=R0903
@@ -62,6 +64,15 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
 
         raise AlreadyRegistered(record)
 
+    @classmethod
+    def of_today(cls) -> ModelSelect:
+        """Selects today's registrations."""
+        now = datetime.now()
+        today = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        tomorrow = today + timedelta(days=1)
+        return cls.select().where(
+            (cls.registered >= today) & (cls.registered < tomorrow))
+
     def confirm(self, tenement: Tenement):
         """Confirm the user registration."""
         passwd = genpw()
@@ -72,3 +83,20 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
             return (user, passwd)
 
         raise DuplicateUser()
+
+    def to_html(self) -> Element:
+        """Returns a HTML element."""
+        tr = Element('tr')  # pylint: disable=C0103
+        td = SubElement(tr, 'td')   # pylint: disable=C0103
+        td.text = self.name
+        td = SubElement(tr, 'td')   # pylint: disable=C0103
+        td.text = self.email
+        td = SubElement(tr, 'td')   # pylint: disable=C0103
+        td.text = self.tenant_id
+        td = SubElement(tr, 'td')   # pylint: disable=C0103
+        td.text = self.registered.isoformat()
+        return tr
+
+
+RegistrationNotificationEmails = get_email_orm_model(
+    ComCatModel, table_name='registration_notification_emails')
