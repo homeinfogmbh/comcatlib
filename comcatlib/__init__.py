@@ -14,6 +14,7 @@ from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
 from comcatlib.functions import genpw
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
+from comcatlib.orm import DATABASE
 from comcatlib.orm import AuthorizationNonce
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import MenuBaseChart
@@ -35,6 +36,7 @@ __all__ = [
     'SERVER',
     'ADDRESS',
     'CUSTOMER',
+    'DATABASE',
     'TENEMENT',
     'USER',
     'AlreadyRegistered',
