@@ -96,10 +96,9 @@ def get_deletable_tenant_message(user: User, ident: int) -> ModelSelect:
 def add_user_tenant_message(json: dict, user: User) -> UserTenantMessage:
     """Adds a tenant message."""
 
-    message = json['message']
-    tenant_message = TenantMessage.add(
-        user.tenement.customer, user.tenement.address, message)
-    tenant_message.subject = json.get('subject')
+    tenant_message = TenantMessage(
+        customer=user.tenement.customer, address=user.tenement.address,
+        subject = json.get('subject'), message=json['message'])
     visibility = json.get('visibility')
 
     if visibility:
