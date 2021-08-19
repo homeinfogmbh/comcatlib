@@ -42,7 +42,7 @@ def get_user(ident: int) -> User:
 class User(ComCatModel):
     """A ComCat user."""
 
-    name = CharField()
+    name = CharField(255)
     tenement = ForeignKeyField(
         Tenement, column_name='tenement', lazy_load=False)
     created = DateTimeField(default=datetime.now)
