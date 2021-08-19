@@ -18,6 +18,7 @@ from comcatlib.orm import DATABASE
 from comcatlib.orm import AuthorizationNonce
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import MenuBaseChart
+from comcatlib.orm import RegistrationNotificationEmails
 from comcatlib.orm import Settings
 from comcatlib.orm import Token
 from comcatlib.orm import User
@@ -55,8 +56,9 @@ __all__ = [
     'AuthorizationNonce',
     'GroupMemberUser',
     'MenuBaseChart',
-    'Token',
+    'RegistrationNotificationEmails',
     'Settings',
+    'Token',
     'User',
     'UserBaseChart',
     'UserConfiguration',
