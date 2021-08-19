@@ -1,17 +1,22 @@
 """Tenant-to-tenant related functions."""
 
+from datetime import datetime
+from typing import Optional
+
 from peewee import JOIN, Expression, ModelCursorWrapper, ModelSelect
 
-from tenant2tenant import TenantMessage, Visibility
+from tenant2tenant import Configuration, TenantMessage, Visibility
 
 from comcatlib.orm import DATABASE, User, UserTenantMessage
 
 
 __all__ = [
-    'select_tenant_messages',
-    'get_tenant_messages',
+    'add_user_tenant_message',
+    'get_deletable_tenant_message',
     'get_deletable_tenant_messages',
-    'get_deletable_tenant_message'
+    'get_tenant_messages',
+    'jsonify_tenant_message',
+    'select_tenant_messages'
 ]
 
 
@@ -86,3 +91,59 @@ def get_deletable_tenant_message(user: User, ident: int) -> ModelSelect:
 
     return get_deletable_tenant_messages(user).where(
         TenantMessage.id == ident).get()
+
+
+def add_user_tenant_message(json: dict, user: User) -> UserTenantMessage:
+    """Adds a tenant message."""
+
+    message = json['message']
+    tenant_message = TenantMessage.add(
+        user.tenement.customer, user.tenement.address, message)
+    tenant_message.subject = json.get('subject')
+    visibility = json.get('visibility')
+
+    if visibility:
+        tenant_message.visibility = Visibility(visibility)
+    else:
+        tenant_message.visibility = Visibility.TENEMENT
+
+    configuration = Configuration.for_customer(user.tenement.customer)
+
+    if configuration.auto_release:
+        tenant_message.released = True
+        tenant_message.start_date = now = datetime.now()
+        tenant_message.end_date = now + configuration.release_time
+
+    tenant_message.save()
+    user_tenant_message = UserTenantMessage(
+        tenant_message=tenant_message, user=user)
+    user_tenant_message.save()
+    return user_tenant_message
+
+
+def is_own_message(user: User, message: TenantMessage) -> bool:
+    """Determines whether the tenant message is of the current user."""
+
+    try:
+        return message.usertenantmessage.user_id == user.id
+    except AttributeError:
+        return False
+
+
+def get_sender_name(message: TenantMessage) -> Optional[str]:
+    """Returns the sender name if available."""
+
+    try:
+        return message.usertenantmessage.user.name
+    except AttributeError:
+        return None
+
+
+def jsonify_tenant_message(user: User, message: TenantMessage,
+                           *args, **kwargs) -> dict:
+    """Converts a tenant message into a JSON-ish dict."""
+
+    json = message.to_json(*args, **kwargs)
+    json['own'] = is_own_message(user, message)
+    json['sender'] = get_sender_name(message)
+    return json
