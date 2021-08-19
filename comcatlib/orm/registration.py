@@ -25,9 +25,9 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
     class Meta:     # pylint: disable=R0903,C0115
         table_name = 'user_registration'
 
-    name = CharField()
-    email = CharField()
-    tenant_id = CharField()
+    name = CharField(255)
+    email = CharField(255)
+    tenant_id = CharField(255)
     customer = ForeignKeyField(
         Customer, column_name='customer', on_delete='CASCADE')
     registered = DateTimeField(default=datetime.now)
