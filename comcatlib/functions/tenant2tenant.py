@@ -138,9 +138,9 @@ def get_sender_name(message: TenantMessage) -> Optional[str]:
         return None
 
 
-def jsonify_tenant_message(user: User, message: TenantMessage,
+def jsonify_tenant_message(message: TenantMessage, user: User,
                            *args, **kwargs) -> dict:
-    """Converts a tenant message into a JSON-ish dict."""
+    """Converts a tenant message into a JSON-ish dict for the given user."""
 
     json = message.to_json(*args, **kwargs)
     json['own'] = is_own_message(user, message)
