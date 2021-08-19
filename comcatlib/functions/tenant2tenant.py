@@ -99,9 +99,8 @@ def add_user_tenant_message(json: dict, user: User) -> UserTenantMessage:
     tenant_message = TenantMessage(
         customer=user.tenement.customer, address=user.tenement.address,
         subject = json.get('subject'), message=json['message'])
-    visibility = json.get('visibility')
 
-    if visibility:
+    if visibility := json.get('visibility'):
         tenant_message.visibility = Visibility(visibility)
     else:
         tenant_message.visibility = Visibility.TENEMENT

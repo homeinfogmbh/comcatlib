@@ -38,9 +38,7 @@ def authorize_client() -> Response:
     form on this authorization page.
     """
 
-    nonce = request.form.get('nonce')
-
-    if nonce is None:
+    if (nonce := request.form.get('nonce')) is None:
         return MISSING_NONCE
 
     try:
@@ -66,14 +64,10 @@ def introspect_token() -> Response:
 def register_client() -> JSON:
     """Registers a client."""
 
-    ident = request.json.get('id')
-
-    if ident is None:
+    if (ident := request.json.get('id')) is None:
         return MISSING_USER_ID
 
-    passwd = request.json.get('passwd')
-
-    if passwd is None:
+    if (passwd := request.json.get('passwd')) is None:
         return MISSING_USER_PW
 
     try:

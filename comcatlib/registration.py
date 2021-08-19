@@ -51,11 +51,10 @@ def to_emails(customer: Customer,
     if not user_registrations:
         return
 
-    html = to_html(user_registrations)
-
     for notification_email in RegistrationNotificationEmails.select().where(
             Customer == customer):
-        yield EMail(SUBJECT, SENDER, notification_email.email, html=html)
+        yield EMail(SUBJECT, SENDER, notification_email.email,
+                    html=to_html(user_registrations))
 
 
 def get_user_registrations_by_customer() -> RegistrationMap:

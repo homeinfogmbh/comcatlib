@@ -13,9 +13,7 @@ __all__ = ['ADDRESS', 'CUSTOMER', 'TENEMENT', 'USER', 'get_user']
 def get_user() -> User:
     """Performs authentication checks."""
 
-    user = current_token.user
-
-    if user.expired:
+    if (user := current_token.user).expired:
         raise UserExpired()
 
     if user.locked:
