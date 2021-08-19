@@ -2,9 +2,6 @@
 
 from random import choices
 from string import ascii_letters, digits
-from urllib.parse import urlparse, ParseResult
-
-from flask import request
 
 
 __all__ = ['genpw']
