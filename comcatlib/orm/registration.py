@@ -11,9 +11,9 @@ from mdb import Customer, Tenement
 from notificationlib import get_email_orm_model
 
 from comcatlib.exceptions import AlreadyRegistered, DuplicateUser
-from comcatlib.functions import genpw
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
+from comcatlib.pwgen import genpw
 
 
 __all__ = ['UserRegistration', 'RegistrationNotificationEmails']

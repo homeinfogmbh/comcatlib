@@ -19,9 +19,9 @@ from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidPassword
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
-from comcatlib.functions import genpw
 from comcatlib.messages import NO_SUCH_USER
 from comcatlib.orm.common import ComCatModel
+from comcatlib.pwgen import genpw
 
 
 __all__ = ['get_user', 'User']

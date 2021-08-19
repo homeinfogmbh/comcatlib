@@ -15,9 +15,9 @@ from peeweeplus.authlib import OAuth2TokenMixin
 from peeweeplus.authlib import OAuth2AuthorizationCodeMixin
 
 from comcatlib.config import OAUTH2
-from comcatlib.functions import genpw
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
+from comcatlib.pwgen import genpw
 
 
 __all__ = [

@@ -13,7 +13,6 @@ from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
 from comcatlib.functions import add_user_tenant_message
-from comcatlib.functions import genpw
 from comcatlib.functions import get_tenant_messages
 from comcatlib.functions import get_deletable_tenant_messages
 from comcatlib.functions import get_deletable_tenant_message
@@ -34,6 +33,7 @@ from comcatlib.orm import UserMenu
 from comcatlib.orm import UserRegistration
 from comcatlib.orm import UserTenantMessage
 from comcatlib.presentation import Presentation
+from comcatlib.pwgen import genpw
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
 
