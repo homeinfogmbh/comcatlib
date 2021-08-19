@@ -5,7 +5,11 @@ from datetime import datetime
 from typing import Iterable, Tuple, Union
 
 from argon2.exceptions import VerifyMismatchError
-from peewee import BooleanField, DateTimeField, ForeignKeyField, ModelSelect
+from peewee import BooleanField
+from peewee import CharField
+from peewee import DateTimeField
+from peewee import ForeignKeyField
+from peewee import ModelSelect
 
 from his import CUSTOMER
 from mdb import Address, Company, Customer, Tenement
