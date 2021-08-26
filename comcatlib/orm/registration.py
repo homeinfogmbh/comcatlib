@@ -97,6 +97,11 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
         td.text = self.registered.isoformat()
         return tr
 
+    def notify(self) -> bool:
+        """Sends a notification email to the registered email address."""
+
+        raise NotImplementedError('Notification not implemented.')
+
 
 RegistrationNotificationEmails = get_email_orm_model(
     ComCatModel, table_name='registration_notification_emails')
