@@ -10,6 +10,7 @@ from peewee import CharField, DateTimeField, ForeignKeyField, ModelSelect
 from mdb import Customer, Tenement
 from notificationlib import get_email_orm_model
 
+from comcatlib.email import MAILER, make_user_registration_email
 from comcatlib.exceptions import AlreadyRegistered, DuplicateUser
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
@@ -99,8 +100,8 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
 
     def notify(self, passwd: str) -> bool:
         """Sends a notification email to the registered email address."""
-
-        raise NotImplementedError('Notification not implemented.')
+        email = make_user_registration_email(self.email, self.id, passwd)
+        return MAILER.send([email])
 
 
 RegistrationNotificationEmails = get_email_orm_model(
