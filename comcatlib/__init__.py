@@ -12,11 +12,6 @@ from comcatlib.exceptions import InvalidAddress
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
-from comcatlib.functions import add_user_tenant_message
-from comcatlib.functions import get_tenant_messages
-from comcatlib.functions import get_deletable_tenant_messages
-from comcatlib.functions import get_deletable_tenant_message
-from comcatlib.functions import jsonify_tenant_message
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.orm import DATABASE
 from comcatlib.orm import AuthorizationNonce
@@ -31,7 +26,6 @@ from comcatlib.orm import UserConfiguration
 from comcatlib.orm import UserDamageReport
 from comcatlib.orm import UserMenu
 from comcatlib.orm import UserRegistration
-from comcatlib.orm import UserTenantMessage
 from comcatlib.presentation import Presentation
 from comcatlib.pwgen import genpw
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
@@ -51,16 +45,11 @@ __all__ = [
     'QuotaExceeded',
     'UserExpired',
     'UserLocked',
-    'add_user_tenant_message',
     'decode_url',
     'encode_url',
     'genpw',
-    'get_deletable_tenant_message',
-    'get_deletable_tenant_messages',
-    'get_tenant_messages',
     'get_user',
     'init_app',
-    'jsonify_tenant_message',
     'oauth',
     'proxy_url',
     'AuthorizationNonce',
@@ -75,7 +64,6 @@ __all__ = [
     'UserDamageReport',
     'UserMenu',
     'UserRegistration',
-    'UserTenantMessage',
     'Presentation'
 ]
 

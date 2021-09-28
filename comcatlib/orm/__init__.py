@@ -20,7 +20,6 @@ from comcatlib.orm.oauth import Token
 from comcatlib.orm.registration import UserRegistration
 from comcatlib.orm.registration import RegistrationNotificationEmails
 from comcatlib.orm.settings import Settings
-from comcatlib.orm.tenant2tenant import UserTenantMessage
 from comcatlib.orm.user import get_user, User
 
 
@@ -51,7 +50,6 @@ __all__ = [
     'UserDamageReport',
     'UserMenu',
     'UserRegistration',
-    'UserTenantMessage',
     # Misc
     'MenuBaseChart'
 ]
@@ -79,7 +77,6 @@ MODELS = (
     UserConfiguration,
     UserDamageReport,
     UserMenu,
-    UserTenantMessage,
     RegistrationNotificationEmails,
     # Misc
     MenuBaseChart
