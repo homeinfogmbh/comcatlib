@@ -2,6 +2,7 @@
 
 from comcatlib.app import init_oauth_endpoints
 from comcatlib.config import CONFIG
+from comcatlib.contactform import send_contact_mails
 from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
 from comcatlib.localproxies import TENEMENT
@@ -56,6 +57,7 @@ __all__ = [
     'init_app',
     'oauth',
     'proxy_url',
+    'send_contact_mails',
     'AuthorizationNonce',
     'GroupMemberUser',
     'MenuBaseChart',
