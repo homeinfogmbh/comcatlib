@@ -1,6 +1,7 @@
 """Comcat backend."""
 
 from comcatlib.app import init_oauth_endpoints
+from comcatlib.config import CONFIG
 from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
 from comcatlib.localproxies import TENEMENT
@@ -32,6 +33,7 @@ from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
 
 __all__ = [
+    'CONFIG',
     'REQUIRE_OAUTH',
     'SERVER',
     'ADDRESS',
