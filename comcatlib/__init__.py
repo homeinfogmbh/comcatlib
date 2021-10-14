@@ -16,6 +16,7 @@ from comcatlib.localproxies import TENEMENT
 from comcatlib.localproxies import USER
 from comcatlib.localproxies import get_user
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
+from comcatlib.registration import notify_customer, notify_user
 from comcatlib.orm import DATABASE
 from comcatlib.orm import AuthorizationNonce
 from comcatlib.orm import ContactEmails
@@ -56,6 +57,8 @@ __all__ = [
     'genpw',
     'get_user',
     'init_app',
+    'notify_customer',
+    'notify_user',
     'oauth',
     'proxy_url',
     'send_contact_mails',
