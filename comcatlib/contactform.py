@@ -7,7 +7,7 @@ from emaillib import EMail
 from mdb import Customer
 
 from comcatlib.email import MAILER, SENDER
-from comcatlib.orm.registration import RegistrationNotificationEmails
+from comcatlib.orm.contactform import ContactEmails
 from comcatlib.orm.user import User
 
 
@@ -50,8 +50,8 @@ def get_html_body(user: User, json: dict) -> Element:
 def get_recipients(customer: Customer) -> Iterator[str]:
     """Yields email addresses for the customer."""
 
-    for contact_email in RegistrationNotificationEmails.select().where(
-            RegistrationNotificationEmails.customer == customer):
+    for contact_email in ContactEmails.select().where(
+            ContactEmails.customer == customer):
         yield contact_email.email
 
 
