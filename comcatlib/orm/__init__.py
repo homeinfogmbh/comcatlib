@@ -1,6 +1,7 @@
 """Object relational mappings."""
 
 from comcatlib.orm.common import DATABASE
+from comcatlib.orm.contactform import ContactEmails
 from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.content import UserConfiguration
 from comcatlib.orm.content import UserMenu
@@ -32,6 +33,7 @@ __all__ = [
     # OAuth
     'Client',
     'Contact',
+    'ContactEmails',
     'GrantType',
     'GroupMemberUser',
     'JWKS',

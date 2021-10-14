@@ -18,6 +18,7 @@ from comcatlib.exceptions import UserLocked
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.orm import DATABASE
 from comcatlib.orm import AuthorizationNonce
+from comcatlib.orm import ContactEmails
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import MenuBaseChart
 from comcatlib.orm import RegistrationNotificationEmails
@@ -59,6 +60,7 @@ __all__ = [
     'proxy_url',
     'send_contact_mails',
     'AuthorizationNonce',
+    'ContactEmails',
     'GroupMemberUser',
     'MenuBaseChart',
     'RegistrationNotificationEmails',
