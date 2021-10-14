@@ -1,6 +1,7 @@
 """Registration related functions."""
 
 from collections import defaultdict
+from pathlib import Path
 from typing import Iterable, Iterator
 from xml.etree.ElementTree import Element, SubElement
 
@@ -8,15 +9,17 @@ from emaillib import EMail
 from mdb import Customer
 from notificationlib import get_email_func
 
+from comcatlib.email import MAILER, SENDER
 from comcatlib.orm.registration import UserRegistration
 from comcatlib.orm.registration import RegistrationNotificationEmails
 
 
-__all__ = ['email']
+__all__ = ['notify_customer', 'notify_user']
 
 
-SUBJECT = 'Neue Benutzerregistrierungen für Ihre App'
-SENDER = 'mieterapp@homeinfo.de'
+NOTIFIACATION_SUBJECT = 'Neue Benutzerregistrierungen für Ihre App'
+USER_REG_SUBJECT = 'Mieter-App'
+USER_REG_TEMP = Path('/usr/local/etc/comcat.d/userreg.temp')
 RegistrationMap = dict[Customer, list[UserRegistration]]
 
 
@@ -53,7 +56,7 @@ def to_emails(customer: Customer,
 
     for notification_email in RegistrationNotificationEmails.select().where(
             Customer == customer):
-        yield EMail(SUBJECT, SENDER, notification_email.email,
+        yield EMail(NOTIFIACATION_SUBJECT, SENDER, notification_email.email,
                     html=to_html(user_registrations))
 
 
@@ -77,4 +80,21 @@ def get_emails() -> Iterator[EMail]:
         yield from to_emails(customer, user_registrations)
 
 
-email = get_email_func(get_emails)
+def make_user_registration_email(email: str, login: int, passwd: str) -> EMail:
+    """Creates a user registration email."""
+
+    with USER_REG_TEMP.open(encoding='utf-8') as file:
+        template = file.read()
+
+    text = template.format(name=login, passwd=passwd)
+    return EMail(USER_REG_SUBJECT, SENDER, email, plain=text)
+
+
+def notify_user(user_registration: UserRegistration, passwd: str) -> bool:
+    """Sends a notification email to the registered email address."""
+
+    email = make_user_registration_email(user_registration.email, user_registration.id, passwd)
+    return MAILER.send([email])
+
+
+notify_customer = get_email_func(get_emails)

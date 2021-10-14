@@ -3,11 +3,6 @@
 from comcatlib.app import init_oauth_endpoints
 from comcatlib.config import CONFIG
 from comcatlib.contactform import send_contact_mails
-from comcatlib.localproxies import ADDRESS
-from comcatlib.localproxies import CUSTOMER
-from comcatlib.localproxies import TENEMENT
-from comcatlib.localproxies import USER
-from comcatlib.localproxies import get_user
 from comcatlib.exceptions import AlreadyRegistered
 from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidAddress
@@ -15,6 +10,11 @@ from comcatlib.exceptions import InvalidPassword
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
+from comcatlib.localproxies import ADDRESS
+from comcatlib.localproxies import CUSTOMER
+from comcatlib.localproxies import TENEMENT
+from comcatlib.localproxies import USER
+from comcatlib.localproxies import get_user
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.orm import DATABASE
 from comcatlib.orm import AuthorizationNonce
