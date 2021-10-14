@@ -93,7 +93,8 @@ def make_user_registration_email(email: str, login: int, passwd: str) -> EMail:
 def notify_user(user_registration: UserRegistration, passwd: str) -> bool:
     """Sends a notification email to the registered email address."""
 
-    email = make_user_registration_email(user_registration.email, user_registration.id, passwd)
+    email = make_user_registration_email(
+        user_registration.email, user_registration.id, passwd)
     return MAILER.send([email])
 
 
