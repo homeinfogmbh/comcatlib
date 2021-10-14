@@ -9,7 +9,7 @@ from comcatlib.config import CONFIG
 
 __all__ = [
     'MAILER',
-    'USER_REG_SENDER',
+    'SENDER',
     'USER_REG_SUBJECT',
     'USER_REG_TEMP',
     'make_user_registration_email'
@@ -17,7 +17,7 @@ __all__ = [
 
 
 MAILER = Mailer.from_config(CONFIG)
-USER_REG_SENDER = 'noreply@homeinfo.de'
+SENDER = 'noreply@homeinfo.de'
 USER_REG_SUBJECT = 'Mieter-App'
 USER_REG_TEMP = Path('/usr/local/etc/comcat.d/userreg.temp')
 
@@ -25,8 +25,8 @@ USER_REG_TEMP = Path('/usr/local/etc/comcat.d/userreg.temp')
 def make_user_registration_email(email: str, login: int, passwd: str) -> EMail:
     """Creates a user registration email."""
 
-    with USER_REG_TEMP.open() as file:
+    with USER_REG_TEMP.open(encoding='utf-8') as file:
         template = file.read()
 
     text = template.format(name=login, passwd=passwd)
-    return EMail(USER_REG_SUBJECT, USER_REG_SENDER, email, plain=text)
+    return EMail(USER_REG_SUBJECT, SENDER, email, plain=text)
