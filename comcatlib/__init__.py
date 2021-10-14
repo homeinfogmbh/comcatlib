@@ -10,6 +10,7 @@ from comcatlib.localproxies import get_user
 from comcatlib.exceptions import AlreadyRegistered
 from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidAddress
+from comcatlib.exceptions import InvalidPassword
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
@@ -44,6 +45,7 @@ __all__ = [
     'AlreadyRegistered',
     'DuplicateUser',
     'InvalidAddress',
+    'InvalidPassword',
     'QuotaExceeded',
     'UserExpired',
     'UserLocked',
