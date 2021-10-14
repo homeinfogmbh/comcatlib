@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from datetime import datetime
-from typing import Iterable, Tuple, Union
+from typing import Iterable, Optional, Tuple, Union
 
 from argon2.exceptions import VerifyMismatchError
 from peewee import BooleanField
@@ -128,7 +128,8 @@ class User(ComCatModel):
         self.save()
         return True
 
-    def patch_json(self, json: dict, tenement: Union[Tenement, int] = None,
+    def patch_json(self, json: dict, *,
+                   tenement: Optional[Union[Tenement, int]] = None,
                    **kwargs) -> User:
         """Patches the user with the respective JSON data."""
         super().patch_json(json, **kwargs)
