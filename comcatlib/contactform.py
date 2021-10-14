@@ -69,4 +69,4 @@ def get_contact_emails(user: User, json: dict) -> Iterator[EMail]:
 def send_contact_mails(user: User, json: dict) -> bool:
     """Sends contact emails."""
 
-    MAILER.send(get_contact_emails(user, json))
+    return MAILER.send(get_contact_emails(user, json))
