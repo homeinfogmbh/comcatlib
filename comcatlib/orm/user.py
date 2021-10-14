@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from datetime import datetime
-from typing import Iterable, Optional, Tuple, Union
+from typing import Iterable, Optional, Union
 
 from argon2.exceptions import VerifyMismatchError
 from peewee import BooleanField
@@ -53,7 +53,7 @@ class User(ComCatModel):
 
     @classmethod
     def from_json(cls, json: dict, tenement: Union[Tenement, int],
-                  **kwargs) -> Tuple[User, str]:
+                  **kwargs) -> tuple[User, str]:
         """Creates the user from the respective JSON data."""
         passwd = json.get('passwd')
 

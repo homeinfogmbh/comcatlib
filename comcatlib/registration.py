@@ -1,7 +1,7 @@
 """Registration related functions."""
 
 from collections import defaultdict
-from typing import Dict, Iterable, Iterator, List
+from typing import Iterable, Iterator
 from xml.etree.ElementTree import Element, SubElement
 
 from emaillib import EMail
@@ -17,7 +17,7 @@ __all__ = ['email']
 
 SUBJECT = 'Neue Benutzerregistrierungen für Ihre App'
 SENDER = 'mieterapp@homeinfo.de'
-RegistrationMap = Dict[Customer, List[UserRegistration]]
+RegistrationMap = dict[Customer, list[UserRegistration]]
 
 
 def to_html(user_registrations: Iterable[UserRegistration]) -> Element:
