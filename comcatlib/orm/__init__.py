@@ -1,6 +1,7 @@
 """Object relational mappings."""
 
 from comcatlib.orm.common import DATABASE
+from comcatlib.orm.contactform import ContactEmails
 from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.content import UserConfiguration
 from comcatlib.orm.content import UserMenu
@@ -43,7 +44,9 @@ __all__ = [
     'AuthorizationCode',
     # Nonces
     'AuthorizationNonce',
+    'EMailChangeNonce',
     # User-related stuff.
+    'ContactEmails',
     'RegistrationNotificationEmails',
     'UserBaseChart',
     'UserConfiguration',
@@ -74,11 +77,13 @@ MODELS = (
     AuthorizationNonce,
     EMailChangeNonce,
     # User-related stuff.
+    ContactEmails,
+    RegistrationNotificationEmails,
     UserBaseChart,
     UserConfiguration,
     UserDamageReport,
     UserMenu,
-    RegistrationNotificationEmails,
+    UserRegistration,
     # Misc
     MenuBaseChart
 )
