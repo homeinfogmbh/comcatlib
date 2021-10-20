@@ -47,6 +47,7 @@ class Nonce(ComCatModel):
         except cls.DoesNotExist:
             raise NonceUsed() from None
 
+        nonce.delete_instance()
         return nonce.user
 
 
