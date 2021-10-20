@@ -49,7 +49,7 @@ class Nonce(ComCatModel):
             raise NonceUsed() from None
 
         nonce.delete_instance()
-        return nonce.user
+        return nonce
 
 
 class AuthorizationNonce(Nonce):

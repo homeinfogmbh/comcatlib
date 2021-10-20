@@ -47,7 +47,7 @@ def authorize_client() -> Response:
         return INVALID_UUID
 
     try:
-        user = AuthorizationNonce.use(uuid)
+        user = AuthorizationNonce.use(uuid).user
     except NonceUsed:
         return INVALID_NONCE
 
