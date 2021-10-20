@@ -1,14 +1,13 @@
 """Object relational mappings."""
 
 from comcatlib.orm.common import DATABASE
-from comcatlib.orm.contactform import ContactEmails
 from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.content import UserConfiguration
 from comcatlib.orm.content import UserMenu
 from comcatlib.orm.damage_report import UserDamageReport
 from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.menu import MenuBaseChart
-from comcatlib.orm.nonces import AuthorizationNonce
+from comcatlib.orm.nonces import AuthorizationNonce, EMailChangeNonce
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.oauth import Client
 from comcatlib.orm.oauth import Contact
@@ -33,7 +32,6 @@ __all__ = [
     # OAuth
     'Client',
     'Contact',
-    'ContactEmails',
     'GrantType',
     'GroupMemberUser',
     'JWKS',
@@ -74,6 +72,7 @@ MODELS = (
     AuthorizationCode,
     # Nonces
     AuthorizationNonce,
+    EMailChangeNonce,
     # User-related stuff.
     UserBaseChart,
     UserConfiguration,

@@ -6,13 +6,14 @@ from uuid import UUID, uuid4
 from peewee import ForeignKeyField, ModelSelect, UUIDField
 
 from mdb import Address, Company, Customer, Tenement
+from peeweeplus import HTMLCharField
 
 from comcatlib.exceptions import NonceUsed
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['AuthorizationNonce']
+__all__ = ['AuthorizationNonce', 'EMailChangeNonce']
 
 
 class Nonce(ComCatModel):
@@ -47,6 +48,7 @@ class Nonce(ComCatModel):
         except cls.DoesNotExist:
             raise NonceUsed() from None
 
+        nonce.delete_instance()
         return nonce.user
 
 
@@ -55,3 +57,19 @@ class AuthorizationNonce(Nonce):
 
     class Meta:     # pylint: disable=C0115,R0903
         table_name = 'authorization_nonce'
+
+
+class EMailChangeNonce(Nonce):
+    """Nonces to change email addresses."""
+
+    email = HTMLCharField()
+
+    class Meta:     # pylint: disable=C0115,R0903
+        table_name = 'email_change_nonce'
+
+    @classmethod
+    def add(cls, user: User, email: str) -> EMailChangeNonce:
+        """Adds a new email change nonce."""
+        nonce = cls(user=user, email=email)
+        nonce.save()
+        return nonce

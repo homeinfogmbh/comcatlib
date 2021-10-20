@@ -6,7 +6,6 @@ from comcatlib.contactform import send_contact_mails
 from comcatlib.exceptions import AlreadyRegistered
 from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidAddress
-from comcatlib.exceptions import InvalidPassword
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
@@ -19,7 +18,7 @@ from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.registration import notify_customer, notify_user
 from comcatlib.orm import DATABASE
 from comcatlib.orm import AuthorizationNonce
-from comcatlib.orm import ContactEmails
+from comcatlib.orm import EMailChangeNonce
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import MenuBaseChart
 from comcatlib.orm import RegistrationNotificationEmails
@@ -48,7 +47,6 @@ __all__ = [
     'AlreadyRegistered',
     'DuplicateUser',
     'InvalidAddress',
-    'InvalidPassword',
     'QuotaExceeded',
     'UserExpired',
     'UserLocked',
@@ -63,7 +61,7 @@ __all__ = [
     'proxy_url',
     'send_contact_mails',
     'AuthorizationNonce',
-    'ContactEmails',
+    'EMailChangeNonce',
     'GroupMemberUser',
     'MenuBaseChart',
     'RegistrationNotificationEmails',
