@@ -27,6 +27,7 @@ def get_token(token: str, token_type_hint: str) -> Token:
     return Token.select(cascade=True).where(condition).get()
 
 
+# pylint: disable=R0201
 class TokenIntrospectionEndpoint(IntrospectionEndpoint):
     """Introspection of bearer tokens."""
 

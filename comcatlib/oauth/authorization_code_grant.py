@@ -11,6 +11,7 @@ from comcatlib.orm.user import User
 __all__ = ['AuthorizationCodeGrant']
 
 
+# pylint: disable=R0201
 class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
     """Handles authorization code grants."""
 

@@ -10,6 +10,7 @@ from comcatlib.orm.oauth import Client, Token
 __all__ = ['TokenRevocationEndpoint']
 
 
+# pylint: disable=R0201
 class TokenRevocationEndpoint(RevocationEndpoint):
     """A Token revocation endpoint."""
 

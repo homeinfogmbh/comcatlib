@@ -41,7 +41,7 @@ def save_token(token_data: dict, request: Any) -> None:
     token.save()
 
 
-class AuthorizationServer(AuthorizationServer):     # pylint: disable=E0102
+class AuthorizationServer(AuthorizationServer):   # pylint: disable=E0102,R0903
     """Subclass of the original flask authorization server."""
 
     def create_authorization_response(self, *args, **kwargs) -> Response:

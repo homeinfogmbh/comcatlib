@@ -14,7 +14,7 @@ from comcatlib.orm.user import User
 __all__ = ['send_contact_mails']
 
 
-def get_html_body(user: User, json: dict) -> Element:
+def get_html_body(user: User, json: dict) -> Element:   # pylint: disable=R0914
     """Returns a HTML element."""
 
     html = Element('html')

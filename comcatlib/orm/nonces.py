@@ -67,6 +67,7 @@ class EMailChangeNonce(Nonce):
     class Meta:     # pylint: disable=C0115,R0903
         table_name = 'email_change_nonce'
 
+    # pylint: disable=W0221
     @classmethod
     def add(cls, user: User, email: str) -> EMailChangeNonce:
         """Adds a new email change nonce."""

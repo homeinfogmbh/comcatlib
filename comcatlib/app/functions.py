@@ -61,7 +61,7 @@ def introspect_token() -> Response:
         TokenIntrospectionEndpoint.ENDPOINT_NAME)
 
 
-def register_client() -> JSON:
+def register_client() -> JSON:  # pylint: disable=R0911
     """Registers a client."""
 
     if (ident := request.json.get('id')) is None:

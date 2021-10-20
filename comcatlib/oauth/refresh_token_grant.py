@@ -11,6 +11,7 @@ from comcatlib.orm.user import User
 __all__ = ['RefreshTokenGrant']
 
 
+# pylint: disable=R0201
 class RefreshTokenGrant(grants.RefreshTokenGrant):
     """Handles refresh token grants."""
 

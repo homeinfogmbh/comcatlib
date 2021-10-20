@@ -40,6 +40,7 @@ class UserContent(ComCatModel):     # pylint: disable=R0903
             Customer).join(Company).join_from(Tenement, Address)
 
 
+# pylint: disable=W0221
 class UserBaseChart(UserContent):
     """Association of a base chart with a user."""
 

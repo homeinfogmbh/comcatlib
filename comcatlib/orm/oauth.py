@@ -87,7 +87,7 @@ RedirectURI, GrantType, ResponseType, Scope, Contact, JWKS = \
     Client.get_related_models(ComCatModel)
 
 
-class Token(ComCatModel, OAuth2TokenMixin):     # pylint: disable=R0901
+class Token(ComCatModel, OAuth2TokenMixin):     # pylint: disable=R0901,R0903
     """An OAuth bearer token."""
 
     user = ForeignKeyField(

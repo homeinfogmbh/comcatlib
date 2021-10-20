@@ -10,6 +10,7 @@ from comcatlib.orm import Token
 __all__ = ['BearerTokenValidator']
 
 
+# pylint: disable=R0201
 class BearerTokenValidator(rfc6750.BearerTokenValidator):
     """Validates bearer tokens."""
 
@@ -21,7 +22,7 @@ class BearerTokenValidator(rfc6750.BearerTokenValidator):
         except Token.DoesNotExist:
             return None
 
-    def request_invalid(self, request: Any) -> bool:
+    def request_invalid(self, request: Any) -> bool:    # pylint: disable=W0613
         """Determines whether the request is invalid."""
         return False
 
