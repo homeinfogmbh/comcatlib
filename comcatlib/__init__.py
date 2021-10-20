@@ -3,6 +3,7 @@
 from comcatlib.app import init_oauth_endpoints
 from comcatlib.config import CONFIG
 from comcatlib.contactform import send_contact_mails
+from comcatlib.email_change import request_email_change, confirm_email_change
 from comcatlib.exceptions import AlreadyRegistered
 from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidAddress
@@ -50,6 +51,7 @@ __all__ = [
     'QuotaExceeded',
     'UserExpired',
     'UserLocked',
+    'confirm_email_change',
     'decode_url',
     'encode_url',
     'genpw',
@@ -59,6 +61,7 @@ __all__ = [
     'notify_user',
     'oauth',
     'proxy_url',
+    'request_email_change',
     'send_contact_mails',
     'AuthorizationNonce',
     'EMailChangeNonce',
