@@ -74,3 +74,11 @@ class EMailChangeNonce(Nonce):
         nonce = cls(user=user, email=email)
         nonce.save()
         return nonce
+
+    @classmethod
+    def use(cls, uuid: UUID) -> EMailChangeNonce:
+        """Uses the nonce."""
+        nonce = super().use(uuid)
+        (user := nonce.user).email = nonce.email
+        user.save()
+        return nonce
