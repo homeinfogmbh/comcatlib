@@ -7,7 +7,7 @@ from xml.etree.ElementTree import Element, SubElement
 
 from peewee import CharField, DateTimeField, ForeignKeyField, ModelSelect
 
-from mdb import Customer, Tenement
+from mdb import Company, Customer, Tenement
 from notificationlib import get_email_orm_model
 
 from comcatlib.exceptions import AlreadyRegistered, DuplicateUser
@@ -31,6 +31,15 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
     customer = ForeignKeyField(
         Customer, column_name='customer', on_delete='CASCADE')
     registered = DateTimeField(default=datetime.now)
+
+    @classmethod
+    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+        """Selects user registrations."""
+        if not cascade:
+            return super().select(*args, **kwargs)
+
+        args = {cls, Customer, Company, *args}
+        return super().select(*args).join(Customer).join(Company)
 
     @classmethod
     def from_json(cls, json: dict, customer: Customer, **kwargs):
