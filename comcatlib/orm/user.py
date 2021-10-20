@@ -147,3 +147,8 @@ class User(ComCatModel):
             dictionary['tenement'] = self.tenement.to_json(**kwargs)
 
         return dictionary
+
+    def delete_account(self, passwd: str) -> None:
+        """Deletes this user account."""
+        if self.login(passwd):
+            self.delete_instance()
