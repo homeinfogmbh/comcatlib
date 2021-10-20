@@ -27,7 +27,7 @@ def get_html(user: User, nonce: str) -> Element:
     h1 = SubElement(body, 'h1')
     h1.text = SUBJECT
     p = SubElement(body, 'p')
-    p.text = f'Sehr geehrte/r {user.first_name} {user.last_name},'
+    p.text = f'Sehr geehrte/r {user.name},'
     SubElement(body, 'br')
     p = SubElement(body, 'p')
     p.text = (
