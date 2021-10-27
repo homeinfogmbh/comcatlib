@@ -44,6 +44,7 @@ class User(ComCatModel):
 
     email = CharField()
     name = CharField()
+    phone = CharField(null=True)
     tenement = ForeignKeyField(
         Tenement, column_name='tenement', lazy_load=False)
     created = DateTimeField(default=datetime.now)
