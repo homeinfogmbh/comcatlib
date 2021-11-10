@@ -19,9 +19,12 @@ __all__ = ['Menu', 'MenuBaseChart']
 class Menu(Enum):
     """Available menus."""
 
+    DATA_PROTECTION = 'data protection'
     IMPRINT = 'imprint'
-    EMERGENCY = 'emergency'
-    HOUSE_INFO = 'house info'
+    CONTACT = 'contact'
+    DAMAGES = 'damages'
+    DOCUMENTS = 'documents'
+    SERVICE_NUMBERS = 'service numbers'
     NEWS = 'news'
 
 
