@@ -14,7 +14,7 @@ from peeweeplus.authlib import OAuth2ClientMixin
 from peeweeplus.authlib import OAuth2TokenMixin
 from peeweeplus.authlib import OAuth2AuthorizationCodeMixin
 
-from comcatlib.config import OAUTH2
+from comcatlib.config import get_oauth2
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 from comcatlib.pwgen import genpw
@@ -42,32 +42,33 @@ class Client(ComCatModel, OAuth2ClientMixin):   # pylint: disable=R0901
     @classmethod
     def add(cls, user: User) -> Client:
         """Adds a new client for the given user."""
+        oauth2 = get_oauth2()
         client = cls(
             user=user,
             client_id=uuid4().hex,
             client_id_issued_at=datetime.now().timestamp(),
-            token_endpoint_auth_method=OAUTH2.get('token_endpoint_auth_method')
+            token_endpoint_auth_method=oauth2.get('token_endpoint_auth_method')
         )
         client.client_secret = secret = genpw()     # pylint: disable=W0201
         transaction = Transaction()
         transaction.add(client, primary=True)
 
-        for uri in OAUTH2.get('redirect_uris', []):
+        for uri in oauth2.get('redirect_uris', []):
             transaction.add(RedirectURI(client=client, uri=uri))
 
-        for typ in OAUTH2.get('grant_types', []):
+        for typ in oauth2.get('grant_types', []):
             transaction.add(GrantType(client=client, type=typ))
 
-        for typ in OAUTH2.get('response_types', []):
+        for typ in oauth2.get('response_types', []):
             transaction.add(ResponseType(client=client, type=typ))
 
-        for scope in OAUTH2.get('scopes', []):
+        for scope in oauth2.get('scopes', []):
             transaction.add(Scope(client=client, scope=scope))
 
-        for contact in OAUTH2.get('contacts', []):
+        for contact in oauth2.get('contacts', []):
             transaction.add(Contact(client=client, contact=contact))
 
-        for jwk in OAUTH2.get('jwks', []):
+        for jwk in oauth2.get('jwks', []):
             transaction.add(JWKS(client=client, jwk=jwk))
 
         return (transaction, secret)
