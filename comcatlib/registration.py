@@ -9,7 +9,7 @@ from emaillib import EMail
 from mdb import Customer
 from notificationlib import get_email_func
 
-from comcatlib.email import MAILER, SENDER
+from comcatlib.email import SENDER, get_mailer
 from comcatlib.orm.registration import UserRegistration
 from comcatlib.orm.registration import RegistrationNotificationEmails
 
@@ -95,7 +95,7 @@ def notify_user(user_registration: UserRegistration, passwd: str) -> bool:
 
     email = make_user_registration_email(
         user_registration.email, user_registration.id, passwd)
-    return MAILER.send([email])
+    return get_mailer().send([email])
 
 
 notify_customer = get_email_func(get_emails)

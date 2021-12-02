@@ -5,7 +5,7 @@ from xml.etree.ElementTree import Element, SubElement, tostring
 
 from emaillib import EMail
 
-from comcatlib.email import MAILER, SENDER
+from comcatlib.email import SENDER, get_mailer
 from comcatlib.orm import EMailChangeNonce, User
 
 
@@ -56,7 +56,7 @@ def request_email_change(user: User, email: str) -> bool:
     """Changes the user email."""
 
     nonce = EMailChangeNonce.add(user, email)
-    return MAILER.send([get_email(user, email, nonce.uuid.hex)])
+    return get_mailer().send([get_email(user, email, nonce.uuid.hex)])
 
 
 def confirm_email_change(uuid: UUID, passwd: str) -> None:

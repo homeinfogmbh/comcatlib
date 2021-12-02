@@ -1,7 +1,7 @@
 """Comcat backend."""
 
 from comcatlib.app import init_oauth_endpoints
-from comcatlib.config import CONFIG
+from comcatlib.config import get_config
 from comcatlib.contactform import send_contact_mails
 from comcatlib.email_change import request_email_change, confirm_email_change
 from comcatlib.exceptions import AlreadyRegistered
@@ -38,7 +38,6 @@ from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
 
 __all__ = [
-    'CONFIG',
     'REQUIRE_OAUTH',
     'SERVER',
     'ADDRESS',
@@ -57,6 +56,7 @@ __all__ = [
     'decode_url',
     'encode_url',
     'genpw',
+    'get_config',
     'get_user',
     'init_app',
     'notify_customer',

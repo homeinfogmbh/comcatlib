@@ -1,14 +1,14 @@
 """Common ORM stuff."""
 
-from peeweeplus import MySQLDatabase, JSONModel
+from peeweeplus import MySQLDatabaseProxy, JSONModel
 
-from comcatlib.config import CONFIG
+from comcatlib.config import CONFIG_FILE
 
 
 __all__ = ['DATABASE', 'ComCatModel']
 
 
-DATABASE = MySQLDatabase.from_config(CONFIG['db'])
+DATABASE = MySQLDatabaseProxy('comcat', CONFIG_FILE)
 
 
 class ComCatModel(JSONModel):   # pylint: disable=R0903

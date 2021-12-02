@@ -6,7 +6,7 @@ from xml.etree.ElementTree import Element, SubElement, tostring
 from emaillib import EMail
 from mdb import Customer
 
-from comcatlib.email import MAILER, SENDER
+from comcatlib.email import SENDER, get_mailer
 from comcatlib.orm.contactform import ContactEmails
 from comcatlib.orm.user import User
 
@@ -69,4 +69,4 @@ def get_contact_emails(user: User, json: dict) -> Iterator[EMail]:
 def send_contact_mails(user: User, json: dict) -> bool:
     """Sends contact emails."""
 
-    return MAILER.send(get_contact_emails(user, json))
+    return get_mailer().send(get_contact_emails(user, json))
