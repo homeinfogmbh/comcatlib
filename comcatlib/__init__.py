@@ -15,7 +15,6 @@ from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
 from comcatlib.localproxies import TENEMENT
 from comcatlib.localproxies import USER
-from comcatlib.localproxies import get_user
 from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
 from comcatlib.registration import notify_customer, notify_user
 from comcatlib.orm import DATABASE
@@ -57,7 +56,6 @@ __all__ = [
     'encode_url',
     'genpw',
     'get_config',
-    'get_user',
     'init_app',
     'notify_customer',
     'notify_user',

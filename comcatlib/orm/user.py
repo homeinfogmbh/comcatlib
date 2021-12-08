@@ -11,7 +11,6 @@ from peewee import DateTimeField
 from peewee import ForeignKeyField
 from peewee import ModelSelect
 
-from his import CUSTOMER
 from mdb import Address, Company, Customer, Tenement
 from peeweeplus import Argon2Field
 
@@ -19,24 +18,11 @@ from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidPassword
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
-from comcatlib.messages import NO_SUCH_USER
 from comcatlib.orm.common import ComCatModel
 from comcatlib.pwgen import genpw
 
 
-__all__ = ['get_user', 'User']
-
-
-def get_user(ident: int) -> User:
-    """Returns the respective user."""
-
-    condition = User.id == ident
-    condition &= Tenement.customer == CUSTOMER.id
-
-    try:
-        return User.select(cascade=True).where(condition).get()
-    except User.DoesNotExist:
-        raise NO_SUCH_USER from None
+__all__ = ['User']
 
 
 class User(ComCatModel):
