@@ -21,14 +21,13 @@ from comcatlib.orm.oauth import Token
 from comcatlib.orm.registration import UserRegistration
 from comcatlib.orm.registration import RegistrationNotificationEmails
 from comcatlib.orm.settings import Settings
-from comcatlib.orm.user import get_user, User
+from comcatlib.orm.user import User
 
 
 __all__ = [
     'DATABASE',
     'MODELS',
     'create_tables',
-    'get_user',
     'User',
     # OAuth
     'Client',
