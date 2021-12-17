@@ -1,6 +1,7 @@
 """Nonces for client initialization."""
 
 from __future__ import annotations
+from typing import Union
 from uuid import UUID, uuid4
 
 from peewee import ForeignKeyField, ModelSelect, UUIDField
@@ -24,7 +25,7 @@ class Nonce(ComCatModel):
     uuid = UUIDField(default=uuid4)
 
     @classmethod
-    def add(cls, user: User) -> Nonce:
+    def add(cls, user: Union[User, int]) -> Nonce:
         """Returns a new nonce for the given user."""
         nonce = cls(user=user)
         nonce.save()
@@ -69,7 +70,7 @@ class EMailChangeNonce(Nonce):
 
     # pylint: disable=W0221
     @classmethod
-    def add(cls, user: User, email: str) -> EMailChangeNonce:
+    def add(cls, user: Union[User, int], email: str) -> EMailChangeNonce:
         """Adds a new email change nonce."""
         nonce = cls(user=user, email=email)
         nonce.save()
