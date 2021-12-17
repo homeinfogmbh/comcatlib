@@ -55,7 +55,7 @@ def get_email(user: User, email: str, nonce: str) -> EMail:
 def request_email_change(user: User, email: str) -> bool:
     """Changes the user email."""
 
-    nonce = EMailChangeNonce.add(user, email)
+    nonce = EMailChangeNonce.add(user.id, email)
     return get_mailer().send([get_email(user, email, nonce.uuid.hex)])
 
 
