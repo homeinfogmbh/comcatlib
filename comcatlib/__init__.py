@@ -22,6 +22,7 @@ from comcatlib.orm import AuthorizationNonce
 from comcatlib.orm import EMailChangeNonce
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import MenuBaseChart
+from comcatlib.orm import PasswordResetNonce
 from comcatlib.orm import RegistrationNotificationEmails
 from comcatlib.orm import Settings
 from comcatlib.orm import Token
@@ -67,6 +68,7 @@ __all__ = [
     'EMailChangeNonce',
     'GroupMemberUser',
     'MenuBaseChart',
+    'PasswordResetNonce',
     'RegistrationNotificationEmails',
     'Settings',
     'Token',
