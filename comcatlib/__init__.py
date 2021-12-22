@@ -1,5 +1,7 @@
 """Comcat backend."""
 
+from flask import Flask
+
 from comcatlib.app import init_oauth_endpoints
 from comcatlib.config import get_config
 from comcatlib.contactform import send_contact_mails
@@ -82,7 +84,7 @@ __all__ = [
 ]
 
 
-def init_app(app):
+def init_app(app: Flask) -> None:
     """Initializes a flask application with an OAuth 2.0
     authorization server and the respective endpoints.
     """
