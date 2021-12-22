@@ -7,6 +7,7 @@ __all__ = [
     'InvalidAddress',
     'InvalidPassword',
     'NonceUsed',
+    'PasswordResetPending',
     'QuotaExceeded',
     'UserExpired',
     'UserLocked'
@@ -35,6 +36,10 @@ class InvalidPassword(Exception):
 
 class NonceUsed(Exception):
     """Indicates that a nonce has already been used."""
+
+
+class PasswordResetPending(Exception):
+    """Indicates that a password reset is already pending."""
 
 
 class QuotaExceeded(Exception):
