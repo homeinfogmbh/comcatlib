@@ -10,6 +10,7 @@ from comcatlib.exceptions import AlreadyRegistered
 from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidAddress
 from comcatlib.exceptions import InvalidPassword
+from comcatlib.exceptions import NonceUsed
 from comcatlib.exceptions import PasswordResetPending
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
@@ -53,6 +54,7 @@ __all__ = [
     'DuplicateUser',
     'InvalidAddress',
     'InvalidPassword',
+    'NonceUsed',
     'PasswordResetPending',
     'QuotaExceeded',
     'UserExpired',
