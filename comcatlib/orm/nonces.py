@@ -10,7 +10,7 @@ from peewee import DateTimeField, ForeignKeyField, ModelSelect, UUIDField
 from mdb import Address, Company, Customer, Tenement
 from peeweeplus import HTMLCharField
 
-from comcatlib.exceptions import NonceUsed
+from comcatlib.exceptions import NonceUsed, PasswordResetPending
 from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
@@ -100,6 +100,18 @@ class PasswordResetNonce(Nonce):
             (cls.user == user)
             & (cls.issued < (datetime.now() + cls.VALIDITY))
         )
+
+    @classmethod
+    def generate(cls, user: User) -> PasswordResetNonce:
+        """Generates a password reset nonce for the given user."""
+        cls.clean(user)
+
+        try:
+            cls.get(cls.user == user)
+        except cls.DoesNotExist:
+            return cls(user=user)
+
+        raise PasswordResetPending()
 
     @classmethod
     def use(cls, uuid: UUID) -> User:
