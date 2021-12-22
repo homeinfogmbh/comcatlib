@@ -43,7 +43,7 @@ class Nonce(ComCatModel):
             Customer).join(Company).join_from(Tenement, Address)
 
     @classmethod
-    def use(cls, uuid: UUID) -> User:
+    def use(cls, uuid: UUID) -> Nonce:
         """Uses a nonce and returns its user."""
         try:
             nonce = cls.select(cascade=True).where(cls.uuid == uuid).get()
