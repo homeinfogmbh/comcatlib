@@ -1,10 +1,11 @@
 """Nonces for client initialization."""
 
 from __future__ import annotations
+from datetime import datetime, timedelta
 from typing import Union
 from uuid import UUID, uuid4
 
-from peewee import ForeignKeyField, ModelSelect, UUIDField
+from peewee import DateTimeField, ForeignKeyField, ModelSelect, UUIDField
 
 from mdb import Address, Company, Customer, Tenement
 from peeweeplus import HTMLCharField
@@ -87,3 +88,27 @@ class EMailChangeNonce(Nonce):
 
 class PasswordResetNonce(Nonce):
     """Nonce to reset the password."""
+
+    VALIDITY = timedelta(days=1)
+
+    issued = DateTimeField(default=datetime.now)
+
+    @classmethod
+    def clean(cls, user: User) -> None:
+        """Remove all outdated nonces for the given user."""
+        return cls.delete().where(
+            (cls.user == user)
+            & (cls.issued < (datetime.now() + cls.VALIDITY))
+        )
+
+    @classmethod
+    def use(cls, uuid: UUID) -> User:
+        """Uses a nonce and returns its user."""
+        if not (nonce := super().use(uuid)).is_valid():
+            raise NonceUsed()
+
+        return nonce
+
+    def is_valid(self) -> bool:
+        """Checks if the nonce is valid."""
+        return self.issued + self.VALIDITY >= datetime.now()
