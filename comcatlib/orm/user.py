@@ -6,13 +6,12 @@ from typing import Iterable, Optional, Union
 
 from argon2.exceptions import VerifyMismatchError
 from peewee import BooleanField
-from peewee import CharField
 from peewee import DateTimeField
 from peewee import ForeignKeyField
 from peewee import ModelSelect
 
 from mdb import Address, Company, Customer, Tenement
-from peeweeplus import Argon2Field
+from peeweeplus import Argon2Field, EMailField, PhoneNumberField, UserNameField
 
 from comcatlib.exceptions import DuplicateUser
 from comcatlib.exceptions import InvalidPassword
@@ -28,10 +27,10 @@ __all__ = ['User']
 class User(ComCatModel):
     """A ComCat user."""
 
-    email = CharField()
-    name = CharField()
-    phone = CharField(null=True)
-    mobile = CharField(null=True)
+    email = EMailField()
+    name = UserNameField()
+    phone = PhoneNumberField(null=True)
+    mobile = PhoneNumberField(null=True)
     tenement = ForeignKeyField(
         Tenement, column_name='tenement', lazy_load=False)
     created = DateTimeField(default=datetime.now)
