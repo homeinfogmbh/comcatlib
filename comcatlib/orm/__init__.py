@@ -8,7 +8,9 @@ from comcatlib.orm.content import UserMenu
 from comcatlib.orm.damage_report import UserDamageReport
 from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.menu import MenuBaseChart
-from comcatlib.orm.nonces import AuthorizationNonce, EMailChangeNonce
+from comcatlib.orm.nonces import AuthorizationNonce
+from comcatlib.orm.nonces import EMailChangeNonce
+from comcatlib.orm.nonces import PasswordResetNonce
 from comcatlib.orm.oauth import AuthorizationCode
 from comcatlib.orm.oauth import Client
 from comcatlib.orm.oauth import Contact
@@ -28,32 +30,29 @@ __all__ = [
     'DATABASE',
     'MODELS',
     'create_tables',
-    'User',
-    # OAuth
+    'AuthorizationCode',
+    'AuthorizationNonce',
     'Client',
     'Contact',
+    'ContactEmails',
+    'EMailChangeNonce',
     'GrantType',
     'GroupMemberUser',
     'JWKS',
+    'MenuBaseChart',
+    'PasswordResetNonce',
     'RedirectURI',
-    'ResponseType',
-    'Settings',
-    'Scope',
-    'Token',
-    'AuthorizationCode',
-    # Nonces
-    'AuthorizationNonce',
-    'EMailChangeNonce',
-    # User-related stuff.
-    'ContactEmails',
     'RegistrationNotificationEmails',
+    'ResponseType',
+    'Scope',
+    'Settings',
+    'Token',
+    'User',
     'UserBaseChart',
     'UserConfiguration',
     'UserDamageReport',
     'UserMenu',
-    'UserRegistration',
-    # Misc
-    'MenuBaseChart'
+    'UserRegistration'
 ]
 
 
@@ -75,6 +74,7 @@ MODELS = (
     # Nonces
     AuthorizationNonce,
     EMailChangeNonce,
+    PasswordResetNonce,
     # User-related stuff.
     ContactEmails,
     RegistrationNotificationEmails,
