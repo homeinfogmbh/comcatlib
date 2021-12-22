@@ -37,6 +37,7 @@ from comcatlib.orm import UserMenu
 from comcatlib.orm import UserRegistration
 from comcatlib.presentation import Presentation
 from comcatlib.pwgen import genpw
+from comcatlib.pwreset import send_password_reset_email
 from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
 
@@ -68,6 +69,7 @@ __all__ = [
     'proxy_url',
     'request_email_change',
     'send_contact_mails',
+    'send_password_reset_email',
     'AuthorizationNonce',
     'EMailChangeNonce',
     'GroupMemberUser',
