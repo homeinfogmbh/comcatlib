@@ -14,7 +14,7 @@ from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['AuthorizationNonce', 'EMailChangeNonce']
+__all__ = ['AuthorizationNonce', 'EMailChangeNonce', 'PasswordResetNonce']
 
 
 class Nonce(ComCatModel):
@@ -83,3 +83,7 @@ class EMailChangeNonce(Nonce):
         (user := nonce.user).email = nonce.email
         user.save()
         return nonce
+
+
+class PasswordResetNonce(Nonce):
+    """Nonce to reset the password."""
