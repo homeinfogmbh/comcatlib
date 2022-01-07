@@ -89,6 +89,9 @@ class EMailChangeNonce(Nonce):
 class PasswordResetNonce(Nonce):
     """Nonce to reset the password."""
 
+    class Meta:     # pylint: disable=C0115,R0903
+        table_name = 'password_reset_nonce'
+
     VALIDITY = timedelta(days=1)
 
     issued = DateTimeField(default=datetime.now)
