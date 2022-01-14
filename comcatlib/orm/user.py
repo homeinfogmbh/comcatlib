@@ -97,6 +97,13 @@ class User(ComCatModel):
         """Checks whether the user is unique for the tenement."""
         return not self.duplicates
 
+    @property
+    def groups(self) -> Select:
+        """Select groups this user is member of."""
+        return Group.select().where(
+            Group.id << {gmu.group for gmu in self.groupmemberuser_set}
+        )
+
     def login(self, passwd: str) -> bool:
         """Authenticates the user."""
         if self.locked:
