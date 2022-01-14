@@ -14,10 +14,12 @@ __all__ = ['get_group_ids', 'get_groups_lineage']
 
 
 def get_group_ids(user: Union[User, int]) -> Iterator[int]:
-    """Select groups of the given user."""
+    """Yield group IDs of the given user."""
 
-    for gmu in GroupMemberUser.select().where(GroupMemberUser.user == user):
-        yield gmu.group
+    for group_member_user in GroupMemberUser.select().where(
+            GroupMemberUser.user == user
+    ):
+        yield group_member_user.group
 
 
 def get_groups_lineage(
