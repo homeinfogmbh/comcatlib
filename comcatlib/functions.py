@@ -1,22 +1,34 @@
 """Exported functions."""
 
-from typing import Union
+from typing import Iterator, Optional, Union
 
 from peewee import Select
 
-from cmslib import Group
+from cmslib import Group, Groups
 
 from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.user import User
 
 
-__all__ = ['get_groups_of']
+__all__ = ['get_group_ids', 'get_groups_lineage']
 
 
-def get_groups_of(user: Union[User, int]) -> Select:
+def get_group_ids(user: Union[User, int]) -> Iterator[int]:
     """Select groups of the given user."""
 
-    return Group.select(cascade=True).join_from(
-        Group, GroupMemberUser,
-        on=GroupMemberUser.group == Group.id
-    ).where(GroupMemberUser.user == user)
+    for gmu in GroupMemberUser.select().where(GroupMemberUser.user == user):
+        yield gmu.group
+
+
+def get_groups_lineage(
+        user: Union[User, int], *,
+        groups: Optional[Groups] = None
+) -> Iterator[Group]:
+    """Select the groups-lineage of the given user."""
+
+    if groups is None:
+        groups = Groups.for_customer(user.tenement.customer)
+
+    for member_group in groups.groups(get_group_ids(user)):
+        for group in groups.lineage(member_group):
+            yield group

@@ -15,7 +15,7 @@ from comcatlib.exceptions import PasswordResetPending
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
-from comcatlib.functions import get_groups_of
+from comcatlib.functions import get_group_ids, get_groups_lineage
 from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
 from comcatlib.localproxies import TENEMENT
@@ -65,7 +65,8 @@ __all__ = [
     'encode_url',
     'genpw',
     'get_config',
-    'get_groups_of',
+    'get_group_ids',
+    'get_groups_lineage',
     'init_app',
     'notify_customer',
     'notify_user',
