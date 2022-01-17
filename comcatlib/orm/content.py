@@ -3,7 +3,7 @@
 from __future__ import annotations
 from typing import Union
 
-from peewee import ForeignKeyField, IntegerField, ModelSelect
+from peewee import ForeignKeyField, IntegerField, Select
 
 from cmslib import BaseChart, Chart, ChartMode, Configuration, Menu
 from mdb import Address, Company, Customer, Tenement
@@ -30,7 +30,7 @@ class UserContent(ComCatModel):     # pylint: disable=R0903
         return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """Selects user content."""
         if not cascade:
             return super().select(*args, **kwargs)
@@ -62,7 +62,7 @@ class UserBaseChart(UserContent):
         return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """Selects user base charts."""
         if not cascade:
             return super().select(*args, **kwargs)
@@ -106,7 +106,7 @@ class UserConfiguration(UserContent):
         return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """Selects user configurations."""
         if not cascade:
             return super().select(*args, **kwargs)
@@ -138,7 +138,7 @@ class UserMenu(UserContent):
         return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """Selects user menus."""
         if not cascade:
             return super().select(*args, **kwargs)
