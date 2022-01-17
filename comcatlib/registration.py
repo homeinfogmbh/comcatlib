@@ -17,7 +17,7 @@ from comcatlib.orm.registration import RegistrationNotificationEmails
 __all__ = ['notify_customer', 'notify_user']
 
 
-NOTIFIACATION_SUBJECT = 'Neue Benutzerregistrierungen für Ihre App'
+NOTIFICATION_SUBJECT = 'Neue Benutzerregistrierungen für Ihre App'
 USER_REG_SUBJECT = 'Mieter-App'
 USER_REG_TEMP = Path('/usr/local/etc/comcat.d/userreg.temp')
 RegistrationMap = dict[Customer, list[UserRegistration]]
@@ -56,7 +56,7 @@ def to_emails(customer: Customer,
 
     for notification_email in RegistrationNotificationEmails.select().where(
             Customer == customer):
-        yield EMail(NOTIFIACATION_SUBJECT, SENDER, notification_email.email,
+        yield EMail(NOTIFICATION_SUBJECT, SENDER, notification_email.email,
                     html=to_html(user_registrations))
 
 
