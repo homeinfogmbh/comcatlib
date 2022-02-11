@@ -1,29 +1,25 @@
 """Backend for the smartphone apps."""
 
+from typing import Union
 from uuid import UUID
 
 from flask import request, Flask, Response
 
-from wsgilib import JSON
+from wsgilib import JSON, JSONMessage
 
 from comcatlib.exceptions import InvalidPassword
 from comcatlib.exceptions import NonceUsed
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
-from comcatlib.messages import INVALID_CREDENTIALS
-from comcatlib.messages import INVALID_UUID
-from comcatlib.messages import INVALID_NONCE
-from comcatlib.messages import MISSING_NONCE
-from comcatlib.messages import MISSING_USER_ID
-from comcatlib.messages import MISSING_USER_PW
-from comcatlib.messages import USER_EXPIRED
-from comcatlib.messages import USER_LOCKED
 from comcatlib.oauth2 import FRAMEWORK
 from comcatlib.orm import AuthorizationNonce, User
 from comcatlib.pwgen import genpw
 
 
 __all__ = ['init_oauth_endpoints']
+
+
+INVALID_CREDENTIALS = JSONMessage('Invalid credentials.', status=400)
 
 
 def init_oauth_endpoints(application: Flask) -> None:
@@ -42,38 +38,38 @@ def init_oauth_endpoints(application: Flask) -> None:
     )
 
 
-def authorize_client() -> Response:
+def authorize_client() -> Union[Response, JSONMessage]:
     """Login is required since we need to know the current resource owner.
     It can be done with a redirection to the login page, or a login
     form on this authorization page.
     """
 
     if (nonce := request.form.get('nonce')) is None:
-        return MISSING_NONCE
+        return JSONMessage('Missing nonce.', status=400)
 
     try:
         uuid = UUID(nonce)
     except ValueError:
-        return INVALID_UUID
+        return JSONMessage('Invalid UUID.', status=400)
 
     try:
         user = AuthorizationNonce.use(uuid).user
     except NonceUsed:
-        return INVALID_NONCE
+        return JSONMessage('Invalid nonce.', status=400)
 
     return FRAMEWORK.authorization_server.create_authorization_response(
         grant_user=user
     )
 
 
-def register_client() -> JSON:  # pylint: disable=R0911
+def register_client() -> Union[JSON, JSONMessage]:
     """Registers a client."""
 
     if (ident := request.json.get('id')) is None:
-        return MISSING_USER_ID
+        return JSONMessage('Missing user ID.', status=400)
 
     if (passwd := request.json.get('passwd')) is None:
-        return MISSING_USER_PW
+        return JSONMessage('Missing user password.', status=400)
 
     try:
         user = User[ident]
@@ -83,9 +79,9 @@ def register_client() -> JSON:  # pylint: disable=R0911
     try:
         user.login(passwd)
     except UserLocked:
-        return USER_LOCKED
+        return JSONMessage('This user is locked.', status=401)
     except UserExpired:
-        return USER_EXPIRED
+        return JSONMessage('This user is expired.', status=401)
     except InvalidPassword:
         return INVALID_CREDENTIALS
 
