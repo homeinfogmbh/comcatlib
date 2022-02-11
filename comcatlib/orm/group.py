@@ -3,7 +3,7 @@
 from __future__ import annotations
 from typing import Union
 
-from peewee import ForeignKeyField, IntegerField, ModelSelect
+from peewee import ForeignKeyField, IntegerField, Select
 
 from cmslib import Group
 from mdb import Address, Company, Customer, Tenement
@@ -39,7 +39,7 @@ class GroupMemberUser(ComCatModel):  # pylint: disable=R0901
         return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """Selects group <> user mappings."""
         if not cascade:
             return super().select(*args, **kwargs)

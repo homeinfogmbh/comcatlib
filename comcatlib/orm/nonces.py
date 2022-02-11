@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from typing import Union
 from uuid import UUID, uuid4
 
-from peewee import DateTimeField, ForeignKeyField, ModelSelect, UUIDField
+from peewee import DateTimeField, ForeignKeyField, Select, UUIDField
 
 from mdb import Address, Company, Customer, Tenement
 from peeweeplus import HTMLCharField
@@ -33,7 +33,7 @@ class Nonce(ComCatModel):
         return nonce
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """Selects nonces."""
         if not cascade:
             return super().select(*args, **kwargs)

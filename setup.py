@@ -24,6 +24,7 @@ setup(
         'flask',
         'mdb',
         'notificationlib',
+        'oauth2gen',
         'peewee',
         'peeweeplus',
         'requests',

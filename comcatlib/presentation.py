@@ -23,10 +23,10 @@ __all__ = ['Presentation']
 PresentationDOM = presentation.typeDefinition()
 
 
-class Presentation(Presentation):   # pylint: disable=E0102
+class Presentation(Presentation):
     """Accumulates content for a ComCat user."""
 
-    def __init__(self, user: User):     # pylint: disable=W0231
+    def __init__(self, user: User):
         """Sets the respective user."""
         self.user = user
 
@@ -40,7 +40,7 @@ class Presentation(Presentation):   # pylint: disable=E0102
         for user_base_chart in UserBaseChart.select(cascade=True).where(
                 (UserBaseChart.user == self.user) & get_trashed()).order_by(
                 UserBaseChart.index):
-            yield (user_base_chart.index, user_base_chart.base_chart)
+            yield user_base_chart.index, user_base_chart.base_chart
 
     def get_configurations(self) -> Iterator[Configuration]:
         """Returns the user's configuration."""

@@ -28,9 +28,9 @@ def to_html(user_registrations: Iterable[UserRegistration]) -> Element:
 
     html = Element('html')
     body = SubElement(html, 'body')
-    h1 = SubElement(body, 'h1')     # pylint: disable=C0103
+    h1 = SubElement(body, 'h1')
     h1.text = 'Neue Registrierungen'
-    p = SubElement(body, 'p')   # pylint: disable=C0103
+    p = SubElement(body, 'p')
     p.text = 'Folgende Benutzer haben sich für die App registriert:'
     SubElement(body, 'br')
     table = SubElement(body, 'table', attrs={'border': '1'})
@@ -38,10 +38,10 @@ def to_html(user_registrations: Iterable[UserRegistration]) -> Element:
     for user_registration in user_registrations:
         table.append(user_registration.to_html())
 
-    p = SubElement(body, 'p')   # pylint: disable=C0103
+    p = SubElement(body, 'p')
     p.text = 'Mit freundlichen Grüßen'
     SubElement(body, 'br')
-    p = SubElement(body, 'p')   # pylint: disable=C0103
+    p = SubElement(body, 'p')
     p.text = 'Ihre HOMEINFO GmbH'
     return html
 
@@ -90,12 +90,12 @@ def make_user_registration_email(email: str, login: int, passwd: str) -> EMail:
     return EMail(USER_REG_SUBJECT, SENDER, email, plain=text)
 
 
-def notify_user(user_registration: UserRegistration, passwd: str) -> bool:
+def notify_user(user_registration: UserRegistration, passwd: str) -> None:
     """Sends a notification email to the registered email address."""
 
     email = make_user_registration_email(
         user_registration.email, user_registration.id, passwd)
-    return get_mailer().send([email])
+    get_mailer().send([email])
 
 
 notify_customer = get_email_func(get_emails)

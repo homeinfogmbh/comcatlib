@@ -4,7 +4,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Union
 
-from peewee import ForeignKeyField, ModelSelect
+from peewee import ForeignKeyField, Select
 
 from cmslib import BaseChart
 from mdb import Company, Customer
@@ -54,7 +54,7 @@ class MenuBaseChart(ComCatModel):   # pylint: disable=R0903
             return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """Selects base chart menus."""
         if not cascade:
             return super().select(*args, **kwargs)

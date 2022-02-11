@@ -1,6 +1,7 @@
 """Facebook image link proxy."""
 
 from hashlib import sha256
+from typing import Union
 from urllib.parse import urlparse, ParseResult
 
 from flask import request, Response
@@ -16,7 +17,7 @@ def decode_url(json: dict) -> str:
     return ParseResult(
         scheme=json['scheme'], netloc=json['netloc'],
         path=json.get('path', ''), params=json.get('params', ''),
-        query=json.get('query', ''), fragment=json('fragment', '')
+        query=json.get('query', ''), fragment=json.get('fragment', '')
     ).geturl()
 
 
@@ -34,21 +35,22 @@ def encode_url(url: str) -> dict:
     }
 
 
-def proxy_url(url: str) -> Response:
+def proxy_url(url: str) -> Union[Response, tuple[str, int]]:
     """Proxies the respective URL."""
 
     response = get(url)
 
     if response.status_code != 200:
-        return ('Could not proxy URL.', 400)
+        return 'Could not proxy URL.', 400
 
     sha256sum = sha256(response.content).hexdigest()
 
     if sha256sum == request.headers.get('sha256sum'):
-        return ('Not Modified', 304)
+        return 'Not Modified', 304
 
     headers = {'sha256sum': sha256sum}
 
     return Response(
         response.content, status=response.status_code, headers=headers,
-        content_type=response.headers['Content-Type'])
+        content_type=response.headers['Content-Type']
+    )

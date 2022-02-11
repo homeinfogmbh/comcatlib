@@ -8,8 +8,9 @@ from argon2.exceptions import VerifyMismatchError
 from peewee import BooleanField
 from peewee import DateTimeField
 from peewee import ForeignKeyField
-from peewee import ModelSelect
+from peewee import Select
 
+from cmslib import Group
 from mdb import Address, Company, Customer, Tenement
 from peeweeplus import Argon2Field, EMailField, PhoneNumberField, UserNameField
 
@@ -52,12 +53,12 @@ class User(ComCatModel):
         user.tenement = tenement
 
         if user.is_unique:
-            return (user, passwd)
+            return user, passwd
 
         raise DuplicateUser()
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """Selects clients."""
         if not cascade:
             return super().select(*args, **kwargs)

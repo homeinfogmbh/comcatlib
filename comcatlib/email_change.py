@@ -52,7 +52,7 @@ def get_email(user: User, email: str, nonce: str) -> EMail:
     return EMail(SUBJECT, SENDER, email, html=tostring(get_html(user, nonce)))
 
 
-def request_email_change(user: User, email: str) -> bool:
+def request_email_change(user: User, email: str) -> None:
     """Changes the user email."""
 
     nonce = EMailChangeNonce.add(user.id, email)

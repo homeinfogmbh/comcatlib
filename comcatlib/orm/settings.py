@@ -3,7 +3,7 @@
 from __future__ import annotations
 from typing import Union
 
-from peewee import JOIN, ForeignKeyField, IntegerField, ModelSelect
+from peewee import JOIN, ForeignKeyField, IntegerField, Select
 
 from mdb import Address, Company, Customer, Tenement
 
@@ -39,7 +39,7 @@ class Settings(ComCatModel):
             return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """"Selects Settings."""
         if not cascade:
             return super().select(*args, **kwargs)

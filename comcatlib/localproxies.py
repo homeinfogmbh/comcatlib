@@ -13,7 +13,9 @@ __all__ = ['ADDRESS', 'CUSTOMER', 'TENEMENT', 'USER', 'get_user']
 def get_user() -> User:
     """Performs authentication checks."""
 
-    if (user := current_token.user).expired:
+    if (user := User.select(cascade=True).where(
+            User.id == current_token.user
+    ).get()).expired:
         raise UserExpired()
 
     if user.locked:

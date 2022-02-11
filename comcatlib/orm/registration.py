@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from typing import Union
 from xml.etree.ElementTree import Element, SubElement
 
-from peewee import CharField, DateTimeField, ForeignKeyField, ModelSelect
+from peewee import CharField, DateTimeField, ForeignKeyField, Select
 
 from mdb import Company, Customer, Tenement
 from notificationlib import get_email_orm_model
@@ -33,7 +33,7 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
     registered = DateTimeField(default=datetime.now)
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """Selects user registrations."""
         if not cascade:
             return super().select(*args, **kwargs)
@@ -49,13 +49,13 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
         return record
 
     @classmethod
-    def same_ids_sel(cls, tenant_id: str, email: str) -> ModelSelect:
+    def same_ids_sel(cls, tenant_id: str, email: str) -> Select:
         """Returns a select condition to match records with the same IDs."""
         return (cls.tenant_id == tenant_id) | (cls.email == email)
 
     @classmethod
     def dupes_select(cls, tenant_id: str, email: str,
-                     customer: Union[Customer, int]) -> ModelSelect:
+                     customer: Union[Customer, int]) -> Select:
         """Returns a select condition to match duplicales."""
         return cls.same_ids_sel(tenant_id, email) & (cls.customer == customer)
 
@@ -74,7 +74,7 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
         raise AlreadyRegistered(record)
 
     @classmethod
-    def of_today(cls) -> ModelSelect:
+    def of_today(cls) -> Select:
         """Selects today's registrations."""
         now = datetime.now()
         today = now.replace(hour=0, minute=0, second=0, microsecond=0)

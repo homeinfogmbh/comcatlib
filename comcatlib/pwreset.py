@@ -41,7 +41,7 @@ def gen_email(nonce: PasswordResetNonce) -> EMail:
     )
 
 
-def send_password_reset_email(nonce: PasswordResetNonce) -> bool:
+def send_password_reset_email(nonce: PasswordResetNonce) -> None:
     """Sends a password reset email."""
 
-    return get_mailer().send([gen_email(nonce)])
+    get_mailer().send([gen_email(nonce)])

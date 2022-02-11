@@ -1,6 +1,6 @@
 """Damage report mappings."""
 
-from peewee import ForeignKeyField, ModelSelect
+from peewee import ForeignKeyField, Select
 
 from damage_report import DamageReport
 from mdb import Address, Company, Customer, Tenement
@@ -25,7 +25,7 @@ class UserDamageReport(ComCatModel):    # pylint: disable=R0903
         User, column_name='user', on_delete='CASCADE', lazy_load=False)
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> ModelSelect:
+    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
         """Selects user damage reports."""
         if not cascade:
             return super().select(*args, **kwargs)

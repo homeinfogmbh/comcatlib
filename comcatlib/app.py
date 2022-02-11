@@ -1,8 +1,8 @@
-"""Common functions."""
+"""Backend for the smartphone apps."""
 
 from uuid import UUID
 
-from flask import request, Response
+from flask import request, Flask, Response
 
 from wsgilib import JSON
 
@@ -18,18 +18,28 @@ from comcatlib.messages import MISSING_USER_ID
 from comcatlib.messages import MISSING_USER_PW
 from comcatlib.messages import USER_EXPIRED
 from comcatlib.messages import USER_LOCKED
-from comcatlib.oauth import SERVER
-from comcatlib.oauth.introspection_endpoint import TokenIntrospectionEndpoint
-from comcatlib.oauth.revocation_endpoint import TokenRevocationEndpoint
-from comcatlib.orm import AuthorizationNonce, Client, User
+from comcatlib.oauth2 import FRAMEWORK
+from comcatlib.orm import AuthorizationNonce, User
+from comcatlib.pwgen import genpw
 
 
-__all__ = [
-    'register_client',
-    'authorize_client',
-    'revoke_token',
-    'introspect_token'
-]
+__all__ = ['init_oauth_endpoints']
+
+
+def init_oauth_endpoints(application: Flask) -> None:
+    """Adds OAuth endpoints to the respective application."""
+
+    application.route('/client', methods=['POST'])(register_client)
+    application.route('/authorize', methods=['POST'])(authorize_client)
+    application.route('/oauth/token', methods=['POST'])(
+        FRAMEWORK.authorization_server.create_token_response
+    )
+    application.route('/oauth/revoke', methods=['POST'])(
+        FRAMEWORK.authorization_server.revoke_token
+    )
+    application.route('/oauth/introspect', methods=['POST'])(
+        FRAMEWORK.authorization_server.introspect_token
+    )
 
 
 def authorize_client() -> Response:
@@ -51,14 +61,9 @@ def authorize_client() -> Response:
     except NonceUsed:
         return INVALID_NONCE
 
-    return SERVER.create_authorization_response(grant_user=user)
-
-
-def introspect_token() -> Response:
-    """Introspects a token."""
-
-    return SERVER.create_endpoint_response(
-        TokenIntrospectionEndpoint.ENDPOINT_NAME)
+    return FRAMEWORK.authorization_server.create_authorization_response(
+        grant_user=user
+    )
 
 
 def register_client() -> JSON:  # pylint: disable=R0911
@@ -84,16 +89,9 @@ def register_client() -> JSON:  # pylint: disable=R0911
     except InvalidPassword:
         return INVALID_CREDENTIALS
 
-    transaction, secret = Client.add(user)
+    transaction = FRAMEWORK.models.client.add(user, secret := genpw())
     transaction.commit()
     json = transaction.primary.to_json()
     json['clientSecret'] = secret
     json['authorizationNonce'] = AuthorizationNonce.add(user).uuid.hex
     return JSON(json)
-
-
-def revoke_token() -> Response:
-    """Revokes a token."""
-
-    return SERVER.create_endpoint_response(
-        TokenRevocationEndpoint.ENDPOINT_NAME)

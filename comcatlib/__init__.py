@@ -1,6 +1,4 @@
-"""Comcat backend."""
-
-from flask import Flask
+"""ComCat backend."""
 
 from comcatlib.app import init_oauth_endpoints
 from comcatlib.config import get_config
@@ -20,7 +18,7 @@ from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
 from comcatlib.localproxies import TENEMENT
 from comcatlib.localproxies import USER
-from comcatlib.oauth import REQUIRE_OAUTH, SERVER, init_oauth
+from comcatlib.oauth2 import REQUIRE_OAUTH
 from comcatlib.registration import notify_customer, notify_user
 from comcatlib.orm import DATABASE
 from comcatlib.orm import AuthorizationNonce
@@ -30,7 +28,6 @@ from comcatlib.orm import MenuBaseChart
 from comcatlib.orm import PasswordResetNonce
 from comcatlib.orm import RegistrationNotificationEmails
 from comcatlib.orm import Settings
-from comcatlib.orm import Token
 from comcatlib.orm import User
 from comcatlib.orm import UserBaseChart
 from comcatlib.orm import UserConfiguration
@@ -45,7 +42,6 @@ from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
 __all__ = [
     'REQUIRE_OAUTH',
-    'SERVER',
     'ADDRESS',
     'CUSTOMER',
     'DATABASE',
@@ -67,10 +63,9 @@ __all__ = [
     'get_config',
     'get_group_ids',
     'get_groups_lineage',
-    'init_app',
+    'init_oauth_endpoints',
     'notify_customer',
     'notify_user',
-    'oauth',
     'proxy_url',
     'request_email_change',
     'send_contact_mails',
@@ -82,7 +77,6 @@ __all__ = [
     'PasswordResetNonce',
     'RegistrationNotificationEmails',
     'Settings',
-    'Token',
     'User',
     'UserBaseChart',
     'UserConfiguration',
@@ -91,12 +85,3 @@ __all__ = [
     'UserRegistration',
     'Presentation'
 ]
-
-
-def init_app(app: Flask) -> None:
-    """Initializes a flask application with an OAuth 2.0
-    authorization server and the respective endpoints.
-    """
-
-    init_oauth(app)
-    init_oauth_endpoints(app)
