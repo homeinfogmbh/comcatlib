@@ -18,7 +18,7 @@ from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
 from comcatlib.localproxies import TENEMENT
 from comcatlib.localproxies import USER
-from comcatlib.oauth2 import REQUIRE_OAUTH
+from comcatlib.oauth2 import REQUIRE_OAUTH, Token
 from comcatlib.registration import notify_customer, notify_user
 from comcatlib.orm import DATABASE
 from comcatlib.orm import AuthorizationNonce
@@ -77,6 +77,7 @@ __all__ = [
     'PasswordResetNonce',
     'RegistrationNotificationEmails',
     'Settings',
+    'Token',
     'User',
     'UserBaseChart',
     'UserConfiguration',
