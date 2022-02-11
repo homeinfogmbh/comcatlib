@@ -33,9 +33,7 @@ setup(
     ],
     packages=[
         'comcatlib',
-        'comcatlib.app',
         'comcatlib.messages',
-        'comcatlib.oauth',
         'comcatlib.orm'
     ],
     data_files=[('/usr/local/share/comcatlib/', [
