@@ -29,7 +29,9 @@ def init_oauth_endpoints(application: Flask) -> None:
 
     server = FRAMEWORK.authorization_server(application)
     application.route('/client', methods=['POST'])(register_client)
-    application.route('/authorize', methods=['POST'])(
+    application.route(
+        '/authorize', methods=['POST'], endpoint='authorize_client'
+    )(
         partial(authorize_client, server)
     )
     application.route('/oauth/token', methods=['POST'])(
