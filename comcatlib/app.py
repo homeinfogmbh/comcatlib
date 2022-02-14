@@ -1,8 +1,10 @@
 """Backend for the smartphone apps."""
 
+from functools import partial
 from typing import Union
 from uuid import UUID
 
+from authlib.integrations.flask_oauth2 import AuthorizationServer
 from flask import request, Flask, Response
 
 from wsgilib import JSON, JSONMessage
@@ -25,20 +27,23 @@ INVALID_CREDENTIALS = JSONMessage('Invalid credentials.', status=400)
 def init_oauth_endpoints(application: Flask) -> None:
     """Adds OAuth endpoints to the respective application."""
 
+    server = FRAMEWORK.authorization_server(application)
     application.route('/client', methods=['POST'])(register_client)
-    application.route('/authorize', methods=['POST'])(authorize_client)
+    application.route('/authorize', methods=['POST'])(
+        partial(authorize_client, server)
+    )
     application.route('/oauth/token', methods=['POST'])(
-        FRAMEWORK.authorization_server.create_token_response
+        server.create_token_response
     )
-    application.route('/oauth/revoke', methods=['POST'])(
-        FRAMEWORK.authorization_server.revoke_token
-    )
+    application.route('/oauth/revoke', methods=['POST'])(server.revoke_token)
     application.route('/oauth/introspect', methods=['POST'])(
-        FRAMEWORK.authorization_server.introspect_token
+        server.introspect_token
     )
 
 
-def authorize_client() -> Union[Response, JSONMessage]:
+def authorize_client(
+        server: AuthorizationServer
+) -> Union[Response, JSONMessage]:
     """Login is required since we need to know the current resource owner.
     It can be done with a redirection to the login page, or a login
     form on this authorization page.
@@ -57,9 +62,7 @@ def authorize_client() -> Union[Response, JSONMessage]:
     except NonceUsed:
         return JSONMessage('Invalid nonce.', status=400)
 
-    return FRAMEWORK.authorization_server.create_authorization_response(
-        grant_user=user
-    )
+    return server.create_authorization_response(grant_user=user)
 
 
 def register_client() -> Union[JSON, JSONMessage]:
