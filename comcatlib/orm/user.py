@@ -33,16 +33,21 @@ class User(ComCatModel):
     phone = PhoneNumberField(null=True)
     mobile = PhoneNumberField(null=True)
     tenement = ForeignKeyField(
-        Tenement, column_name='tenement', lazy_load=False)
+        Tenement, column_name='tenement', lazy_load=False
+    )
     created = DateTimeField(default=datetime.now)
     expires = DateTimeField(null=True)
     locked = BooleanField(default=False)
-    admin = BooleanField(default=False)     # Admin across entire customer.
+    admin = BooleanField(default=False)
     passwd = Argon2Field()
 
     @classmethod
-    def from_json(cls, json: dict, tenement: Union[Tenement, int],
-                  **kwargs) -> tuple[User, str]:
+    def from_json(
+            cls,
+            json: dict,
+            tenement: Union[Tenement, int],
+            **kwargs
+    ) -> tuple[User, str]:
         """Creates the user from the respective JSON data."""
         passwd = json.get('passwd')
 
@@ -58,14 +63,16 @@ class User(ComCatModel):
         raise DuplicateUser()
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
+    def select(cls, *args, cascade: bool = False) -> Select:
         """Selects clients."""
         if not cascade:
-            return super().select(*args, **kwargs)
+            return super().select(*args)
 
-        args = {cls, Tenement, Customer, Company, Address, *args}
-        return super().select(*args, **kwargs).join(Tenement).join(
-            Customer).join(Company).join_from(Tenement, Address)
+        return super().select(*{
+            cls, Tenement, Customer, Company, Address, *args
+        }).join(Tenement).join(Customer).join(Company).join_from(
+            Tenement, Address
+        )
 
     @property
     def customer(self) -> Customer:
@@ -124,9 +131,13 @@ class User(ComCatModel):
         self.save()
         return True
 
-    def patch_json(self, json: dict, *,
-                   tenement: Optional[Union[Tenement, int]] = None,
-                   **kwargs) -> User:
+    def patch_json(
+            self,
+            json: dict,
+            *,
+            tenement: Optional[Union[Tenement, int]] = None,
+            **kwargs
+    ) -> User:
         """Patches the user with the respective JSON data."""
         super().patch_json(json, **kwargs)
 

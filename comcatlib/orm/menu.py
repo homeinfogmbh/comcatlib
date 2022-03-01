@@ -28,15 +28,16 @@ class Menu(Enum):
     NEWS = 'news'
 
 
-class MenuBaseChart(ComCatModel):   # pylint: disable=R0903
-    """Many-to-many mapping of charts an menus."""
+class MenuBaseChart(ComCatModel):
+    """Many-to-many mapping of charts and menus."""
 
-    class Meta:     # pylint: disable=C0115,R0903
+    class Meta:
         table_name = 'base_chart_menu'
 
     base_chart = ForeignKeyField(
         BaseChart, column_name='base_chart', on_delete='CASCADE',
-        lazy_load=False)
+        lazy_load=False
+    )
     menu = EnumField(Menu)
 
     @classmethod
@@ -54,11 +55,11 @@ class MenuBaseChart(ComCatModel):   # pylint: disable=R0903
             return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
+    def select(cls, *args, cascade: bool = False) -> Select:
         """Selects base chart menus."""
         if not cascade:
-            return super().select(*args, **kwargs)
+            return super().select(*args)
 
-        args = {cls, BaseChart, Customer, Company, *args}
-        return super().select(*args, **kwargs).join(BaseChart).join(
-            Customer).join(Company)
+        return super().select(*{
+            cls, BaseChart, Customer, Company, *args
+        }).join(BaseChart).join(Customer).join(Company)

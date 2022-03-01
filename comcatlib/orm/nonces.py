@@ -22,7 +22,8 @@ class Nonce(ComCatModel):
     """Basic Nonce."""
 
     user = ForeignKeyField(
-        User, column_name='user', on_delete='CASCADE', lazy_load=False)
+        User, column_name='user', on_delete='CASCADE', lazy_load=False
+    )
     uuid = UUIDField(default=uuid4)
 
     @classmethod
@@ -33,14 +34,16 @@ class Nonce(ComCatModel):
         return nonce
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
+    def select(cls, *args, cascade: bool = False) -> Select:
         """Selects nonces."""
         if not cascade:
-            return super().select(*args, **kwargs)
+            return super().select(*args)
 
-        args = {cls, User, Tenement, Customer, Company, Address, *args}
-        return super().select(*args, **kwargs).join(User).join(Tenement).join(
-            Customer).join(Company).join_from(Tenement, Address)
+        return super().select(*{
+            cls, User, Tenement, Customer, Company, Address, *args
+        }).join(User).join(Tenement).join(Customer).join(Company).join_from(
+            Tenement, Address
+        )
 
     @classmethod
     def use(cls, uuid: UUID) -> Nonce:
@@ -57,7 +60,7 @@ class Nonce(ComCatModel):
 class AuthorizationNonce(Nonce):
     """Nonces to authorize clients for users."""
 
-    class Meta:     # pylint: disable=C0115,R0903
+    class Meta:
         table_name = 'authorization_nonce'
 
 
@@ -66,7 +69,7 @@ class EMailChangeNonce(Nonce):
 
     email = HTMLCharField()
 
-    class Meta:     # pylint: disable=C0115,R0903
+    class Meta:
         table_name = 'email_change_nonce'
 
     @classmethod    # pylint: disable-next=W0221
@@ -88,7 +91,7 @@ class EMailChangeNonce(Nonce):
 class PasswordResetNonce(Nonce):
     """Nonce to reset the password."""
 
-    class Meta:     # pylint: disable=C0115,R0903
+    class Meta:
         table_name = 'password_reset_nonce'
 
     VALIDITY = timedelta(days=1)

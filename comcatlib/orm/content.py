@@ -15,36 +15,41 @@ from comcatlib.orm.user import User
 __all__ = ['UserBaseChart', 'UserConfiguration', 'UserMenu']
 
 
-class UserContent(ComCatModel):     # pylint: disable=R0903
+class UserContent(ComCatModel):
     """Common abstract content mapping."""
 
     user = ForeignKeyField(
         User, column_name='user', on_delete='CASCADE', lazy_load=False)
 
     @classmethod
-    def from_json(cls, json: dict, user: Union[User, int],
-                  **kwargs) -> UserContent:
+    def from_json(
+            cls,
+            json: dict,
+            user: Union[User, int],
+            **kwargs
+    ) -> UserContent:
         """Creates a new user content mapping."""
         record = super().from_json(json, **kwargs)
         record.user = user
         return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
+    def select(cls, *args, cascade: bool = False) -> Select:
         """Selects user content."""
         if not cascade:
-            return super().select(*args, **kwargs)
+            return super().select(*args)
 
-        args = {cls, User, Tenement, Customer, Company, Address, *args}
-        return super().select(*args, **kwargs).join(User).join(Tenement).join(
-            Customer).join(Company).join_from(Tenement, Address)
+        return super().select(*{
+            cls, User, Tenement, Customer, Company, Address, *args
+        }).join(User).join(Tenement).join(Customer).join(Company).join_from(
+            Tenement, Address
+        )
 
 
-# pylint: disable=W0221
 class UserBaseChart(UserContent):
     """Association of a base chart with a user."""
 
-    class Meta:     # pylint: disable=C0111,R0903
+    class Meta:
         table_name = 'user_base_chart'
 
     base_chart = ForeignKeyField(
@@ -53,23 +58,27 @@ class UserBaseChart(UserContent):
     index = IntegerField(default=0)
 
     @classmethod
-    def from_json(cls, json: dict, user: Union[User, int],
-                  base_chart: Union[BaseChart, int],
-                  **kwargs) -> UserBaseChart:
+    def from_json(
+            cls,
+            json: dict,
+            user: Union[User, int],
+            base_chart: Union[BaseChart, int],
+            **kwargs
+    ) -> UserBaseChart:
         """Creates a new user <> base chart mapping."""
         record = super().from_json(json, user, **kwargs)
         record.base_chart = base_chart
         return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
+    def select(cls, *args, cascade: bool = False) -> Select:
         """Selects user base charts."""
         if not cascade:
-            return super().select(*args, **kwargs)
+            return super().select(*args)
 
-        args = {cls, BaseChart, *args}
-        return super().select(*args, cascade=True, **kwargs).join_from(
-            cls, BaseChart)
+        return super().select(*{
+            cls, BaseChart, *args
+        }, cascade=True).join_from(cls, BaseChart)
 
     @property
     def chart(self) -> Chart:
@@ -89,31 +98,36 @@ class UserBaseChart(UserContent):
 class UserConfiguration(UserContent):
     """Association of a configuration with a user."""
 
-    class Meta:     # pylint: disable=C0111,R0903
+    class Meta:
         table_name = 'user_configuration'
 
     configuration = ForeignKeyField(
         Configuration, column_name='configuration', on_delete='CASCADE',
-        lazy_load=False)
+        lazy_load=False
+    )
 
     @classmethod
-    def from_json(cls, json: dict, user: Union[User, int],
-                  configuration: Union[Configuration, int],
-                  **kwargs) -> UserConfiguration:
+    def from_json(
+            cls,
+            json: dict,
+            user: Union[User, int],
+            configuration: Union[Configuration, int],
+            **kwargs
+    ) -> UserConfiguration:
         """Creates a new user <> configuration mapping."""
         record = super().from_json(json, user, **kwargs)
         record.configuration = configuration
         return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
+    def select(cls, *args, cascade: bool = False) -> Select:
         """Selects user configurations."""
         if not cascade:
-            return super().select(*args, **kwargs)
+            return super().select(*args)
 
-        args = {cls, Configuration, *args}
-        return super().select(*args, cascade=True, **kwargs).join_from(
-            cls, Configuration)
+        return super().select(*{
+            cls, Configuration, *args
+        }, cascade=True).join_from(cls, Configuration)
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
@@ -130,22 +144,27 @@ class UserMenu(UserContent):
         Menu, column_name='menu', on_delete='CASCADE', lazy_load=False)
 
     @classmethod
-    def from_json(cls, json: dict, user: Union[User, int],
-                  menu: Union[Menu, int], **kwargs) -> UserMenu:
+    def from_json(
+            cls,
+            json: dict,
+            user: Union[User, int],
+            menu: Union[Menu, int],
+            **kwargs
+    ) -> UserMenu:
         """Creates a new user <> menu mapping."""
         record = super().from_json(json, user, **kwargs)
         record.menu = menu
         return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
+    def select(cls, *args, cascade: bool = False) -> Select:
         """Selects user menus."""
         if not cascade:
-            return super().select(*args, **kwargs)
+            return super().select(*args)
 
-        args = {cls, Menu, *args}
-        return super().select(*args, cascade=True, **kwargs).join_from(
-            cls, Menu)
+        return super().select(*{
+            cls, Menu, *args
+        }, cascade=True).join_from(cls, Menu)
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""

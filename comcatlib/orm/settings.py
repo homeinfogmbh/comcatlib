@@ -22,7 +22,8 @@ class Settings(ComCatModel):
 
     customer = ForeignKeyField(
         Customer, column_name='customer', on_delete='CASCADE',
-        on_update='CASCADE')
+        on_update='CASCADE'
+    )
     user_quota = IntegerField(default=USER_QUOTA)
 
     @classmethod
@@ -32,24 +33,27 @@ class Settings(ComCatModel):
         """
         try:
             return cls.select(cascade=True).where(
-                cls.customer == customer).get()
+                cls.customer == customer
+            ).get()
         except cls.DoesNotExist:
             record = cls(customer=customer)
             record.save()
             return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
+    def select(cls, *args, cascade: bool = False) -> Select:
         """"Selects Settings."""
         if not cascade:
-            return super().select(*args, **kwargs)
+            return super().select(*args)
 
-        args = {cls, Customer, Company, Address, *args}
-        return cls.select(*args, **kwargs).join(Customer).join(Company).join(
-            Address, join_type=JOIN.LEFT_OUTER)
+        return cls.select(*{
+            cls, Customer, Company, Address, *args
+        }).join(Customer).join(Company).join(
+            Address, join_type=JOIN.LEFT_OUTER
+        )
 
     def allocate_user(self) -> bool:
         """Allocates a user account."""
-        users = User.select(cascade=True).where(
-            Tenement.customer == self.customer)
-        return len(users) < self.user_quota
+        return User.select(cascade=True).where(
+            Tenement.customer == self.customer
+        ).count() < self.user_quota

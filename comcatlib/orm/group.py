@@ -22,14 +22,21 @@ class GroupMemberUser(ComCatModel):
         table_name = 'group_member_user'
 
     group = ForeignKeyField(
-        Group, column_name='group', on_delete='CASCADE', lazy_load=False)
+        Group, column_name='group', on_delete='CASCADE', lazy_load=False
+    )
     user = ForeignKeyField(
-        User, column_name='user', on_delete='CASCADE', lazy_load=False)
+        User, column_name='user', on_delete='CASCADE', lazy_load=False
+    )
     index = IntegerField(default=0)
 
     @classmethod
-    def from_json(cls, json: dict, user: Union[User, int],
-                  group: Union[Group, int], **kwargs) -> GroupMemberUser:
+    def from_json(
+            cls,
+            json: dict,
+            user: Union[User, int],
+            group: Union[Group, int],
+            **kwargs
+    ) -> GroupMemberUser:
         """Creates a member for the given group
         from the respective JSON-ish dictionary.
         """

@@ -19,31 +19,33 @@ from comcatlib.pwgen import genpw
 __all__ = ['UserRegistration', 'RegistrationNotificationEmails']
 
 
-class UserRegistration(ComCatModel):    # pylint: disable=R0903
+class UserRegistration(ComCatModel):
     """A user registration."""
 
-    class Meta:     # pylint: disable=R0903,C0115
+    class Meta:
         table_name = 'user_registration'
 
     name = CharField()
     email = CharField()
     tenant_id = CharField()
     customer = ForeignKeyField(
-        Customer, column_name='customer', on_delete='CASCADE')
+        Customer, column_name='customer', on_delete='CASCADE'
+    )
     registered = DateTimeField(default=datetime.now)
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
+    def select(cls, *args, cascade: bool = False) -> Select:
         """Selects user registrations."""
         if not cascade:
-            return super().select(*args, **kwargs)
+            return super().select(*args)
 
-        args = {cls, Customer, Company, *args}
-        return super().select(*args).join(Customer).join(Company)
+        return super().select(*{
+            cls, Customer, Company, *args
+        }).join(Customer).join(Company)
 
     @classmethod
     def from_json(cls, json: dict, customer: Customer, **kwargs):
-        """Creates a record froma JSON-ish dict."""
+        """Creates a record from a JSON-ish dict."""
         record = super().from_json(json, **kwargs)
         record.customer = customer
         return record
@@ -54,9 +56,13 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
         return (cls.tenant_id == tenant_id) | (cls.email == email)
 
     @classmethod
-    def dupes_select(cls, tenant_id: str, email: str,
-                     customer: Union[Customer, int]) -> Select:
-        """Returns a select condition to match duplicales."""
+    def dupes_select(
+            cls,
+            tenant_id: str,
+            email: str,
+            customer: Union[Customer, int]
+    ) -> Select:
+        """Returns a select condition to match duplicates."""
         return cls.same_ids_sel(tenant_id, email) & (cls.customer == customer)
 
     @classmethod
@@ -68,8 +74,9 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
         try:
             record = cls.select().where(condition).get()
         except cls.DoesNotExist:
-            return cls(name=name, email=email, tenant_id=tenant_id,
-                       customer=customer)
+            return cls(
+                name=name, email=email, tenant_id=tenant_id, customer=customer
+            )
 
         raise AlreadyRegistered(record)
 
@@ -80,7 +87,8 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
         today = now.replace(hour=0, minute=0, second=0, microsecond=0)
         tomorrow = today + timedelta(days=1)
         return cls.select().where(
-            (cls.registered >= today) & (cls.registered < tomorrow))
+            (cls.registered >= today) & (cls.registered < tomorrow)
+        )
 
     def confirm(self, tenement: Tenement):
         """Confirm the user registration."""
@@ -89,23 +97,24 @@ class UserRegistration(ComCatModel):    # pylint: disable=R0903
         self.delete_instance()
 
         if user.is_unique:
-            return (user, passwd)
+            return user, passwd
 
         raise DuplicateUser()
 
     def to_html(self) -> Element:
         """Returns a HTML element."""
-        tr = Element('tr')  # pylint: disable=C0103
-        td = SubElement(tr, 'td')   # pylint: disable=C0103
+        tr = Element('tr')
+        td = SubElement(tr, 'td')
         td.text = self.name
-        td = SubElement(tr, 'td')   # pylint: disable=C0103
+        td = SubElement(tr, 'td')
         td.text = self.email
-        td = SubElement(tr, 'td')   # pylint: disable=C0103
+        td = SubElement(tr, 'td')
         td.text = self.tenant_id
-        td = SubElement(tr, 'td')   # pylint: disable=C0103
+        td = SubElement(tr, 'td')
         td.text = self.registered.isoformat()
         return tr
 
 
 RegistrationNotificationEmails = get_email_orm_model(
-    ComCatModel, table_name='registration_notification_emails')
+    ComCatModel, table_name='registration_notification_emails'
+)
