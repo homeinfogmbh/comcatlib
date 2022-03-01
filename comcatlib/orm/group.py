@@ -15,10 +15,10 @@ from comcatlib.orm.user import User
 __all__ = ['GroupMemberUser']
 
 
-class GroupMemberUser(ComCatModel):  # pylint: disable=R0901
+class GroupMemberUser(ComCatModel):
     """ComCat users as group members."""
 
-    class Meta:     # pylint: disable=C0111,R0903
+    class Meta:
         table_name = 'group_member_user'
 
     group = ForeignKeyField(
@@ -39,15 +39,15 @@ class GroupMemberUser(ComCatModel):  # pylint: disable=R0901
         return record
 
     @classmethod
-    def select(cls, *args, cascade: bool = False, **kwargs) -> Select:
+    def select(cls, *args, cascade: bool = False) -> Select:
         """Selects group <> user mappings."""
         if not cascade:
-            return super().select(*args, **kwargs)
+            return super().select(*args)
 
-        args = {cls, Group, User, Tenement, Customer, Company, Address, *args}
-        return super().select(*args, **kwargs).join(Group).join_from(
-            cls, User).join(Tenement).join(Customer).join(Company).join_from(
-            Tenement, Address)
+        return super().select(*{
+            cls, Group, User, Tenement, Customer, Company, Address, *args
+        }).join(Group).join_from(cls, User).join(Tenement).join(Customer).join(
+            Company).join_from(Tenement, Address)
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
