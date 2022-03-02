@@ -101,10 +101,10 @@ class PasswordResetNonce(Nonce):
     @classmethod
     def clean(cls, user: User) -> None:
         """Remove all outdated nonces for the given user."""
-        return cls.delete().where(
+        cls.delete().where(
             (cls.user == user)
-            & (cls.issued < (datetime.now() + cls.VALIDITY))
-        )
+            & (cls.issued < (datetime.now() - cls.VALIDITY))
+        ).execute()
 
     @classmethod
     def generate(cls, user: User) -> PasswordResetNonce:
