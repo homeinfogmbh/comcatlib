@@ -42,7 +42,7 @@ class Settings(ComCatModel):
 
     @classmethod
     def select(cls, *args, cascade: bool = False) -> Select:
-        """"Selects Settings."""
+        """Selects Settings."""
         if not cascade:
             return super().select(*args)
 
