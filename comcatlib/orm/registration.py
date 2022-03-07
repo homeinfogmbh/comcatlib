@@ -93,7 +93,9 @@ class UserRegistration(ComCatModel):
     def confirm(self, tenement: Tenement):
         """Confirm the user registration."""
         passwd = genpw()
-        user = User(tenement=tenement, passwd=passwd)
+        user = User(
+            name=self.name, email=self.email, tenement=tenement, passwd=passwd
+        )
         self.delete_instance()
 
         if user.is_unique:
