@@ -92,6 +92,9 @@ class UserRegistration(ComCatModel):
 
     def confirm(self, tenement: Tenement):
         """Confirm the user registration."""
+        if tenement.customer != self.customer:
+            raise ValueError('Customers do not match.')
+
         passwd = genpw()
         user = User(
             name=self.name, email=self.email, tenement=tenement, passwd=passwd
