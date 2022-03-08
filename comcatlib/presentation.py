@@ -7,7 +7,7 @@ from cmslib import Configuration
 from cmslib import Group
 from cmslib import Menu
 from cmslib import Presentation
-from cmslib import get_trashed
+from cmslib import get_trashed_flag
 from cmslib.dom import presentation
 
 from comcatlib.orm import GroupMemberUser
@@ -38,8 +38,9 @@ class Presentation(Presentation):
     def get_base_charts(self) -> Iterator[BaseChart]:
         """Yields the user's base charts."""
         for user_base_chart in UserBaseChart.select(cascade=True).where(
-                (UserBaseChart.user == self.user) & get_trashed()).order_by(
-                UserBaseChart.index):
+                (UserBaseChart.user == self.user)
+                & get_trashed_flag(self.customer)
+        ).order_by(UserBaseChart.index):
             yield user_base_chart.index, user_base_chart.base_chart
 
     def get_configurations(self) -> Iterator[Configuration]:

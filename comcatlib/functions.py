@@ -2,8 +2,6 @@
 
 from typing import Iterator, Optional, Union
 
-from peewee import Select
-
 from cmslib import Group, Groups
 
 from comcatlib.orm.group import GroupMemberUser
