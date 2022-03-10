@@ -30,7 +30,8 @@ def init_oauth_endpoints(application: Flask) -> None:
     server = FRAMEWORK.authorization_server(application)
 
     def revoke_token():
-        print('DEBUG REQUEST:', request.url, request.args, flush=True)
+        print('DEBUG REQUEST:', request.url, request.args, request.form,
+              flush=True)
         return server.revoke_token()
 
     application.route('/client', methods=['POST'])(register_client)
