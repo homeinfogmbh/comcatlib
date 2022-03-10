@@ -28,14 +28,6 @@ def init_oauth_endpoints(application: Flask) -> None:
     """Adds OAuth endpoints to the respective application."""
 
     server = FRAMEWORK.authorization_server(application)
-
-    def revoke_token():
-        print('DEBUG REQUEST:', request.url, request.args, request.form,
-              flush=True)
-        print('DEBUG hasattr:', hasattr(server, 'revoke_token'), flush=True)
-        print('DEBUG server.revoke_token:', server.revoke_token, flush=True)
-        return server.revoke_token()
-
     application.route('/client', methods=['POST'])(register_client)
     application.route(
         '/authorize', methods=['POST'], endpoint='authorize_client'
@@ -45,7 +37,7 @@ def init_oauth_endpoints(application: Flask) -> None:
     application.route('/oauth/token', methods=['POST'])(
         server.create_token_response
     )
-    application.route('/oauth/revoke', methods=['POST'])(revoke_token)
+    application.route('/oauth/revoke', methods=['POST'])(server.revoke_token)
     application.route('/oauth/introspect', methods=['POST'])(
         server.introspect_token
     )
