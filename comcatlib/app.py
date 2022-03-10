@@ -29,7 +29,7 @@ def init_oauth_endpoints(application: Flask) -> None:
 
     server = FRAMEWORK.authorization_server(application)
 
-    def revoke():
+    def revoke_token():
         print('DEBUG REQUEST:', request.url, request.args, flush=True)
         return server.revoke_token()
 
@@ -42,7 +42,7 @@ def init_oauth_endpoints(application: Flask) -> None:
     application.route('/oauth/token', methods=['POST'])(
         server.create_token_response
     )
-    application.route('/oauth/revoke', methods=['POST'])(revoke)
+    application.route('/oauth/revoke', methods=['POST'])(revoke_token)
     application.route('/oauth/introspect', methods=['POST'])(
         server.introspect_token
     )
