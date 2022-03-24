@@ -28,7 +28,7 @@ __all__ = ['User']
 class User(ComCatModel):
     """A ComCat user."""
 
-    email = EMailField()
+    email = EMailField(unique=True)
     name = UserNameField()
     phone = PhoneNumberField(null=True)
     mobile = PhoneNumberField(null=True)
