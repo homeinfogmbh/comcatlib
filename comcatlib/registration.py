@@ -90,12 +90,10 @@ def make_user_registration_email(email: str, login: int, passwd: str) -> EMail:
     return EMail(USER_REG_SUBJECT, SENDER, email, plain=text)
 
 
-def notify_user(user_registration: UserRegistration, passwd: str) -> None:
+def notify_user(uid: int, email: str, passwd: str) -> None:
     """Sends a notification email to the registered email address."""
 
-    email = make_user_registration_email(
-        user_registration.email, user_registration.id, passwd)
-    get_mailer().send([email])
+    get_mailer().send([make_user_registration_email(email, uid, passwd)])
 
 
 notify_customer = get_email_func(get_emails)
