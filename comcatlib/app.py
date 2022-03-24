@@ -70,14 +70,14 @@ def authorize_client(
 def register_client() -> Union[JSON, JSONMessage]:
     """Registers a client."""
 
-    if (ident := request.json.get('id')) is None:
+    if (email := request.json.get('email')) is None:
         return JSONMessage('Missing user ID.', status=400)
 
     if (passwd := request.json.get('passwd')) is None:
         return JSONMessage('Missing user password.', status=400)
 
     try:
-        user = User[ident]
+        user = User.get(User.email == email)
     except User.DoesNotExist:
         return INVALID_CREDENTIALS
 
