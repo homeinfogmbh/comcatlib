@@ -30,6 +30,7 @@ class User(ComCatModel):
 
     email = EMailField(unique=True)
     name = UserNameField()
+    nickname = UserNameField(unique=True)
     phone = PhoneNumberField(null=True)
     mobile = PhoneNumberField(null=True)
     tenement = ForeignKeyField(
