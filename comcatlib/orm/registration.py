@@ -95,7 +95,7 @@ class UserRegistration(ComCatModel):
         if tenement.customer != self.customer:
             raise ValueError('Customers do not match.')
 
-        passwd = genpw()
+        passwd = genpw(length=8)
         user = User(
             name=self.name, email=self.email, tenement=tenement, passwd=passwd
         )
