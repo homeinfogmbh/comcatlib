@@ -69,16 +69,23 @@ class UserRegistration(ComCatModel):
     def add(cls, name: str, email: str, tenant_id: str,
             customer: Union[Customer, int]) -> UserRegistration:
         """Adds a new user registration."""
+        try:
+            User.get(User.email == email)
+        except User.DoesNotExist:
+            pass
+        else:
+            raise AlreadyRegistered(email)
+
         condition = cls.dupes_select(tenant_id, email, customer)
 
         try:
-            record = cls.select().where(condition).get()
+            cls.select().where(condition).get()
         except cls.DoesNotExist:
             return cls(
                 name=name, email=email, tenant_id=tenant_id, customer=customer
             )
 
-        raise AlreadyRegistered(record)
+        raise AlreadyRegistered(email)
 
     @classmethod
     def of_today(cls) -> Select:

@@ -15,11 +15,11 @@ __all__ = [
 
 
 class AlreadyRegistered(Exception):
-    """Indicates that the respective tenant ID is alerady registered."""
+    """Indicates that the respective tenant ID is already registered."""
 
-    def __init__(self, record):
-        super().__init__(record)
-        self.record = record
+    def __init__(self, email: str):
+        super().__init__(email)
+        self.email = email
 
 
 class DuplicateUser(Exception):
