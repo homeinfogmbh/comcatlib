@@ -46,18 +46,22 @@ def to_html(user_registrations: Iterable[UserRegistration]) -> Element:
     return html
 
 
-def to_emails(customer: Customer,
-              user_registrations: Iterable[UserRegistration]
-              ) -> Iterator[EMail]:
+def to_emails(
+        customer: Customer,
+        user_registrations: Iterable[UserRegistration]
+) -> Iterator[EMail]:
     """Converts a user registration records into an email and deletes them."""
 
     if not user_registrations:
         return
 
     for notification_email in RegistrationNotificationEmails.select().where(
-            Customer == customer):
-        yield EMail(NOTIFICATION_SUBJECT, SENDER, notification_email.email,
-                    html=to_html(user_registrations))
+            Customer == customer
+    ):
+        yield EMail(
+            NOTIFICATION_SUBJECT, SENDER, notification_email.email,
+            html=to_html(user_registrations)
+        )
 
 
 def get_user_registrations_by_customer() -> RegistrationMap:
@@ -80,20 +84,20 @@ def get_emails() -> Iterator[EMail]:
         yield from to_emails(customer, user_registrations)
 
 
-def make_user_registration_email(email: str, login: int, passwd: str) -> EMail:
+def make_user_registration_email(email: str, passwd: str) -> EMail:
     """Creates a user registration email."""
 
     with USER_REG_TEMP.open(encoding='utf-8') as file:
         template = file.read()
 
-    text = template.format(name=login, passwd=passwd)
+    text = template.format(name=email, passwd=passwd)
     return EMail(USER_REG_SUBJECT, SENDER, email, plain=text)
 
 
-def notify_user(uid: int, email: str, passwd: str) -> None:
+def notify_user(email: str, passwd: str) -> None:
     """Sends a notification email to the registered email address."""
 
-    get_mailer().send([make_user_registration_email(email, uid, passwd)])
+    get_mailer().send([make_user_registration_email(email, passwd)])
 
 
 notify_customer = get_email_func(get_emails)
