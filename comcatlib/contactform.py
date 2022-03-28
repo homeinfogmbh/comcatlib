@@ -63,9 +63,10 @@ def get_contact_emails(user: User, json: dict) -> Iterator[EMail]:
     )
 
     for recipient in get_recipients(user.tenement.customer):
-        email = EMail('Neue Kontaktanfrage', SENDER, recipient, html=html)
-        email['Reply-To'] = json['email']
-        yield email
+        yield EMail(
+            'Neue Kontaktanfrage', SENDER, recipient, reply_to=json['email'],
+            html=html
+        )
 
 
 def send_contact_mails(user: User, json: dict) -> None:
