@@ -1,18 +1,13 @@
 """Password reset functions."""
 
-from uuid import UUID
-
 from emaillib import EMail
-from wsgilib import JSONMessage
 
 from comcatlib.config import get_config
 from comcatlib.email import get_mailer
-from comcatlib.exceptions import NonceUsed
 from comcatlib.orm import PasswordResetNonce
-from comcatlib.pwgen import genpw
 
 
-__all__ = ['send_password_reset_email', 'reset_password']
+__all__ = ['send_new_password', 'send_password_reset_email']
 
 
 PASSWORD_SENT_VIA_EMAIL = 'Ihr neues Passwort wurde Ihnen per E-Mail gesendet.'
@@ -44,30 +39,16 @@ Ihre {customer}
 '''
 
 
-def send_password_reset_email(nonce: PasswordResetNonce) -> None:
-    """Sends a password reset email."""
-
-    get_mailer().send([gen_pw_reset_email(nonce)])
-
-
-def reset_password(token: UUID) -> JSONMessage:
-    """Reset the password for the given user."""
-
-    try:
-        nonce = PasswordResetNonce.use(token)
-    except NonceUsed:
-        return JSONMessage('Invalid nonce.')
-
-    nonce.user.passwd = passwd = genpw()
-    nonce.user.save()
-    send_new_password(nonce.user, passwd)
-    return JSONMessage('New password sent.')
-
-
 def send_new_password(recipient: str, passwd: str) -> None:
     """Send an email with a password to the recipient."""
 
     get_mailer().send([gen_new_pw_email(recipient, passwd)])
+
+
+def send_password_reset_email(nonce: PasswordResetNonce) -> None:
+    """Sends a password reset email."""
+
+    get_mailer().send([gen_pw_reset_email(nonce)])
 
 
 def gen_new_pw_email(recipient: str, passwd: str) -> EMail:
