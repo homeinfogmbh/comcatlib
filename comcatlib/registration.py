@@ -5,7 +5,6 @@ from typing import Iterator, Optional
 from xml.etree.ElementTree import Element, SubElement, tostring
 
 from emaillib import EMail
-from mdb import Customer
 
 from comcatlib.email import SENDER, get_mailer
 from comcatlib.orm.registration import UserRegistration
