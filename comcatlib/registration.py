@@ -45,7 +45,8 @@ def get_customer_emails(
     )
 
     for notification_email in RegistrationNotificationEmails.select().where(
-            Customer == user_registration.customer
+            RegistrationNotificationEmails.customer ==
+            user_registration.customer
     ):
         yield EMail(
             NOTIFICATION_SUBJECT, SENDER, notification_email.email, html=html
