@@ -155,17 +155,17 @@ class User(ComCatModel):
     ) -> dict:
         """Returns JSON-ish dict."""
         if shallow:
-            return {
+            json = {
                 'id': self.id,
                 'nickname': self.nickname
             }
-
-        dictionary = super().to_json(**kwargs)
+        else:
+            json = super().to_json(**kwargs)
 
         if tenement:
-            dictionary['tenement'] = self.tenement.to_json(**kwargs)
+            json['tenement'] = self.tenement.to_json(**kwargs)
 
-        return dictionary
+        return json
 
     def delete_account(self, passwd: str) -> None:
         """Deletes this user account."""
