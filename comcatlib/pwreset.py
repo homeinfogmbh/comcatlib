@@ -23,7 +23,7 @@ RESET_TEMPLATE = '''Sehr geehrter Nutzer,
 Sie haben das Zurücksetzen Ihres Mieter-App Passworts beantragt.
 Bitte besuchen Sie bitte den folgenden Link um Ihr Passwort zurückzusetzen:
 
-https://comcat.homeinfo.de/reset-pw?token={token}
+https://comcat.homeinfo.de/reset-pw?nonce={nonce}
 
 Sollten Sie kein Zurücksetzen Ihres Passwortes beantragt haben,
 so ignorieren Sie bitte diese E-Mail.
@@ -90,6 +90,6 @@ def gen_pw_reset_email(nonce: PasswordResetNonce) -> EMail:
         nonce.user.email,
         plain=RESET_TEMPLATE.format(
             customer=nonce.user.customer.name,
-            token=nonce.uuid.hex
+            nonce=nonce.uuid.hex
         )
     )
