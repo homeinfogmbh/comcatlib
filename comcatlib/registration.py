@@ -40,7 +40,9 @@ def get_customer_emails(
 ) -> Iterator[EMail]:
     """Yields emails to send."""
 
-    html = to_html(user_registration)
+    html = tostring(
+        to_html(user_registration), encoding='unicode', method='html'
+    )
 
     for notification_email in RegistrationNotificationEmails.select().where(
             Customer == user_registration.customer
@@ -50,7 +52,7 @@ def get_customer_emails(
         )
 
 
-def to_html(user_registration: UserRegistration) -> str:
+def to_html(user_registration: UserRegistration) -> Element:
     """Converts user registrations into an HTML element."""
 
     html = Element('html')
@@ -67,7 +69,7 @@ def to_html(user_registration: UserRegistration) -> str:
     SubElement(body, 'br')
     p = SubElement(body, 'p')
     p.text = 'Ihre HOMEINFO GmbH'
-    return tostring(html, encoding='unicode', method='html')
+    return html
 
 
 def get_body(email: str, passwd: Optional[str] = None) -> str:
