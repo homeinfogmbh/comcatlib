@@ -49,7 +49,11 @@ def get_html(user: User, nonce: str) -> Element:
 def get_email(user: User, email: str, nonce: str) -> EMail:
     """Returns an email to the user's new email address."""
 
-    return EMail(SUBJECT, SENDER, email, html=tostring(get_html(user, nonce)))
+    return EMail(
+        SUBJECT, SENDER, email, html=tostring(
+            get_html(user, nonce), encoding='unicode', method='html'
+        )
+    )
 
 
 def request_email_change(user: User, email: str) -> None:
