@@ -16,7 +16,6 @@ SUBJECT = 'Änderung Ihrer E-Mail Adresse in der Mieter-App'
 URL = 'https://comcat.homeinfo.de/confirm-email/{}'
 
 
-# pylint: disable=C0103
 def get_html(user: User, nonce: str) -> Element:
     """Returns an HTML element."""
 
