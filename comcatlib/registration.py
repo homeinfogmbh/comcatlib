@@ -62,7 +62,7 @@ def to_html(user_registration: UserRegistration) -> Element:
     p = SubElement(body, 'p')
     p.text = 'Folgender Benutzer hat sich für die App registriert:'
     SubElement(body, 'br')
-    table = SubElement(body, 'table', attrs={'border': '1'})
+    table = SubElement(body, 'table', attrib={'border': '1'})
     header = SubElement(table, 'tr')
     col_head_name = SubElement(header, 'th')
     col_head_name.text = 'Name'
