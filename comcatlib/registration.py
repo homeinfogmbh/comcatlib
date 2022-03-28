@@ -2,7 +2,7 @@
 
 from collections import defaultdict
 from pathlib import Path
-from typing import Iterable, Iterator
+from typing import Iterable, Iterator, Optional
 from xml.etree.ElementTree import Element, SubElement
 
 from emaillib import EMail
@@ -18,8 +18,9 @@ __all__ = ['notify_customer', 'notify_user']
 
 
 NOTIFICATION_SUBJECT = 'Neue Benutzerregistrierungen für Ihre App'
-USER_REG_SUBJECT = 'Mieter-App'
-USER_REG_TEMP = Path('/usr/local/etc/comcat.d/userreg.temp')
+SUBJECT = 'Mieter-App'
+USER_CONFIRM_TEMP = Path('/usr/local/etc/comcat.d/user-confirm.temp')
+USER_REG_TEMP = Path('/usr/local/etc/comcat.d/user-reg.temp')
 RegistrationMap = dict[Customer, list[UserRegistration]]
 
 
@@ -84,20 +85,23 @@ def get_emails() -> Iterator[EMail]:
         yield from to_emails(customer, user_registrations)
 
 
-def make_user_registration_email(email: str, passwd: str) -> EMail:
-    """Creates a user registration email."""
+def get_body(email: str, passwd: Optional[str] = None) -> str:
+    """Returns the email body."""
 
-    with USER_REG_TEMP.open(encoding='utf-8') as file:
-        template = file.read()
+    if passwd is None:
+        with USER_REG_TEMP.open(encoding='utf-8') as file:
+            return file.read().format(name=email)
 
-    text = template.format(name=email, passwd=passwd)
-    return EMail(USER_REG_SUBJECT, SENDER, email, plain=text)
+    with USER_CONFIRM_TEMP.open(encoding='utf-8') as file:
+        return file.read().format(name=email, passwd=passwd)
 
 
-def notify_user(email: str, passwd: str) -> None:
+def notify_user(email: str, passwd: Optional[str] = None) -> None:
     """Sends a notification email to the registered email address."""
 
-    get_mailer().send([make_user_registration_email(email, passwd)])
+    get_mailer().send([
+        EMail(SUBJECT, SENDER, email, plain=get_body(email, passwd))
+    ])
 
 
 notify_customer = get_email_func(get_emails)
