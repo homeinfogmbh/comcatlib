@@ -147,8 +147,19 @@ class User(ComCatModel):
 
         return self
 
-    def to_json(self, tenement: bool = False, **kwargs) -> dict:
+    def to_json(
+            self,
+            shallow: bool = False,
+            tenement: bool = False,
+            **kwargs
+    ) -> dict:
         """Returns JSON-ish dict."""
+        if shallow:
+            return {
+                'id': self.id,
+                'nickname': self.nickname
+            }
+
         dictionary = super().to_json(**kwargs)
 
         if tenement:
