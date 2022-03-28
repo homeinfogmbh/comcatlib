@@ -157,7 +157,7 @@ class User(ComCatModel):
         if shallow:
             json = {
                 'id': self.id,
-                'nickname': self.nickname
+                'nickname': self.nickname or self.name
             }
         else:
             json = super().to_json(**kwargs)
