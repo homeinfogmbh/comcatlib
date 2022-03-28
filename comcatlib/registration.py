@@ -63,6 +63,15 @@ def to_html(user_registration: UserRegistration) -> Element:
     p.text = 'Folgender Benutzer hat sich für die App registriert:'
     SubElement(body, 'br')
     table = SubElement(body, 'table', attrs={'border': '1'})
+    header = SubElement(table, 'tr')
+    col_head_name = SubElement(header, 'th')
+    col_head_name.text = 'Name'
+    col_head_email = SubElement(header, 'th')
+    col_head_email.text = 'E-Mail'
+    col_head_tenant_id = SubElement(header, 'th')
+    col_head_tenant_id.text = 'Mietvertragsnummer'
+    col_head_timestamp = SubElement(header, 'th')
+    col_head_timestamp.text = 'Zeitstempel'
     table.append(user_registration.to_html())
     p = SubElement(body, 'p')
     p.text = 'Mit freundlichen Grüßen'
