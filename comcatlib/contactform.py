@@ -14,16 +14,16 @@ from comcatlib.orm.user import User
 __all__ = ['send_contact_mails']
 
 
-def get_html_body(user: User, json: dict) -> Element:   # pylint: disable=R0914
+def get_html_body(user: User, json: dict) -> Element:
     """Returns a HTML element."""
 
     html = Element('html')
     header = SubElement(html, 'header')
     SubElement(header, 'meta', attrib={'charset': 'UTF-8'})
     body = SubElement(html, 'body')
-    h1 = SubElement(body, 'h1')     # pylint: disable=C0103
+    h1 = SubElement(body, 'h1')
     h1.text = 'Kontaktanfrage'
-    h2 = SubElement(body, 'h2')     # pylint: disable=C0103
+    h2 = SubElement(body, 'h2')
     h2.text = 'Benutzerdaten'
     table = SubElement(body, 'table')
     table_header = SubElement(table, 'tr')
@@ -40,7 +40,7 @@ def get_html_body(user: User, json: dict) -> Element:   # pylint: disable=R0914
     col_email.text = json['email']
     col_phone = SubElement(row1, 'th')
     col_phone.text = json['phone']
-    h2 = SubElement(body, 'h2')     # pylint: disable=C0103
+    h2 = SubElement(body, 'h2')
     h2.text = 'Nachricht'
     msg = SubElement(body, 'p')
     msg.text = json['message']
