@@ -50,16 +50,11 @@ def send_password_reset_email(nonce: PasswordResetNonce) -> None:
     get_mailer().send([gen_pw_reset_email(nonce)])
 
 
-def reset_password(nonce: str) -> JSONMessage:
+def reset_password(token: UUID) -> JSONMessage:
     """Reset the password for the given user."""
 
     try:
-        uuid = UUID(nonce)
-    except ValueError:
-        return JSONMessage('Invalid UUID.')
-
-    try:
-        nonce = PasswordResetNonce.use(uuid)
+        nonce = PasswordResetNonce.use(token)
     except NonceUsed:
         return JSONMessage('Invalid nonce.')
 
