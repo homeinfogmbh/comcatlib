@@ -58,7 +58,9 @@ def get_recipients(customer: Customer) -> Iterator[str]:
 def get_contact_emails(user: User, json: dict) -> Iterator[EMail]:
     """Creates a contact email."""
 
-    html = tostring(get_html_body(user, json))
+    html = tostring(
+        get_html_body(user, json), encoding='unicode', method='html'
+    )
 
     for recipient in get_recipients(user.tenement.customer):
         email = EMail('Neue Kontaktanfrage', SENDER, recipient, html=html)
