@@ -19,8 +19,8 @@ __all__ = ['notify_customer', 'notify_user']
 
 NOTIFICATION_SUBJECT = 'Neue Benutzerregistrierungen für Ihre App'
 SUBJECT = 'Mieter-App'
-USER_CONFIRM_TEMP = Path('/usr/local/etc/comcat.d/user-confirm.temp')
-USER_REG_TEMP = Path('/usr/local/etc/comcat.d/user-reg.temp')
+USER_CONFIRM_TEMP = Path('/usr/local/etc/comcat.d/user-confirmation.temp')
+USER_REG_TEMP = Path('/usr/local/etc/comcat.d/user-registration.temp')
 RegistrationMap = dict[Customer, list[UserRegistration]]
 
 
@@ -90,7 +90,7 @@ def get_body(email: str, passwd: Optional[str] = None) -> str:
 
     if passwd is None:
         with USER_REG_TEMP.open(encoding='utf-8') as file:
-            return file.read().format(name=email)
+            return file.read()
 
     with USER_CONFIRM_TEMP.open(encoding='utf-8') as file:
         return file.read().format(name=email, passwd=passwd)
