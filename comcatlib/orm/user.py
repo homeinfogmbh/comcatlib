@@ -163,7 +163,7 @@ class User(ComCatModel):
             json = super().to_json(**kwargs)
 
         if tenement:
-            json['tenement'] = self.tenement.to_json(**kwargs)
+            json['tenement'] = self.tenement.to_json(address=True)
 
         return json
 
