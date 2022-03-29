@@ -147,6 +147,16 @@ class User(ComCatModel):
 
         return self
 
+    def _to_json(self, shallow: bool = False, **kwargs) -> dict:
+        """Returns a JSON-ish dict."""
+        if shallow:
+            return {
+                'id': self.id,
+                'nickname': self.nickname or self.name
+            }
+
+        return super().to_json(**kwargs)
+
     def to_json(
             self,
             shallow: bool = False,
@@ -154,13 +164,7 @@ class User(ComCatModel):
             **kwargs
     ) -> dict:
         """Returns JSON-ish dict."""
-        if shallow:
-            json = {
-                'id': self.id,
-                'nickname': self.nickname or self.name
-            }
-        else:
-            json = super().to_json(**kwargs)
+        json = self._to_json(shallow=shallow, **kwargs)
 
         if tenement:
             json['tenement'] = self.tenement.to_json(address=True)
