@@ -128,5 +128,8 @@ class UserRegistration(ComCatModel):
 
 
 RegistrationNotificationEmails = get_email_orm_model(
-    ComCatModel, table_name='registration_notification_emails'
+    ComCatModel,
+    table_name='registration_notification_emails',
+    subject_field=False,
+    html_field=False
 )
