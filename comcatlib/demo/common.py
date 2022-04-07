@@ -24,7 +24,7 @@ ItemType = TypeVar('ItemType')
 
 
 def randdate(start: datetime, end: datetime) -> datetime:
-    """Creates a random datetime for the record."""
+    """Creates a random datetime between start and end."""
 
     return datetime.fromtimestamp(randint(
         round(start.timestamp()), round(end.timestamp())
@@ -35,7 +35,7 @@ def randzipfill(
         targets: Sequence[TargetType],
         items: Sequence[ItemType]
 ) -> Iterator[tuple[TargetType, ItemType]]:
-    """Yields tuples of randomized target combined with the given items."""
+    """Yields tuples of randomized targets combined with the given items."""
 
     extended_targets = list(targets)
 
