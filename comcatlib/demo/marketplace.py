@@ -1,13 +1,13 @@
 """Dummy marketplace offers management."""
 
 from pathlib import Path
-from typing import Iterable
+from typing import Sequence
 
 from filedb import File
 from marketplace import Offer, Image
 from mdb import Customer, Tenement
 
-from comcatlib.demo.common import DEMO_DATASET_ATTACHMENTS
+from comcatlib.demo.common import DEMO_DATASET_ATTACHMENTS, randzipfill
 from comcatlib.orm.user import User
 
 
@@ -40,10 +40,10 @@ def create_offer(
         create_image(offer, image, idx)
 
 
-def create_offers(users: Iterable[User], offers: Iterable[dict]) -> None:
+def create_offers(users: Sequence[User], offers: Sequence[dict]) -> None:
     """Creates the respective offers."""
 
-    for index, (user, offer) in enumerate(zip(users, offers)):
+    for index, (user, offer) in enumerate(randzipfill(users, offers)):
         create_offer(
             user,
             offer['title'],

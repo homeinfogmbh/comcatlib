@@ -1,13 +1,12 @@
 """Demo tenant forum entry management."""
 
 from datetime import datetime, timedelta
-from random import shuffle
-from typing import Iterable
+from typing import Sequence
 
 from mdb import Customer, Tenement
 from tenantforum import Topic, Response
 
-from comcatlib.demo.common import randdate
+from comcatlib.demo.common import randdate, randzipfill
 from comcatlib.orm.user import User
 
 
@@ -37,25 +36,22 @@ def create_response(user: User, topic: Topic, text: str, index: int) -> None:
     response.save()
 
 
-def create_topics(users: Iterable[User], threads: Iterable[dict]) -> None:
+def create_topics(users: Sequence[User], threads: Sequence[dict]) -> None:
     """Creates the respective topics."""
 
-    thread_creators = list(users)
-    shuffle(thread_creators)
-
-    for topic_index, (op, thread) in enumerate(zip(thread_creators, threads)):
+    for topic_index, (op, thread) in enumerate(
+            randzipfill(users, threads)
+    ):
         topic = create_topic(
             op,
             thread['title'],
             thread['text'],
-            len(thread_creators) - topic_index
+            len(threads) - topic_index
         )
-        responders = list(users)
-        shuffle(responders)
 
-        for response_index, (responder, response) in enumerate(zip(
-                responders, thread['responses']
-        )):
+        for response_index, (responder, response) in enumerate(
+                randzipfill(users, thread['responses'])
+        ):
             create_response(responder, topic, response, response_index)
 
 

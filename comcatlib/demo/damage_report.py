@@ -1,11 +1,12 @@
 """Demo damage report management."""
 
 from datetime import datetime
-from typing import Iterable
+from typing import Sequence
 
 from damage_report import DamageReport
 from mdb import Customer
 
+from comcatlib.demo.common import randzipfill
 from comcatlib.orm.user import User
 from comcatlib.orm.damage_report import UserDamageReport
 
@@ -38,12 +39,12 @@ def create_damage_report(
 
 
 def create_damage_reports(
-        users: Iterable[User],
-        damage_reports: Iterable[dict]
+        users: Sequence[User],
+        damage_reports: Sequence[dict]
 ) -> None:
     """Creates user damage reports."""
 
-    for user, damage_report in zip(users, damage_reports):
+    for user, damage_report in randzipfill(users, damage_reports):
         create_damage_report(
             user,
             damage_report['message'],
