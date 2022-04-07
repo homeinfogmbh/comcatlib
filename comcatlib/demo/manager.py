@@ -22,7 +22,7 @@ def create_demo_data(dataset: dict) -> None:
     users = list(create_users(dataset['users'], tenement))
     create_damage_reports(users, dataset['damage_reports'])
     create_topics(users, dataset['forum'])
-    create_offers(users, dataset['offers'])
+    create_offers(users, dataset['marketplace'])
 
 
 def delete_demo_data() -> None:
