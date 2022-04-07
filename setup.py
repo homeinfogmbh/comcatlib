@@ -21,6 +21,7 @@ setup(
         'configlib',
         'damage_report',
         'emaillib',
+        'filedb',
         'flask',
         'marketplace',
         'mdb',
