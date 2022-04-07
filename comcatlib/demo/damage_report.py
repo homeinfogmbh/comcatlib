@@ -1,5 +1,6 @@
 """Demo damage report management."""
 
+from datetime import datetime
 from typing import Iterable
 
 from damage_report import DamageReport
@@ -12,7 +13,12 @@ from comcatlib.orm.damage_report import UserDamageReport
 __all__ = ['create_damage_reports', 'delete_damage_reports']
 
 
-def create_damage_report(user: User, message: str, damage_type: str) -> None:
+def create_damage_report(
+        user: User,
+        message: str,
+        damage_type: str,
+        timestamp: datetime
+) -> None:
     """Creates a dummy damage report of the given user."""
 
     damage_report = DamageReport(
@@ -20,7 +26,8 @@ def create_damage_report(user: User, message: str, damage_type: str) -> None:
         address=user.tenement.address,
         message=message,
         name=user.name,
-        damage_type=damage_type
+        damage_type=damage_type,
+        timestamp=timestamp
     )
     damage_report.save()
     user_damage_report = UserDamageReport(
@@ -40,7 +47,8 @@ def create_damage_reports(
         create_damage_report(
             user,
             damage_report['message'],
-            damage_report['type']
+            damage_report['type'],
+            datetime.fromisoformat(damage_report['timestamp']),
         )
 
 
