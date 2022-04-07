@@ -46,8 +46,8 @@ def create_topics(users: Iterable[User], threads: Iterable[dict]) -> None:
     for topic_index, (op, thread) in enumerate(zip(thread_creators, threads)):
         topic = create_topic(
             op,
-            thread['topic']['title'],
-            thread['topic']['text'],
+            thread['title'],
+            thread['text'],
             len(thread_creators) - topic_index
         )
         responders = list(users)
