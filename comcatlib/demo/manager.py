@@ -21,7 +21,7 @@ def create_demo_data(dataset: dict) -> None:
     tenement = Tenement.get(Tenement.customer == DEMO_CUSTOMER_ID)
     users = list(create_users(dataset['users'], tenement))
     create_damage_reports(users, dataset['damage_reports'])
-    create_topics(users, dataset['topics'])
+    create_topics(users, dataset['forum'])
     create_offers(users, dataset['offers'])
 
 
