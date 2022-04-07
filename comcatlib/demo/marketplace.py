@@ -43,7 +43,7 @@ def create_offer(
 def create_offers(users: Iterable[User], offers: Iterable[dict]) -> None:
     """Creates the respective offers."""
 
-    for index, user, offer in enumerate(zip(users, offers)):
+    for index, (user, offer) in enumerate(zip(users, offers)):
         create_offer(
             user,
             offer['title'],
