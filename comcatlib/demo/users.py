@@ -11,15 +11,15 @@ from comcatlib.pwgen import genpw
 __all__ = ['create_users', 'delete_users']
 
 
-def create_user(email: str, name: str, tenement: Tenement) -> int:
+def create_user(email: str, name: str, tenement: Tenement) -> User:
     """Creates a user account and returns its ID."""
 
     user = User(email=email, name=name, tenement=tenement, passwd=genpw())
     user.save()
-    return user.id
+    return user
 
 
-def create_users(users: list[dict], tenement: Tenement) -> Iterator[int]:
+def create_users(users: list[dict], tenement: Tenement) -> Iterator[User]:
     """Creates user accounts and yields their IDs."""
 
     for user in users:
