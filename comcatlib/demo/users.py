@@ -19,11 +19,11 @@ def create_user(email: str, name: str, tenement: Tenement) -> User:
     return user
 
 
-def create_users(users: list[dict], tenement: Tenement) -> Iterator[User]:
+def create_users(users: dict[str, str], tenement: Tenement) -> Iterator[User]:
     """Creates user accounts and yields their IDs."""
 
-    for user in users:
-        yield create_user(user['email'], user['name'], tenement=tenement)
+    for email, name in users.items():
+        yield create_user(email, name, tenement=tenement)
 
 
 def delete_users(customer: Customer) -> None:
