@@ -42,5 +42,8 @@ setup(
     data_files=[('/usr/local/share/comcatlib/', [
         'files/authorize.html', 'files/login.html'
     ])],
+    entry_points={'console_scripts': [
+        'comcat-demo-reset = comcatlib.demo.manager:main'
+    ]},
     description='Shared libraries for ComCat.'
 )
