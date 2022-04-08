@@ -18,6 +18,9 @@ __all__ = [
 DEMO_CUSTOMER_ID = 5000
 DEMO_DATASET_FILE = Path('/usr/local/etc/comcat.d/demo.json')
 DEMO_DATASET_ATTACHMENTS = Path('/usr/local/etc/comcat.d/demo.d')
+DEMO_USER_EMAIL = 'mieterapp-demo@homeinfo.de'
+DEMO_USER_NAME = 'Kim Beispiel'
+DEMO_USER_PASSWD = 'mieterapp123'
 
 TargetType = TypeVar('TargetType')
 ItemType = TypeVar('ItemType')
