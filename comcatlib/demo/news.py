@@ -25,9 +25,9 @@ def create_news(news: list[dict]) -> Iterator[Chart]:
     """Yields image text charts."""
 
     for chart in news:
-        image_text_chart = create_chart(chart)
-        make_news(image_text_chart)
-        yield image_text_chart
+        chart = create_chart(chart)
+        make_news(chart)
+        yield chart
 
 
 def map_news(charts: Iterable[Chart], user: User) -> None:
@@ -56,7 +56,7 @@ def create_chart(chart: dict) -> Chart:
 
 
 def make_news(chart: Chart) -> None:
-    """Make the base chart a news chart."""
+    """Make the chart a news chart."""
 
     menu_base_chart = MenuBaseChart(base_chart=chart.base, menu=Menu.NEWS)
     menu_base_chart.save()
