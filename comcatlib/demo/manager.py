@@ -9,7 +9,7 @@ from comcatlib.demo.damage_report import create_damage_reports
 from comcatlib.demo.damage_report import delete_damage_reports
 from comcatlib.demo.marketplace import create_offers, delete_offers
 from comcatlib.demo.tenentforum import create_topics, delete_topics
-from comcatlib.demo.users import create_users, delete_users
+from comcatlib.demo.users import create_demo_user, create_users, delete_users
 
 
 __all__ = ['main']
@@ -23,6 +23,7 @@ def create_demo_data(dataset: dict) -> None:
     create_damage_reports(users, dataset['damage_reports'])
     create_topics(users, dataset['forum'])
     create_offers(users, dataset['marketplace'])
+    create_demo_user(tenement)
 
 
 def delete_demo_data() -> None:
