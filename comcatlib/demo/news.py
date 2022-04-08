@@ -57,13 +57,16 @@ def create_chart(chart: dict) -> BaseChart:
     base.save()
     image_text = ImageText(base=base, title=title)
     image_text.save()
-    text = ImageTextText(text=chart['text'])
+    text = ImageTextText(chart=image_text, text=chart['text'])
     text.save()
 
     with IMAGE_DIR.joinpath(filename := chart['image']).open('rb') as file:
         bytes_ = file.read()
 
-    image = ImageTextImage(file=get_or_create_file(filename, bytes_))
+    image = ImageTextImage(
+        chart=image_text,
+        file=get_or_create_file(filename, bytes_)
+    )
     image.save()
     return base
 
