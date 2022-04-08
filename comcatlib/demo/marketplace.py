@@ -14,6 +14,9 @@ from comcatlib.orm.user import User
 __all__ = ['create_offers', 'delete_offers']
 
 
+IMAGES_DIR = DEMO_DATASET_ATTACHMENTS / 'marketplace'
+
+
 def create_offers(users: Sequence[User], offers: Sequence[dict]) -> None:
     """Creates the respective offers."""
 
@@ -56,7 +59,7 @@ def create_offer(
     )
     offer.save()
 
-    for idx, image in enumerate(DEMO_DATASET_ATTACHMENTS.glob(f'{index}-*')):
+    for idx, image in enumerate(IMAGES_DIR.glob(f'{index}-*')):
         create_image(offer, image, idx)
 
 
