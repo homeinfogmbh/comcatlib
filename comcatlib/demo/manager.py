@@ -12,10 +12,12 @@ from comcatlib.demo.common import LOGGER
 from comcatlib.demo.contact import create_contact
 from comcatlib.demo.damage_report import create_damage_reports
 from comcatlib.demo.damage_report import delete_damage_reports
+from comcatlib.demo.documents import create_documents_chart
 from comcatlib.demo.hisfs import remove_files
 from comcatlib.demo.image_text import delete_image_text_charts
 from comcatlib.demo.marketplace import create_offers, delete_offers
 from comcatlib.demo.news import create_news, map_news
+from comcatlib.demo.service import create_service_chart
 from comcatlib.demo.tenentforum import create_topics, delete_topics
 from comcatlib.demo.users import create_demo_user, create_users, delete_users
 
@@ -33,8 +35,10 @@ def create_demo_data(dataset: dict) -> None:
     users = list(create_users(dataset['users'], tenement))
     create_contact(dataset['contact'])
     create_damage_reports(users, dataset['damage_reports'])
+    create_documents_chart(dataset['documents'])
     news_charts = list(create_news(dataset['news']))
     create_offers(users, dataset['marketplace'])
+    create_service_chart(dataset['service'])
     create_topics(users, dataset['forum'])
     demo_user = create_demo_user(tenement)
     map_news(news_charts, demo_user)
