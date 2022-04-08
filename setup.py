@@ -36,6 +36,7 @@ setup(
     ],
     packages=[
         'comcatlib',
+        'comcatlib.demo',
         'comcatlib.messages',
         'comcatlib.orm'
     ],
