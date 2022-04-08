@@ -37,7 +37,7 @@ def delete_users(customer: Customer) -> None:
     """Creates user accounts and yields their IDs."""
 
     for user in User.select().join(Tenement).where(
-            Tenement.Customer == customer
+            Tenement.customer == customer
     ):
         user.delete_instance()
 
