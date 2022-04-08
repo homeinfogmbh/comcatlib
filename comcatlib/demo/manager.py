@@ -12,8 +12,9 @@ from comcatlib.demo.common import LOGGER
 from comcatlib.demo.damage_report import create_damage_reports
 from comcatlib.demo.damage_report import delete_damage_reports
 from comcatlib.demo.hisfs import remove_files
+from comcatlib.demo.image_text import delete_image_text_charts
 from comcatlib.demo.marketplace import create_offers, delete_offers
-from comcatlib.demo.news import create_news, delete_news, map_news
+from comcatlib.demo.news import create_news, map_news
 from comcatlib.demo.tenentforum import create_topics, delete_topics
 from comcatlib.demo.users import create_demo_user, create_users, delete_users
 
@@ -30,11 +31,11 @@ def create_demo_data(dataset: dict) -> None:
     LOGGER.info('Using tenement: %s (%i)', tenement.address, tenement.id)
     users = list(create_users(dataset['users'], tenement))
     create_damage_reports(users, dataset['damage_reports'])
-    news = list(create_news(dataset['news']))
+    news_charts = list(create_news(dataset['news']))
     create_offers(users, dataset['marketplace'])
     create_topics(users, dataset['forum'])
     demo_user = create_demo_user(tenement)
-    map_news(news, demo_user)
+    map_news(news_charts, demo_user)
 
 
 def delete_demo_data() -> None:
@@ -42,7 +43,7 @@ def delete_demo_data() -> None:
 
     customer = Customer[DEMO_CUSTOMER_ID]
     delete_damage_reports(customer)
-    delete_news(customer)
+    delete_image_text_charts(customer)
     delete_offers(customer)
     delete_topics(customer)
     delete_users(customer)
