@@ -6,7 +6,7 @@ from typing import Sequence
 from damage_report import DamageReport
 from mdb import Customer
 
-from comcatlib.demo.common import randzipfill
+from comcatlib.demo.common import LOGGER, randzipfill
 from comcatlib.orm.user import User
 from comcatlib.orm.damage_report import UserDamageReport
 
@@ -22,6 +22,7 @@ def create_damage_report(
 ) -> None:
     """Creates a dummy damage report of the given user."""
 
+    LOGGER.info('Adding damage report: %s (%s)', message, damage_type)
     damage_report = DamageReport(
         customer=user.tenement.customer,
         address=user.tenement.address,
@@ -31,6 +32,9 @@ def create_damage_report(
         timestamp=timestamp
     )
     damage_report.save()
+    LOGGER.info(
+        'Mapping damage report %i to user %s', damage_report.id, user.email
+    )
     user_damage_report = UserDamageReport(
         user=user,
         damage_report=damage_report
@@ -59,4 +63,9 @@ def delete_damage_reports(customer: Customer) -> None:
     for damage_report in DamageReport.select().where(
             DamageReport.customer == customer
     ):
+        LOGGER.info(
+            'Deleting damage report: %s (%s)',
+            damage_report.message,
+            damage_report.damage_type
+        )
         damage_report.delete_instance()

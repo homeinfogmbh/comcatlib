@@ -1,10 +1,13 @@
 """Demo data manager."""
 
 from json import load
+from logging import INFO, basicConfig
 
 from mdb import Customer, Tenement
 
-from comcatlib.demo.common import DEMO_CUSTOMER_ID, DEMO_DATASET_FILE
+from comcatlib.demo.common import DEMO_CUSTOMER_ID
+from comcatlib.demo.common import DEMO_DATASET_FILE
+from comcatlib.demo.common import LOG_FORMAT
 from comcatlib.demo.damage_report import create_damage_reports
 from comcatlib.demo.damage_report import delete_damage_reports
 from comcatlib.demo.marketplace import create_offers, delete_offers
@@ -39,6 +42,7 @@ def delete_demo_data() -> None:
 def main() -> None:
     """Re-generates the demo data."""
 
+    basicConfig(level=INFO, format=LOG_FORMAT)
     delete_demo_data()
 
     with DEMO_DATASET_FILE.open('rb') as file:

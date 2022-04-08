@@ -14,6 +14,7 @@ __all__ = [
     'DEMO_USER_EMAIL',
     'DEMO_USER_NAME',
     'DEMO_USER_PASSWD',
+    'LOG_FORMAT',
     'LOGGER',
     'randdate',
     'randzipfill'
@@ -26,6 +27,7 @@ DEMO_DATASET_ATTACHMENTS = Path('/usr/local/etc/comcat.d/demo.d')
 DEMO_USER_EMAIL = 'mieterapp-demo@homeinfo.de'
 DEMO_USER_NAME = 'Kim Beispiel'
 DEMO_USER_PASSWD = 'mieterapp123'
+LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 LOGGER = getLogger('demo-data-manager')
 
 TargetType = TypeVar('TargetType')
