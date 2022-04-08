@@ -11,6 +11,7 @@ from comcatlib.demo.common import DEMO_DATASET_ATTACHMENTS
 from comcatlib.demo.common import LOGGER
 from comcatlib.orm.user import User
 from comcatlib.orm.content import UserBaseChart
+from comcatlib.orm.menu import Menu, MenuBaseChart
 
 
 __all__ = ['create_news', 'delete_news', 'map_news']
@@ -23,7 +24,9 @@ def create_news(news: list[dict]) -> Iterator[BaseChart]:
     """Yields image text charts."""
 
     for chart in news:
-        yield create_chart(chart)
+        base_chart = create_chart(chart)
+        make_news(base_chart)
+        yield base_chart
 
 
 def delete_news(customer: Customer) -> None:
@@ -63,6 +66,13 @@ def create_chart(chart: dict) -> BaseChart:
     image = ImageTextImage(file=get_or_create_file(filename, bytes_))
     image.save()
     return base
+
+
+def make_news(base_chart: BaseChart) -> None:
+    """Make the base chart a news chart."""
+
+    menu_base_chart = MenuBaseChart(base_chart=base_chart, menu=Menu.NEWS)
+    menu_base_chart.save()
 
 
 def get_or_create_file(
