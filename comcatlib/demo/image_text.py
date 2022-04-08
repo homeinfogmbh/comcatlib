@@ -26,6 +26,7 @@ def create_image_text_chart(
     LOGGER.info('Creating news chart "%s"', title)
     base = BaseChart(
         customer=customer,
+        type=ImageText.__name__,
         created=created or datetime.now(),
         title=title
     )
