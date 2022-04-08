@@ -32,7 +32,9 @@ def create_news(news: list[dict]) -> Iterator[BaseChart]:
 def delete_news(customer: Customer) -> None:
     """Deletes the news."""
 
-    for image_text_chart in ImageText.select().join(BaseChart).where(
+    for image_text_chart in ImageText.select(ImageTextText, BaseChart).join(
+            BaseChart
+    ).where(
             BaseChart.customer == customer
     ):
         image_text_chart.delete_instance()
