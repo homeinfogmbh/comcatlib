@@ -1,6 +1,7 @@
 """Common constants and functions."""
 
 from datetime import datetime
+from logging import getLogger
 from pathlib import Path
 from random import randint, shuffle
 from typing import Iterator, Sequence, TypeVar
@@ -13,6 +14,7 @@ __all__ = [
     'DEMO_USER_EMAIL',
     'DEMO_USER_NAME',
     'DEMO_USER_PASSWD',
+    'LOGGER',
     'randdate',
     'randzipfill'
 ]
@@ -24,6 +26,7 @@ DEMO_DATASET_ATTACHMENTS = Path('/usr/local/etc/comcat.d/demo.d')
 DEMO_USER_EMAIL = 'mieterapp-demo@homeinfo.de'
 DEMO_USER_NAME = 'Kim Beispiel'
 DEMO_USER_PASSWD = 'mieterapp123'
+LOGGER = getLogger('demo-data-manager')
 
 TargetType = TypeVar('TargetType')
 ItemType = TypeVar('ItemType')
