@@ -33,7 +33,13 @@ def create_offer(
 ) -> None:
     """Creates a marketplace offer."""
 
-    offer = Offer(user=user, title=title, description=description, price=price)
+    offer = Offer(
+        user=user,
+        title=title,
+        description=description,
+        email=user.email,
+        price=price
+    )
     offer.save()
 
     for idx, image in enumerate(DEMO_DATASET_ATTACHMENTS.glob(f'{index}-*')):
