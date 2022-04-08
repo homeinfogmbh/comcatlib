@@ -1,7 +1,5 @@
 """HISFS integration."""
 
-from contextlib import suppress
-
 from peewee import IntegrityError
 
 from hisfs import FileExists, File
@@ -37,5 +35,9 @@ def remove_files(customer: Customer) -> None:
     """Remove images of the given customer."""
 
     for file in File.select().where(File.customer == customer):
-        with suppress(IntegrityError):
+        try:
             file.delete_instance()
+        except IntegrityError:
+            LOGGER.error('Cannot remove file: %s', file.name)
+        else:
+            LOGGER.info('Removed file: %s', file.name)
