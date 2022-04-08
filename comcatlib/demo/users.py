@@ -15,7 +15,7 @@ from comcatlib.pwgen import genpw
 __all__ = ['create_demo_user', 'create_users', 'delete_users']
 
 
-def create_demo_user(tenement) -> None:
+def create_demo_user(tenement) -> User:
     """Creates the demo user."""
 
     LOGGER.info('Creating demo user')
@@ -26,6 +26,7 @@ def create_demo_user(tenement) -> None:
         passwd=DEMO_USER_PASSWD
     )
     user.save()
+    return user
 
 
 def create_users(users: dict[str, str], tenement: Tenement) -> Iterator[User]:
