@@ -11,6 +11,7 @@ from comcatlib.demo.common import LOG_FORMAT
 from comcatlib.demo.common import LOGGER
 from comcatlib.demo.damage_report import create_damage_reports
 from comcatlib.demo.damage_report import delete_damage_reports
+from comcatlib.demo.hisfs import remove_files
 from comcatlib.demo.marketplace import create_offers, delete_offers
 from comcatlib.demo.news import create_news, delete_news, map_news
 from comcatlib.demo.tenentforum import create_topics, delete_topics
@@ -45,6 +46,7 @@ def delete_demo_data() -> None:
     delete_offers(customer)
     delete_topics(customer)
     delete_users(customer)
+    remove_files(customer)
 
 
 def main() -> None:

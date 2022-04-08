@@ -3,12 +3,12 @@
 from typing import Iterable, Iterator
 
 from cmslib import BaseChart, ImageText, ImageTextImage, ImageTextText
-from hisfs import FileExists, File
 from mdb import Customer
 
 from comcatlib.demo.common import DEMO_CUSTOMER_ID
 from comcatlib.demo.common import DEMO_DATASET_ATTACHMENTS
 from comcatlib.demo.common import LOGGER
+from comcatlib.demo.hisfs import get_or_create_file
 from comcatlib.orm.user import User
 from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.menu import Menu, MenuBaseChart
@@ -73,23 +73,3 @@ def make_news(base_chart: BaseChart) -> None:
 
     menu_base_chart = MenuBaseChart(base_chart=base_chart, menu=Menu.NEWS)
     menu_base_chart.save()
-
-
-def get_or_create_file(
-        name: str,
-        bytes_: bytes,
-        *,
-        customer: int = DEMO_CUSTOMER_ID
-) -> File:
-    """Creates or re-uses the given file."""
-
-    LOGGER.info('Adding file: %s', name)
-
-    try:
-        file = File.add(name, customer, bytes_)
-    except FileExists:
-        return File.get((File.name == name) & (File.customer == customer))
-
-    file.file.save()
-    file.save()
-    return file
