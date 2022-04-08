@@ -9,6 +9,7 @@ from comcatlib.demo.common import DEMO_CUSTOMER_ID
 from comcatlib.demo.common import DEMO_DATASET_FILE
 from comcatlib.demo.common import LOG_FORMAT
 from comcatlib.demo.common import LOGGER
+from comcatlib.demo.contact import create_contact
 from comcatlib.demo.damage_report import create_damage_reports
 from comcatlib.demo.damage_report import delete_damage_reports
 from comcatlib.demo.hisfs import remove_files
@@ -30,6 +31,7 @@ def create_demo_data(dataset: dict) -> None:
     ).get()
     LOGGER.info('Using tenement: %s (%i)', tenement.address, tenement.id)
     users = list(create_users(dataset['users'], tenement))
+    create_contact(dataset['contact'])
     create_damage_reports(users, dataset['damage_reports'])
     news_charts = list(create_news(dataset['news']))
     create_offers(users, dataset['marketplace'])
