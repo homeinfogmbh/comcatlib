@@ -8,6 +8,7 @@ from mdb import Customer, Tenement
 from comcatlib.demo.common import DEMO_CUSTOMER_ID
 from comcatlib.demo.common import DEMO_DATASET_FILE
 from comcatlib.demo.common import LOG_FORMAT
+from comcatlib.demo.common import LOGGER
 from comcatlib.demo.damage_report import create_damage_reports
 from comcatlib.demo.damage_report import delete_damage_reports
 from comcatlib.demo.marketplace import create_offers, delete_offers
@@ -21,7 +22,10 @@ __all__ = ['main']
 def create_demo_data(dataset: dict) -> None:
     """Creates demo data."""
 
-    tenement = Tenement.get(Tenement.customer == DEMO_CUSTOMER_ID)
+    tenement = Tenement.select(cascade=True).where(
+        Tenement.customer == DEMO_CUSTOMER_ID
+    ).get()
+    LOGGER.info('Using tenement: %s (%i)', tenement.address, tenement.id)
     users = list(create_users(dataset['users'], tenement))
     create_damage_reports(users, dataset['damage_reports'])
     create_topics(users, dataset['forum'])
