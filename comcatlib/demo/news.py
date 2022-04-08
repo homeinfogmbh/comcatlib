@@ -6,7 +6,9 @@ from cmslib import BaseChart, ImageText, ImageTextImage, ImageTextText
 from hisfs import FileExists, File
 from mdb import Customer
 
-from comcatlib.demo.common import DEMO_CUSTOMER_ID, DEMO_DATASET_ATTACHMENTS
+from comcatlib.demo.common import DEMO_CUSTOMER_ID
+from comcatlib.demo.common import DEMO_DATASET_ATTACHMENTS
+from comcatlib.demo.common import LOGGER
 from comcatlib.orm.user import User
 from comcatlib.orm.content import UserBaseChart
 
@@ -37,6 +39,9 @@ def map_news(base_charts: Iterable[BaseChart], user: User) -> None:
     """Maps the given charts to the given user."""
 
     for base_chart in base_charts:
+        LOGGER.info(
+            'Assigning chart "%s" to user %s', base_chart.title, user.email
+        )
         user_base_chart = UserBaseChart(base_chart=base_chart, user=user)
         user_base_chart.save()
 
@@ -44,10 +49,8 @@ def map_news(base_charts: Iterable[BaseChart], user: User) -> None:
 def create_chart(chart: dict) -> BaseChart:
     """Creates news charts."""
 
-    base = BaseChart(
-        customer=DEMO_CUSTOMER_ID,
-        title=(title := chart['title'])
-    )
+    LOGGER.info('Creating news chart "%s"', title := chart['title'])
+    base = BaseChart(customer=DEMO_CUSTOMER_ID, title=title)
     base.save()
     image_text = ImageText(base=base, title=title)
     image_text.save()
@@ -69,6 +72,8 @@ def get_or_create_file(
         customer: int = DEMO_CUSTOMER_ID
 ) -> File:
     """Creates or re-uses the given file."""
+
+    LOGGER.info('Adding file: %s', name)
 
     try:
         file = File.add(name, customer, bytes_)
