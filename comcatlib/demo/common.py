@@ -10,6 +10,9 @@ __all__ = [
     'DEMO_CUSTOMER_ID',
     'DEMO_DATASET_FILE',
     'DEMO_DATASET_ATTACHMENTS',
+    'DEMO_USER_EMAIL',
+    'DEMO_USER_NAME',
+    'DEMO_USER_PASSWD',
     'randdate',
     'randzipfill'
 ]
