@@ -18,6 +18,7 @@ from comcatlib.demo.image_text import delete_image_text_charts
 from comcatlib.demo.marketplace import create_offers, delete_offers
 from comcatlib.demo.news import create_news, map_news
 from comcatlib.demo.service import create_service_chart
+from comcatlib.demo.tenantcalendar import create_events, delete_events
 from comcatlib.demo.tenentforum import create_topics, delete_topics
 from comcatlib.demo.users import create_demo_user, create_users, delete_users
 
@@ -39,6 +40,7 @@ def create_demo_data(dataset: dict) -> None:
     news_charts = list(create_news(dataset['news']))
     create_offers(users, dataset['marketplace'])
     create_service_chart(dataset['service'])
+    create_events(users, dataset['calendar'])
     create_topics(users, dataset['forum'])
     demo_user = create_demo_user(tenement)
     map_news(news_charts, demo_user)
@@ -51,6 +53,7 @@ def delete_demo_data() -> None:
     delete_damage_reports(customer)
     delete_image_text_charts(customer)
     delete_offers(customer)
+    delete_events(customer)
     delete_topics(customer)
     delete_users(customer)
     remove_files(customer)
