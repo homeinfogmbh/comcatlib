@@ -10,17 +10,17 @@ from comcatlib.demo.common import LOGGER, rand_date_in_month, randzipfill
 from comcatlib.orm.user import User
 
 
-__all__ = ['add_user_events', 'delete_user_events']
+__all__ = ['create_events', 'delete_events']
 
 
-def add_user_events(users: list[User], events: list[dict[str, str]]) -> None:
+def create_events(users: list[User], events: list[dict[str, str]]) -> None:
     """Adds the given events."""
 
     for user, event in randzipfill(users, events):
         add_user_event(user, event)
 
 
-def delete_user_events(customer: Customer) -> None:
+def delete_events(customer: Customer) -> None:
     """Deletes the user events of the given customer."""
 
     for user_event in UserEvent.select().join(User).join(Tenement).where(
