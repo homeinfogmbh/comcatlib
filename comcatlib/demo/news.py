@@ -47,8 +47,9 @@ def create_chart(chart: dict) -> Chart:
     with IMAGE_DIR.joinpath(filename := chart['image']).open('rb') as file:
         bytes_ = file.read()
 
+    LOGGER.info('Adding news chart: %s', title := chart['title'])
     return create_image_text_chart(
-        chart['title'],
+        title,
         chart['text'],
         image=get_or_create_file(filename, bytes_),
         created=get_random_date()
