@@ -1,6 +1,6 @@
 """Common constants and functions."""
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from logging import getLogger
 from pathlib import Path
 from random import randint, shuffle
@@ -16,6 +16,7 @@ __all__ = [
     'DEMO_USER_PASSWD',
     'LOG_FORMAT',
     'LOGGER',
+    'month_range',
     'randdate',
     'randzipfill'
 ]
@@ -32,6 +33,18 @@ LOGGER = getLogger('demo-data-manager')
 
 TargetType = TypeVar('TargetType')
 ItemType = TypeVar('ItemType')
+
+
+def month_range() -> tuple[datetime, datetime]:
+    """Returns a datetime range, covering the current month."""
+
+    start = datetime.now().replace(
+        day=1, hour=0, minute=0, second=0, microsecond=0
+    )
+    next_month = start + timedelta(days=31)
+    last_day = next_month - timedelta(days=next_month.day)
+    end = last_day.replace(hour=23, minute=59, second=59, microsecond=999999)
+    return start, end
 
 
 def randdate(start: datetime, end: datetime) -> datetime:
