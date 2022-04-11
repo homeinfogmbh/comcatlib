@@ -10,7 +10,7 @@ from comcatlib.demo.common import LOGGER, rand_date_in_month, randzipfill
 from comcatlib.orm.user import User
 
 
-__all__ = ['add_events', 'delete_user_events']
+__all__ = ['add_events', 'delete_events']
 
 
 def add_events(users: list[User], events: list[dict[str, str]]) -> None:
@@ -20,7 +20,7 @@ def add_events(users: list[User], events: list[dict[str, str]]) -> None:
         add_user_event(user, event)
 
 
-def delete_user_events(customer: Customer) -> None:
+def delete_events(customer: Customer) -> None:
     """Deletes the user events of the given customer."""
 
     for user_event in UserEvent.select().join(User).join(Tenement).where(
