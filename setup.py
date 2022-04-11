@@ -30,6 +30,7 @@ setup(
         'peewee',
         'peeweeplus',
         'requests',
+        'tenantcalendar',
         'tenantforum',
         'werkzeug',
         'wsgilib'
