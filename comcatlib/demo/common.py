@@ -18,6 +18,7 @@ __all__ = [
     'LOGGER',
     'month_range',
     'randdate',
+    'rand_date_in_month',
     'randzipfill'
 ]
 
@@ -53,6 +54,12 @@ def randdate(start: datetime, end: datetime) -> datetime:
     return datetime.fromtimestamp(randint(
         round(start.timestamp()), round(end.timestamp())
     ))
+
+
+def rand_date_in_month() -> datetime:
+    """Returns a random datetime within the current month."""
+
+    return randdate(*month_range())
 
 
 def randzipfill(
