@@ -1,6 +1,5 @@
 """Image/text charts as news."""
 
-from datetime import datetime, timedelta
 from typing import Iterator
 
 from cmslib import Chart
@@ -8,7 +7,7 @@ from cmslib import Chart
 from comcatlib.demo.chart import create_image_text_chart
 from comcatlib.demo.common import DEMO_DATASET_ATTACHMENTS
 from comcatlib.demo.common import LOGGER
-from comcatlib.demo.common import randdate
+from comcatlib.demo.common import get_random_date
 from comcatlib.demo.hisfs import get_or_create_file
 from comcatlib.orm.menu import Menu, MenuBaseChart
 
@@ -48,9 +47,3 @@ def make_news(chart: Chart) -> None:
 
     menu_base_chart = MenuBaseChart(base_chart=chart.base, menu=Menu.NEWS)
     menu_base_chart.save()
-
-
-def get_random_date() -> datetime:
-    """Returns a random datetime within the last sixty days."""
-
-    return randdate((now := datetime.now()) - timedelta(days=60), now)

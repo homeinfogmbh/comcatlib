@@ -17,6 +17,7 @@ __all__ = [
     'DEMO_USER_PASSWD',
     'LOG_FORMAT',
     'LOGGER',
+    'get_random_date',
     'month_range',
     'randdate',
     'rand_date_in_month',
@@ -36,6 +37,12 @@ LOGGER = getLogger('demo-data-manager')
 
 TargetType = TypeVar('TargetType')
 ItemType = TypeVar('ItemType')
+
+
+def get_random_date(days: int = 60) -> datetime:
+    """Returns a random datetime within the given amount of days."""
+
+    return randdate((now := datetime.now()) - timedelta(days=days), now)
 
 
 def month_range() -> tuple[datetime, datetime]:
