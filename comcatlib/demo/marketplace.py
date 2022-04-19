@@ -7,7 +7,10 @@ from filedb import File
 from marketplace import Offer, Image
 from mdb import Customer, Tenement
 
-from comcatlib.demo.common import DEMO_DATASET_ATTACHMENTS, LOGGER, randzipfill
+from comcatlib.demo.common import DEMO_DATASET_ATTACHMENTS
+from comcatlib.demo.common import LOGGER
+from comcatlib.demo.common import randzipfill
+from comcatlib.demo.common import get_random_date
 from comcatlib.orm.user import User
 
 
@@ -54,7 +57,8 @@ def create_offer(
         title=title,
         description=description,
         email=user.email,
-        price=price
+        price=price,
+        created=get_random_date()
     )
     offer.save()
 
