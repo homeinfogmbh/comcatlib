@@ -32,15 +32,10 @@ def create_damage_reports(
 def delete_damage_reports(customer: Customer) -> None:
     """Deletes all damage reports of the given customer."""
 
-    for damage_report in DamageReport.select().where(
-            DamageReport.customer == customer
-    ):
-        LOGGER.info(
-            'Deleting damage report: %s (%s)',
-            damage_report.message,
-            damage_report.damage_type
-        )
-        damage_report.delete_instance()
+    LOGGER.info('Deleting damage reports.')
+    return DamageReport.delete().where(
+        DamageReport.customer == customer
+    ).execute()
 
 
 def create_damage_report(

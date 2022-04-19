@@ -33,11 +33,10 @@ def create_offers(users: Sequence[User], offers: Sequence[dict]) -> None:
 def delete_offers(customer: Customer) -> None:
     """Deletes all offers of the given customer."""
 
-    for offer in Offer.select().join(User).join(Tenement).where(
-            Tenement.customer == customer
-    ):
-        LOGGER.info('Deleting offer: "%s"', offer.title)
-        offer.delete_instance()
+    LOGGER.info('Deleting offers')
+    return Offer.delete().join(User).join(Tenement).where(
+        Tenement.customer == customer
+    ).execute()
 
 
 def create_offer(

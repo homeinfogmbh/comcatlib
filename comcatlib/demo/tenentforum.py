@@ -35,11 +35,10 @@ def create_topics(users: Sequence[User], threads: Sequence[dict]) -> None:
 def delete_topics(customer: Customer) -> None:
     """Deletes topics of the given customer."""
 
-    for topic in Topic.select().join(User).join(Tenement).where(
+    LOGGER.info('Deleting topics')
+    return Topic.delete().join(User).join(Tenement).where(
         Tenement.customer == customer
-    ):
-        LOGGER.info('Deleting topic "%s"', topic.title)
-        topic.delete_instance()
+    ).execute()
 
 
 def create_topic(user: User, title: str, text: str, offset: int) -> Topic:

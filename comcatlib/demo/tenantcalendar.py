@@ -23,10 +23,10 @@ def create_events(users: list[User], events: list[dict[str, str]]) -> None:
 def delete_events(customer: Customer) -> None:
     """Deletes the user events of the given customer."""
 
-    for user_event in UserEvent.select().join(User).join(Tenement).where(
+    LOGGER.info('Deleting events')
+    return UserEvent.delete().join(User).join(Tenement).where(
         Tenement.customer == customer
-    ):
-        user_event.delete_instance()
+    ).execute()
 
 
 def add_user_event(user: User, event: dict[str, str]) -> None:
