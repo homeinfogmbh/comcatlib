@@ -11,6 +11,7 @@ __all__ = [
     'DEMO_CUSTOMER_ID',
     'DEMO_DATASET_FILE',
     'DEMO_DATASET_ATTACHMENTS',
+    'DEMO_USER_ADDRESS',
     'DEMO_USER_EMAIL',
     'DEMO_USER_NAME',
     'DEMO_USER_PASSWD',
@@ -26,8 +27,9 @@ __all__ = [
 DEMO_CUSTOMER_ID = 5000
 DEMO_DATASET_FILE = Path('/usr/local/etc/comcat.d/demo.json')
 DEMO_DATASET_ATTACHMENTS = Path('/usr/local/etc/comcat.d/demo.d')
+DEMO_USER_ADDRESS = ('Schweidnitzer Weg', '6', '30159', 'Hannover')
 DEMO_USER_EMAIL = 'mieterapp-demo@homeinfo.de'
-DEMO_USER_NAME = 'Kim Beispiel'
+DEMO_USER_NAME = 'Luca Musterberg'
 DEMO_USER_PASSWD = 'mieterapp123'
 LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 LOGGER = getLogger('demo-data-manager')
