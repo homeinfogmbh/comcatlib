@@ -39,10 +39,11 @@ def create_users(users: dict[str, str], tenement: Tenement) -> Iterator[User]:
 def delete_users(customer: Customer) -> None:
     """Creates user accounts and yields their IDs."""
 
-    LOGGER.info('Deleting users')
-    return User.select().join(Tenement).where(
-        Tenement.customer == customer
-    ).execute()
+    for user in User.select().join(Tenement).where(
+            Tenement.customer == customer
+    ):
+        LOGGER.info('Deleting user "%s"', user.email)
+        user.delete_instance()
 
 
 def create_user(email: str, name: str, tenement: Tenement) -> User:
