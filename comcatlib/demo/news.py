@@ -1,21 +1,19 @@
 """Image/text charts as news."""
 
 from datetime import datetime, timedelta
-from typing import Iterable, Iterator
+from typing import Iterator
 
 from cmslib import Chart
 
+from comcatlib.demo.chart import create_image_text_chart
 from comcatlib.demo.common import DEMO_DATASET_ATTACHMENTS
 from comcatlib.demo.common import LOGGER
 from comcatlib.demo.common import randdate
 from comcatlib.demo.hisfs import get_or_create_file
-from comcatlib.demo.image_text import create_image_text_chart
-from comcatlib.orm.user import User
-from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.menu import Menu, MenuBaseChart
 
 
-__all__ = ['create_news', 'map_news']
+__all__ = ['create_news']
 
 
 IMAGE_DIR = DEMO_DATASET_ATTACHMENTS / 'news'
@@ -28,17 +26,6 @@ def create_news(news: list[dict]) -> Iterator[Chart]:
         chart = create_chart(chart)
         make_news(chart)
         yield chart
-
-
-def map_news(charts: Iterable[Chart], user: User) -> None:
-    """Maps the given charts to the given user."""
-
-    for chart in charts:
-        LOGGER.info(
-            'Assigning chart "%s" to user %s', chart.base.title, user.email
-        )
-        user_base_chart = UserBaseChart(base_chart=chart.base, user=user)
-        user_base_chart.save()
 
 
 def create_chart(chart: dict) -> Chart:

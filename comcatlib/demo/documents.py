@@ -1,9 +1,9 @@
 """Documents chart creation."""
 
 from cmslib import ImageText, ImageTextImage
+from comcatlib.demo.chart import create_image_text_chart
 from comcatlib.demo.common import LOGGER, DEMO_DATASET_ATTACHMENTS
 from comcatlib.demo.hisfs import get_or_create_file
-from comcatlib.demo.image_text import create_image_text_chart
 from comcatlib.orm.menu import Menu, MenuBaseChart
 
 
@@ -13,7 +13,7 @@ __all__ = ['create_documents_chart']
 IMAGES_DIR = DEMO_DATASET_ATTACHMENTS / 'documents'
 
 
-def create_documents_chart(documents: dict) -> None:
+def create_documents_chart(documents: dict) -> ImageText:
     """Creates a documents chart."""
 
     LOGGER.info('Adding documents chart: %s', title := documents['title'])
@@ -23,6 +23,8 @@ def create_documents_chart(documents: dict) -> None:
 
     for file in documents['files']:
         add_attachment(chart, file)
+
+    return chart
 
 
 def add_attachment(image_text_chart: ImageText, filename: str) -> None:

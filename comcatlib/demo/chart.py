@@ -1,16 +1,18 @@
 """Image text chart handling."""
 
 from datetime import datetime
-from typing import Optional
+from typing import Iterable, Optional
 
-from cmslib import BaseChart, ImageText, ImageTextImage, ImageTextText
+from cmslib import BaseChart, Chart, ImageText, ImageTextImage, ImageTextText
 from filedb import File
 from mdb import Customer
 
 from comcatlib.demo.common import DEMO_CUSTOMER_ID, LOGGER
+from comcatlib.orm.user import User
+from comcatlib.orm.content import UserBaseChart
 
 
-__all__ = ['create_image_text_chart', 'delete_image_text_charts']
+__all__ = ['create_image_text_chart', 'delete_image_text_charts', 'map_charts']
 
 
 def create_image_text_chart(
@@ -53,3 +55,14 @@ def delete_image_text_charts(customer: Customer) -> None:
             BaseChart.customer == customer
     ):
         image_text_chart.delete_instance()
+
+
+def map_charts(charts: Iterable[Chart], user: User) -> None:
+    """Maps the given charts to the given user."""
+
+    for chart in charts:
+        LOGGER.info(
+            'Assigning chart "%s" to user %s', chart.base.title, user.email
+        )
+        user_base_chart = UserBaseChart(base_chart=chart.base, user=user)
+        user_base_chart.save()
