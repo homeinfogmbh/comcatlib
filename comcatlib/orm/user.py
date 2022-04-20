@@ -93,8 +93,7 @@ class User(ComCatModel):
     @property
     def duplicates(self) -> Iterable[User]:
         """Returns the duplicates of this user."""
-        cls = type(self)
-        condition = cls.tenement == self.tenement
+        condition = (cls := type(self)).tenement == self.tenement
 
         if self.id is not None:
             condition &= cls.id != self.id
