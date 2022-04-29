@@ -35,8 +35,8 @@ DEMO_USER_PASSWD = 'mieterapp123'
 LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
 LOGGER = getLogger('demo-data-manager')
 
-TargetType = TypeVar('TargetType')
-ItemType = TypeVar('ItemType')
+TargetT = TypeVar('TargetT')
+ItemT = TypeVar('ItemT')
 
 
 def get_random_date(
@@ -75,9 +75,9 @@ def rand_date_in_month() -> datetime:
 
 
 def randzipfill(
-        targets: Sequence[TargetType],
-        items: Sequence[ItemType]
-) -> Iterator[tuple[TargetType, ItemType]]:
+        targets: Sequence[TargetT],
+        items: Sequence[ItemT]
+) -> Iterator[tuple[TargetT, ItemT]]:
     """Yields tuples of randomized targets combined with the given items."""
 
     extended_targets = list(targets)
