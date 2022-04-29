@@ -21,7 +21,7 @@ from comcatlib.demo.news import create_news
 from comcatlib.demo.service import create_service_chart
 from comcatlib.demo.tenantcalendar import create_events, delete_events
 from comcatlib.demo.tenement import create_tenement, delete_tenements
-from comcatlib.demo.tenentforum import create_topics, delete_topics
+from comcatlib.demo.tenantforum import create_topics, delete_topics
 from comcatlib.demo.users import create_demo_user, create_users, delete_users
 
 
