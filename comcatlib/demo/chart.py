@@ -25,7 +25,7 @@ def create_image_text_chart(
 ) -> ImageText:
     """Creates news charts."""
 
-    LOGGER.info('Creating news chart "%s"', title)
+    LOGGER.info('Creating ImageText chart "%s"', title)
     base = BaseChart(
         customer=customer,
         type=ImageText.__name__,
