@@ -39,10 +39,13 @@ TargetType = TypeVar('TargetType')
 ItemType = TypeVar('ItemType')
 
 
-def get_random_date(days: int = 60) -> datetime:
+def get_random_date(
+        days: int = 60,
+        before: datetime = datetime.now()
+) -> datetime:
     """Returns a random datetime within the given amount of days."""
 
-    return randdate((now := datetime.now()) - timedelta(days=days), now)
+    return randdate(before - timedelta(days=days), before)
 
 
 def month_range() -> tuple[datetime, datetime]:
