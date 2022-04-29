@@ -42,4 +42,5 @@ def add_user_event(user: User, event: dict[str, str]) -> None:
         user=user,
         email=user.email
     )
+    LOGGER.info('Title and length: "%s" (%i)', title, len(title))
     user_event.save()
