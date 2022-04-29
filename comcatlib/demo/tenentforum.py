@@ -51,6 +51,7 @@ def create_topic(user: User, title: str, text: str, offset: int) -> Topic:
         datetime.now()
     )
     topic = Topic(user=user, title=title, text=text, created=timestamp)
+    LOGGER.info('Title and length: "%s" (%i)', title, len(title))
     topic.save()
     return topic
 
