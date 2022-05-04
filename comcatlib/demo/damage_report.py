@@ -6,7 +6,7 @@ from typing import Sequence
 from damage_report import DamageReport
 from mdb import Customer
 
-from comcatlib.demo.common import LOGGER, randzipfill
+from comcatlib.demo.common import LOGGER
 from comcatlib.orm.user import User
 from comcatlib.orm.damage_report import UserDamageReport
 
@@ -14,13 +14,10 @@ from comcatlib.orm.damage_report import UserDamageReport
 __all__ = ['create_damage_reports', 'delete_damage_reports']
 
 
-def create_damage_reports(
-        users: Sequence[User],
-        damage_reports: Sequence[dict]
-) -> None:
+def create_damage_reports(user: User, damage_reports: Sequence[dict]) -> None:
     """Creates user damage reports."""
 
-    for user, damage_report in randzipfill(users, damage_reports):
+    for damage_report in damage_reports:
         create_damage_report(
             user,
             damage_report['message'],
