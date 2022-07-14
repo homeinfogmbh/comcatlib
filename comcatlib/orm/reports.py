@@ -57,6 +57,11 @@ class OfferReport(Report):
 
     offer = ForeignKeyField(Offer, column_name='offer', on_delete='CASCADE')
 
+    @classmethod
+    def fetch(cls, user: User, offer: Offer) -> OfferReport:
+        """Return the requested offer report."""
+        return cls.get((cls.user == user) & (cls.offer == offer))
+
 
 class TopicReport(Report):
     """Report for a tenant forum topic."""
@@ -65,6 +70,11 @@ class TopicReport(Report):
         table_name = 'topic_report'
 
     topic = ForeignKeyField(Topic, column_name='topic', on_delete='CASCADE')
+
+    @classmethod
+    def fetch(cls, user: User, topic: Topic) -> OfferReport:
+        """Return the requested topic report."""
+        return cls.get((cls.user == user) & (cls.topic == topic))
 
 
 class ResponseReport(Report):
@@ -77,6 +87,11 @@ class ResponseReport(Report):
         Response, column_name='response', on_delete='CASCADE'
     )
 
+    @classmethod
+    def fetch(cls, user: User, response: Response) -> OfferReport:
+        """Return the requested response report."""
+        return cls.get((cls.user == user) & (cls.response == response))
+
 
 class UserEventReport(Report):
     """Report for a user event."""
@@ -87,3 +102,8 @@ class UserEventReport(Report):
     event = ForeignKeyField(
         UserEvent, column_name='user_event', on_delete='CASCADE'
     )
+
+    @classmethod
+    def fetch(cls, user: User, event: UserEvent) -> OfferReport:
+        """Return the requested user event report."""
+        return cls.get((cls.user == user) & (cls.event == event))
