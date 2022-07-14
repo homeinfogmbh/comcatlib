@@ -1,5 +1,7 @@
 """User content reporting."""
 
+from typing import Optional
+
 from marketplace import Offer
 from tenantcalendar import UserEvent
 from tenantforum import Response, Topic
@@ -23,10 +25,10 @@ def report_offer(
         user: User,
         offer: Offer,
         *,
-        title: bool = False,
-        text: bool = False,
-        image: bool = False,
-        other: bool = False
+        title: Optional[bool] = None,
+        text: Optional[bool] = None,
+        image: Optional[bool] = None,
+        other: Optional[bool] = None
 ) -> OfferReport:
     """Report an offer."""
 
@@ -44,10 +46,10 @@ def report_topic(
         user: User,
         topic: Topic,
         *,
-        title: bool = False,
-        text: bool = False,
-        image: bool = False,
-        other: bool = False
+        title: Optional[bool] = None,
+        text: Optional[bool] = None,
+        image: Optional[bool] = None,
+        other: Optional[bool] = None
 ) -> TopicReport:
     """Report a tenant forum topic."""
 
@@ -65,10 +67,10 @@ def report_response(
         user: User,
         response: Response,
         *,
-        title: bool = False,
-        text: bool = False,
-        image: bool = False,
-        other: bool = False
+        title: Optional[bool] = None,
+        text: Optional[bool] = None,
+        image: Optional[bool] = None,
+        other: Optional[bool] = None
 ) -> ResponseReport:
     """Report a tenant forum response."""
 
@@ -87,10 +89,10 @@ def report_user_event(
         user: User,
         event: UserEvent,
         *,
-        title: bool = False,
-        text: bool = False,
-        image: bool = False,
-        other: bool = False
+        title: Optional[bool] = None,
+        text: Optional[bool] = None,
+        image: Optional[bool] = None,
+        other: Optional[bool] = None
 ) -> UserEventReport:
     """Report a tenant forum response."""
 
