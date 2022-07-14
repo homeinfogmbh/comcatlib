@@ -27,8 +27,7 @@ def report_offer(
         *,
         title: Optional[bool] = None,
         text: Optional[bool] = None,
-        image: Optional[bool] = None,
-        other: Optional[bool] = None
+        image: Optional[bool] = None
 ) -> OfferReport:
     """Report an offer."""
 
@@ -39,7 +38,7 @@ def report_offer(
     except OfferReport.DoesNotExist:
         report = OfferReport(user=user, offer=offer)
 
-    return report.update(title=title, text=text, image=image, other=other)
+    return report.update(title=title, text=text, image=image)
 
 
 def report_topic(
@@ -48,8 +47,7 @@ def report_topic(
         *,
         title: Optional[bool] = None,
         text: Optional[bool] = None,
-        image: Optional[bool] = None,
-        other: Optional[bool] = None
+        image: Optional[bool] = None
 ) -> TopicReport:
     """Report a tenant forum topic."""
 
@@ -60,7 +58,7 @@ def report_topic(
     except TopicReport.DoesNotExist:
         report = TopicReport(user=user, topic=topic)
 
-    return report.update(title=title, text=text, image=image, other=other)
+    return report.update(title=title, text=text, image=image)
 
 
 def report_response(
@@ -69,8 +67,7 @@ def report_response(
         *,
         title: Optional[bool] = None,
         text: Optional[bool] = None,
-        image: Optional[bool] = None,
-        other: Optional[bool] = None
+        image: Optional[bool] = None
 ) -> ResponseReport:
     """Report a tenant forum response."""
 
@@ -82,7 +79,7 @@ def report_response(
     except ResponseReport.DoesNotExist:
         report = ResponseReport(user=user, response=response)
 
-    return report.update(title=title, text=text, image=image, other=other)
+    return report.update(title=title, text=text, image=image)
 
 
 def report_user_event(
@@ -91,8 +88,7 @@ def report_user_event(
         *,
         title: Optional[bool] = None,
         text: Optional[bool] = None,
-        image: Optional[bool] = None,
-        other: Optional[bool] = None
+        image: Optional[bool] = None
 ) -> UserEventReport:
     """Report a tenant forum response."""
 
@@ -103,4 +99,4 @@ def report_user_event(
     except UserEventReport.DoesNotExist:
         report = UserEventReport(user=user, event=event)
 
-    return report.update(title=title, text=text, image=image, other=other)
+    return report.update(title=title, text=text, image=image)

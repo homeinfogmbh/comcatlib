@@ -1,7 +1,7 @@
 """Reports of inappropriate user content."""
 
 from __future__ import annotations
-from typing import Optional
+from typing import Any, Iterator, Optional
 
 from peewee import BooleanField, ForeignKeyField
 
@@ -23,14 +23,24 @@ class Report(ComCatModel):
     title = BooleanField(default=False)
     text = BooleanField(default=False)
     image = BooleanField(default=False)
-    other = BooleanField(default=False)
+
+    @property
+    def options(self) -> Iterator[bool]:
+        """Yields all set options."""
+        yield self.title
+        yield self.text
+        yield self.image
+
+    @property
+    def other(self) -> bool:
+        """Return whether none specific option was selected."""
+        return not any(self.options)
 
     def update(
             self,
             title: Optional[bool] = None,
             text: Optional[bool] = None,
-            image: Optional[bool] = None,
-            other: Optional[bool] = None
+            image: Optional[bool] = None
     ) -> Report:
         """Updates the report and returns it."""
         if title is not None:
@@ -42,11 +52,17 @@ class Report(ComCatModel):
         if image is not None:
             self.image = image
 
-        if other is not None:
-            self.other = other
-
         self.save()
         return self
+
+    def to_json(self, *, other: bool = True, **kwargs) -> dict[str, Any]:
+        """Return a JSON-ish dict."""
+        json = super().to_json(**kwargs)
+
+        if other:
+            json['other'] = self.other
+
+        return json
 
 
 class OfferReport(Report):
