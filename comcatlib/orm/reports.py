@@ -1,5 +1,8 @@
 """Reports of inappropriate user content."""
 
+from __future__ import annotations
+from typing import Optional
+
 from peewee import BooleanField, ForeignKeyField
 
 from marketplace import Offer
@@ -21,6 +24,29 @@ class Report(ComCatModel):
     text = BooleanField(default=False)
     image = BooleanField(default=False)
     other = BooleanField(default=False)
+
+    def update(
+            self,
+            title: Optional[bool] = None,
+            text: Optional[bool] = None,
+            image: Optional[bool] = None,
+            other: Optional[bool] = None
+    ) -> Report:
+        """Updates the report and returns it."""
+        if title is not None:
+            self.title = title
+
+        if text is not None:
+            self.text = text
+
+        if image is not None:
+            self.image = image
+
+        if other is not None:
+            self.other = other
+
+        self.save()
+        return self
 
 
 class OfferReport(Report):
