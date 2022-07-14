@@ -11,6 +11,10 @@ from comcatlib.orm.menu import MenuBaseChart
 from comcatlib.orm.nonces import AuthorizationNonce
 from comcatlib.orm.nonces import EMailChangeNonce
 from comcatlib.orm.nonces import PasswordResetNonce
+from comcatlib.orm.reports import OfferReport
+from comcatlib.orm.reports import ResponseReport
+from comcatlib.orm.reports import TopicReport
+from comcatlib.orm.reports import UserEventReport
 from comcatlib.orm.registration import UserRegistration
 from comcatlib.orm.registration import RegistrationNotificationEmails
 from comcatlib.orm.settings import Settings
@@ -26,13 +30,17 @@ __all__ = [
     'EMailChangeNonce',
     'GroupMemberUser',
     'MenuBaseChart',
+    'OfferReport',
     'PasswordResetNonce',
     'RegistrationNotificationEmails',
+    'ResponseReport',
     'Settings',
+    'TopicReport',
     'User',
     'UserBaseChart',
     'UserConfiguration',
     'UserDamageReport',
+    'UserEventReport',
     'UserMenu',
     'UserRegistration'
 ]
