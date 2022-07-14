@@ -6,6 +6,7 @@ from typing import Any, Iterator, Optional
 from peewee import BooleanField, ForeignKeyField
 
 from marketplace import Offer
+from mdb import Customer, Tenement
 from tenantcalendar import UserEvent
 from tenantforum import Response, Topic
 
@@ -23,6 +24,13 @@ class Report(ComCatModel):
     title = BooleanField(default=False)
     text = BooleanField(default=False)
     image = BooleanField(default=False)
+
+    @classmethod
+    def for_customer(cls, customer: Customer) -> Report:
+        """Select reports for the given customer."""
+        return cls.select(cls, User, Tenement).join(User).join(Tenement).where(
+            Tenement.customer == customer
+        )
 
     @property
     def options(self) -> Iterator[bool]:
