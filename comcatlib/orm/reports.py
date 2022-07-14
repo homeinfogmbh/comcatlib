@@ -26,7 +26,7 @@ class Report(ComCatModel):
 
     @property
     def options(self) -> Iterator[bool]:
-        """Yields all set options."""
+        """Yield all set options."""
         yield self.title
         yield self.text
         yield self.image
@@ -42,7 +42,7 @@ class Report(ComCatModel):
             text: Optional[bool] = None,
             image: Optional[bool] = None
     ) -> Report:
-        """Updates the report and returns it."""
+        """Update the report and returns it."""
         if title is not None:
             self.title = title
 
