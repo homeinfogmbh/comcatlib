@@ -18,7 +18,7 @@ RESET_TEMPLATE = '''Sehr geehrter Nutzer,
 Sie haben das Zurücksetzen Ihres Mieter-App Passworts beantragt.
 Bitte besuchen Sie bitte den folgenden Link um Ihr Passwort zurückzusetzen:
 
-https://comcat.homeinfo.de/reset-pw?nonce={nonce}
+https://pwreset.homeinfo.de/comcat/?nonce={nonce}
 
 Sollten Sie kein Zurücksetzen Ihres Passwortes beantragt haben,
 so ignorieren Sie bitte diese E-Mail.
