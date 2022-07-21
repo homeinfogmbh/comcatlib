@@ -22,6 +22,7 @@ setup(
         'damage_report',
         'emaillib',
         'filedb',
+        'firebase',
         'flask',
         'marketplace',
         'mdb',
