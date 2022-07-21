@@ -22,7 +22,7 @@ setup(
         'damage_report',
         'emaillib',
         'filedb',
-        'firebase',
+        'firebase_admin',
         'flask',
         'marketplace',
         'mdb',
