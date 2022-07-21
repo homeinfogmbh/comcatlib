@@ -1,4 +1,4 @@
-"""Firebase Cloud Messaging tokens."""
+"""Firebase Cloud Messaging models."""
 
 from __future__ import annotations
 from firebase_admin.auth import create_custom_token
