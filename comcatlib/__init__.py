@@ -13,7 +13,7 @@ from comcatlib.exceptions import PasswordResetPending
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
-from comcatlib.firebase import FIREBASE
+from comcatlib.firebase import get_firebase
 from comcatlib.functions import get_group_ids, get_groups_lineage
 from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
@@ -46,7 +46,6 @@ __all__ = [
     'ADDRESS',
     'CUSTOMER',
     'DATABASE',
-    'FIREBASE',
     'TENEMENT',
     'USER',
     'AlreadyRegistered',
@@ -63,6 +62,7 @@ __all__ = [
     'encode_url',
     'genpw',
     'get_config',
+    'get_firebase',
     'get_group_ids',
     'get_groups_lineage',
     'init_oauth_endpoints',

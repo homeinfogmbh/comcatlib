@@ -5,13 +5,10 @@ from firebase import Firebase
 from comcatlib.config import get_config
 
 
-__all__ = ['FIREBASE']
+__all__ = ['get_firebase']
 
 
-def get_firebase_config() -> dict[str, str]:
+def get_firebase() -> Firebase:
     """Returns the firebase config as dict."""
 
-    return dict(get_config()['firebase'])
-
-
-FIREBASE = Firebase(get_firebase_config())
+    return Firebase(get_config()['firebase'])
