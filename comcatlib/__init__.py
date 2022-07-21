@@ -13,7 +13,6 @@ from comcatlib.exceptions import PasswordResetPending
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
-from comcatlib.firebase import get_firebase
 from comcatlib.functions import get_group_ids, get_groups_lineage
 from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
@@ -24,6 +23,7 @@ from comcatlib.registration import notify_customer, notify_user
 from comcatlib.orm import DATABASE
 from comcatlib.orm import AuthorizationNonce
 from comcatlib.orm import EMailChangeNonce
+from comcatlib.orm import FCMToken
 from comcatlib.orm import GroupMemberUser
 from comcatlib.orm import MenuBaseChart
 from comcatlib.orm import PasswordResetNonce
@@ -75,6 +75,7 @@ __all__ = [
     'send_password_reset_email',
     'AuthorizationNonce',
     'EMailChangeNonce',
+    'FCMToken',
     'GroupMemberUser',
     'MenuBaseChart',
     'PasswordResetNonce',
