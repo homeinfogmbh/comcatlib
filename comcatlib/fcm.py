@@ -20,7 +20,13 @@ from firebase_admin.messaging import send
 from comcatlib.orm import FCMToken, User
 
 
-__all__ = ['add_token', 'delete_tokens', 'init']
+__all__ = [
+    'add_token',
+    'delete_tokens',
+    'init',
+    'message_user',
+    'send_message'
+]
 
 
 CERT_FILE = '/usr/local/etc/comcat.d/fcm.json'
@@ -53,6 +59,25 @@ def init() -> App:
     return initialize_app(Certificate(CERT_FILE))
 
 
+def message_user(
+        user: Union[User, int],
+        *,
+        urlcode: str,
+        title: str,
+        body: str
+) -> dict[str, str]:
+    """Message a user."""
+
+    results = {}
+
+    for token in FCMToken.select().where(FCMToken.user == user):
+        results[token] = send_message(
+            token := token.token, urlcode=urlcode, title=title, body=body
+        )
+
+    return results
+
+
 def send_message(
         token: str,
         *,
@@ -81,22 +106,3 @@ def send_message(
             token=token
         )
     )
-
-
-def message_user(
-        user: Union[User, int],
-        *,
-        urlcode: str,
-        title: str,
-        body: str
-) -> dict[str, str]:
-    """Message a user."""
-
-    results = {}
-
-    for token in FCMToken.select().where(FCMToken.user == user):
-        results[token] = send_message(
-            token := token.token, urlcode=urlcode, title=title, body=body
-        )
-
-    return results
