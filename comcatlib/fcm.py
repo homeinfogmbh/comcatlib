@@ -4,6 +4,7 @@ from logging import getLogger
 from typing import Union
 
 from firebase_admin import App, initialize_app
+from firebase_admin.credentials import Certificate
 from firebase_admin.messaging import AndroidConfig
 from firebase_admin.messaging import AndroidNotification
 from firebase_admin.messaging import APNSConfig
@@ -22,6 +23,7 @@ from comcatlib.orm import FCMToken, User
 __all__ = ['add_token', 'delete_tokens', 'init']
 
 
+CERT_FILE = '/usr/local/etc/comcat.d/fcm.json'
 LOGGER = getLogger(__file__)
 
 
@@ -48,7 +50,7 @@ def delete_tokens(user: Union[User, int], *tokens: str) -> None:
 def init() -> App:
     """Initialize the firebase app."""
 
-    return initialize_app()
+    return initialize_app(Certificate(CERT_FILE))
 
 
 def send_message(
