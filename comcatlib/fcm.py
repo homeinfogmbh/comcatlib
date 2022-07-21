@@ -21,7 +21,6 @@ from comcatlib.orm import FCMToken, User
 
 
 __all__ = [
-    'add_token',
     'delete_tokens',
     'init',
     'message_user',
@@ -31,14 +30,6 @@ __all__ = [
 
 CERT_FILE = '/usr/local/etc/comcat.d/fcm.json'
 LOGGER = getLogger(__file__)
-
-
-def add_token(user: Union[User, int]) -> str:
-    """Generates a new FCM token."""
-
-    fcm_token = FCMToken(user=user)
-    fcm_token.save()
-    return fcm_token.token
 
 
 def delete_tokens(user: Union[User, int], *tokens: str) -> None:

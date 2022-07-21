@@ -13,7 +13,6 @@ from comcatlib.exceptions import PasswordResetPending
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
-from comcatlib.fcm import add_token
 from comcatlib.fcm import delete_tokens
 from comcatlib.fcm import init as init_fcm
 from comcatlib.fcm import message_user
@@ -62,7 +61,6 @@ __all__ = [
     'QuotaExceeded',
     'UserExpired',
     'UserLocked',
-    'add_token',
     'confirm_email_change',
     'decode_url',
     'delete_tokens',
