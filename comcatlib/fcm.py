@@ -30,7 +30,7 @@ LOGGER = getLogger(__file__)
 def add_token(user: Union[User, int]) -> str:
     """Generates a new FCM token."""
 
-    fcm_token = FCMToken.for_user(user=user)
+    fcm_token = FCMToken(user=user)
     fcm_token.save()
     return fcm_token.token
 
