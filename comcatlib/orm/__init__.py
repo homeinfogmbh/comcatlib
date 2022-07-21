@@ -6,7 +6,7 @@ from comcatlib.orm.content import UserBaseChart
 from comcatlib.orm.content import UserConfiguration
 from comcatlib.orm.content import UserMenu
 from comcatlib.orm.damage_report import UserDamageReport
-from comcatlib.orm.fcm_token import FCMToken
+from comcatlib.orm.fcm import FCMToken
 from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.menu import MenuBaseChart
 from comcatlib.orm.nonces import AuthorizationNonce
