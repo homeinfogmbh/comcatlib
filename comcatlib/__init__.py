@@ -15,8 +15,7 @@ from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
 from comcatlib.fcm import delete_tokens
 from comcatlib.fcm import init as init_fcm
-from comcatlib.fcm import message_user
-from comcatlib.fcm import send_message
+from comcatlib.fcm import get_tokens, multicast_message
 from comcatlib.functions import get_group_ids, get_groups_lineage
 from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
@@ -69,15 +68,15 @@ __all__ = [
     'get_config',
     'get_group_ids',
     'get_groups_lineage',
+    'get_tokens',
     'init_fcm',
     'init_oauth_endpoints',
-    'message_user',
+    'multicast_message',
     'notify_customer',
     'notify_user',
     'proxy_url',
     'request_email_change',
     'send_contact_mails',
-    'send_message',
     'send_new_password',
     'send_password_reset_email',
     'AuthorizationNonce',

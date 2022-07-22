@@ -1,7 +1,7 @@
 """Firebase Cloud Messaging."""
 
 from logging import getLogger
-from typing import Union
+from typing import Iterable, Sequence, Union
 
 from firebase_admin import App, initialize_app
 from firebase_admin.credentials import Certificate
@@ -10,21 +10,22 @@ from firebase_admin.messaging import AndroidNotification
 from firebase_admin.messaging import APNSConfig
 from firebase_admin.messaging import APNSPayload
 from firebase_admin.messaging import Aps
-from firebase_admin.messaging import Message
+from firebase_admin.messaging import MulticastMessage
 from firebase_admin.messaging import Notification
 from firebase_admin.messaging import WebpushConfig
 from firebase_admin.messaging import WebpushNotification
 from firebase_admin.messaging import WebpushNotificationAction
 from firebase_admin.messaging import send
+from peewee import ModelSelect
 
 from comcatlib.orm import FCMToken, User
 
 
 __all__ = [
     'delete_tokens',
+    'get_tokens',
     'init',
-    'message_user',
-    'send_message'
+    'multicast_message'
 ]
 
 
@@ -44,42 +45,30 @@ def delete_tokens(user: Union[User, int], *tokens: str) -> None:
         fcm_token.delete_instance()
 
 
+def get_tokens(users: Sequence[Union[User, int]]) -> ModelSelect:
+    """Select all tokens of the given users."""
+
+    return FCMToken.select().where(FCMToken.user << users)
+
+
 def init() -> App:
     """Initialize the firebase app."""
 
     return initialize_app(Certificate(CERT_FILE))
 
 
-def message_user(
-        user: Union[User, int],
-        *,
-        urlcode: str,
-        title: str,
-        body: str
-) -> dict[str, str]:
-    """Message a user."""
-
-    results = {}
-
-    for token in FCMToken.select().where(FCMToken.user == user):
-        results[token] = send_message(
-            token := token.token, urlcode=urlcode, title=title, body=body
-        )
-
-    return results
-
-
-def send_message(
-        token: str,
+def multicast_message(
+        tokens: Iterable[str],
         *,
         urlcode: str,
         title: str,
         body: str
 ) -> str:
-    """Sends a message."""
+    """Multicast messages to the given tokens."""
 
     return send(
-        Message(
+        MulticastMessage(
+            tokens=list(tokens),
             notification=Notification(title=title, body=body),
             android=AndroidConfig(
                 notification=AndroidNotification(click_action=urlcode)
@@ -93,7 +82,6 @@ def send_message(
                 notification=WebpushNotification(
                     actions=[WebpushNotificationAction(urlcode, 'öffnen')]
                 )
-            ),
-            token=token
+            )
         )
     )
