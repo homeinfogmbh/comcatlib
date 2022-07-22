@@ -17,4 +17,4 @@ class FCMToken(ComCatModel):
         table_name = 'fcm_token'
 
     user = ForeignKeyField(User, column_name='user', on_delete='CASCADE')
-    token = CharField(162, unique=True)
+    token = CharField(163, unique=True)
