@@ -16,7 +16,7 @@ from comcatlib.exceptions import UserLocked
 from comcatlib.fcm import delete_tokens
 from comcatlib.fcm import init as init_fcm
 from comcatlib.fcm import get_tokens, multicast_message
-from comcatlib.functions import get_group_ids, get_groups_lineage
+from comcatlib.functions import get_group_ids, get_groups_lineage, logout
 from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
 from comcatlib.localproxies import TENEMENT
@@ -71,6 +71,7 @@ __all__ = [
     'get_tokens',
     'init_fcm',
     'init_oauth_endpoints',
+    'logout',
     'multicast_message',
     'notify_customer',
     'notify_user',

@@ -4,11 +4,12 @@ from typing import Iterator, Optional, Union
 
 from cmslib import Group, Groups
 
+from comcatlib.oauth2 import Token
 from comcatlib.orm.group import GroupMemberUser
 from comcatlib.orm.user import User
 
 
-__all__ = ['get_group_ids', 'get_groups_lineage']
+__all__ = ['get_group_ids', 'get_groups_lineage', 'logout']
 
 
 def get_group_ids(user: Union[User, int]) -> Iterator[int]:
@@ -32,3 +33,9 @@ def get_groups_lineage(
     for member_group in groups.groups(get_group_ids(user)):
         for group in groups.lineage(member_group):
             yield group
+
+
+def logout(user: User):
+    """Logs out a user."""
+
+    return Token.delete().where(Token.user == user).execute()
