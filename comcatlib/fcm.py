@@ -1,5 +1,6 @@
 """Firebase Cloud Messaging."""
 
+from enum import Enum
 from logging import getLogger
 from typing import Iterable, Sequence, Union
 
@@ -16,6 +17,7 @@ from comcatlib.orm import FCMToken, User
 
 
 __all__ = [
+    'URLCode',
     'delete_tokens',
     'get_tokens',
     'init',
@@ -25,6 +27,15 @@ __all__ = [
 
 CERT_FILE = '/usr/local/etc/comcat.d/fcm.json'
 LOGGER = getLogger(__file__)
+
+
+class URLCode(str, Enum):
+    """Available URL codes."""
+
+    NEWS = '/tabs/news'
+    DOCUMENTS = DOWNLOAD = '/tabs/download'
+    EVENTS = '/tabs/events'
+    CONTACT = TENANT_TO_LANDLORD = '/tabs/contact'
 
 
 def delete_tokens(user: Union[User, int], *tokens: str) -> None:
