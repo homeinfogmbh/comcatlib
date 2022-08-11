@@ -69,6 +69,7 @@ def multicast_message(
     return send(
         MulticastMessage(
             tokens=list(tokens),
+            data={'urlcode': urlcode},
             notification=Notification(title=title, body=body),
             android=AndroidConfig(
                 notification=AndroidNotification(click_action=urlcode)
