@@ -9,7 +9,7 @@ from firebase_admin.messaging import AndroidConfig
 from firebase_admin.messaging import AndroidNotification
 from firebase_admin.messaging import MulticastMessage
 from firebase_admin.messaging import Notification
-from firebase_admin.messaging import send
+from firebase_admin.messaging import send_multicast
 from peewee import ModelSelect
 
 from comcatlib.orm import FCMToken, User
@@ -60,7 +60,7 @@ def multicast_message(
 ) -> str:
     """Multicast messages to the given tokens."""
 
-    return send(
+    return send_multicast(
         MulticastMessage(
             tokens=list(tokens),
             data={'urlcode': urlcode},
