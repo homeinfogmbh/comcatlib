@@ -8,6 +8,7 @@ from firebase_admin import App, initialize_app
 from firebase_admin.credentials import Certificate
 from firebase_admin.messaging import AndroidConfig
 from firebase_admin.messaging import AndroidNotification
+from firebase_admin.messaging import BatchResponse
 from firebase_admin.messaging import MulticastMessage
 from firebase_admin.messaging import Notification
 from firebase_admin.messaging import send_multicast
@@ -68,7 +69,7 @@ def multicast_message(
         urlcode: str,
         title: str,
         body: str
-) -> str:
+) -> BatchResponse:
     """Multicast messages to the given tokens."""
 
     return send_multicast(
