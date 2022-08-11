@@ -72,7 +72,9 @@ def multicast_message(
             data={'urlcode': urlcode},
             notification=Notification(title=title, body=body),
             android=AndroidConfig(
-                notification=AndroidNotification(click_action=urlcode)
+                notification=AndroidNotification(
+                    click_action='FCM_PLUGIN_ACTIVITY'
+                )
             ),
             apns=APNSConfig(
                 payload=APNSPayload(
