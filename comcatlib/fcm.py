@@ -75,16 +75,6 @@ def multicast_message(
                 notification=AndroidNotification(
                     click_action='FCM_PLUGIN_ACTIVITY'
                 )
-            ),
-            apns=APNSConfig(
-                payload=APNSPayload(
-                    aps=Aps(custom_data={'urlcode': urlcode})
-                )
-            ),
-            webpush=WebpushConfig(
-                notification=WebpushNotification(
-                    actions=[WebpushNotificationAction(urlcode, 'öffnen')]
-                )
             )
         )
     )
