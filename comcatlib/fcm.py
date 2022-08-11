@@ -66,7 +66,7 @@ def init() -> App:
 def multicast_message(
         tokens: Iterable[str],
         *,
-        urlcode: str,
+        url_code: URLCode,
         title: str,
         body: str
 ) -> BatchResponse:
@@ -75,7 +75,7 @@ def multicast_message(
     return send_multicast(
         MulticastMessage(
             tokens=list(tokens),
-            data={'urlcode': urlcode},
+            data={'urlcode': url_code},
             notification=Notification(title=title, body=body),
             android=AndroidConfig(
                 notification=AndroidNotification(
