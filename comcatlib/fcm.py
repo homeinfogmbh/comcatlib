@@ -33,10 +33,10 @@ LOGGER = getLogger(__file__)
 class URLCode(str, Enum):
     """Available URL codes."""
 
-    NEWS = '/tabs/news'
-    DOCUMENTS = DOWNLOAD = '/tabs/download'
-    EVENTS = '/tabs/events'
-    CONTACT = TENANT_TO_LANDLORD = '/tabs/contact'
+    NEWS = 'news'
+    DOCUMENTS = DOWNLOAD = 'download'
+    EVENTS = 'events'
+    CONTACT = TENANT_TO_LANDLORD = 'contact'
 
 
 def delete_tokens(user: Union[User, int], *tokens: str) -> None:
