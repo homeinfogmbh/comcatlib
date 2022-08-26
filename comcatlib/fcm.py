@@ -64,10 +64,10 @@ def delete_tokens(user: Union[User, int], *tokens: str) -> None:
         fcm_token.delete_instance()
 
 
-def expand_groups(group: Union[Group, int]) -> set[Union[Group, int]]:
+def expand_groups(*groups: Union[Group, int]) -> set[Union[Group, int]]:
     """Expand the group into its children."""
 
-    groups = children = {group}
+    groups = children = set(groups)
 
     while children := set(Group.select().where(Group.parent << children)):
         groups |= children
