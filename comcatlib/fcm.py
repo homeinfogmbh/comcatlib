@@ -91,10 +91,10 @@ def multicast_chart(
         chart: Chart,
         url_code: URLCode,
         tokens: Iterable[FCMToken]
-) -> None:
+) -> BatchResponse:
     """Multicast chart to users."""
 
-    multicast_message(
+    return multicast_message(
         [token.token for token in tokens],
         url_code=url_code,
         title=f'{APP_NAME}: {CAPTIONS[url_code]}',
