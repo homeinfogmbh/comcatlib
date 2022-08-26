@@ -14,7 +14,7 @@ from firebase_admin.messaging import Notification
 from firebase_admin.messaging import send_multicast
 from peewee import ModelSelect
 
-from cmslib import Chart, Group
+from cmslib import BaseChart, Group
 
 from comcatlib.orm import FCMToken, User
 
@@ -27,7 +27,7 @@ __all__ = [
     'expand_groups',
     'get_tokens',
     'init',
-    'multicast_chart',
+    'multicast_base_chart',
     'multicast_message'
 ]
 
@@ -89,18 +89,18 @@ def init() -> App:
     return initialize_app(Certificate(CERT_FILE))
 
 
-def multicast_chart(
-        chart: Chart,
+def multicast_base_chart(
+        base_chart: BaseChart,
         url_code: URLCode,
         tokens: Iterable[FCMToken]
 ) -> BatchResponse:
-    """Multicast chart to users."""
+    """Multicast base chart to users."""
 
     return multicast_message(
         [token.token for token in tokens],
         url_code=url_code,
         title=f'{APP_NAME}: {CAPTIONS[url_code]}',
-        body=chart.base.title
+        body=base_chart.title
     )
 
 

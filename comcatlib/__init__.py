@@ -20,7 +20,7 @@ from comcatlib.fcm import delete_tokens
 from comcatlib.fcm import expand_groups
 from comcatlib.fcm import get_tokens
 from comcatlib.fcm import init as init_fcm
-from comcatlib.fcm import multicast_chart
+from comcatlib.fcm import multicast_base_chart
 from comcatlib.fcm import multicast_message
 from comcatlib.functions import get_group_ids, get_groups_lineage, logout
 from comcatlib.localproxies import ADDRESS
@@ -82,7 +82,7 @@ __all__ = [
     'init_fcm',
     'init_oauth_endpoints',
     'logout',
-    'multicast_chart',
+    'multicast_base_chart',
     'multicast_message',
     'notify_customer',
     'notify_user',
