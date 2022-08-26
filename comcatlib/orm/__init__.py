@@ -8,7 +8,7 @@ from comcatlib.orm.content import UserMenu
 from comcatlib.orm.damage_report import UserDamageReport
 from comcatlib.orm.fcm import FCMToken
 from comcatlib.orm.group import GroupMemberUser
-from comcatlib.orm.menu import MenuBaseChart
+from comcatlib.orm.menu import Menu, MenuBaseChart
 from comcatlib.orm.nonces import AuthorizationNonce
 from comcatlib.orm.nonces import EMailChangeNonce
 from comcatlib.orm.nonces import PasswordResetNonce
@@ -27,6 +27,7 @@ __all__ = [
     'EMailChangeNonce',
     'FCMToken',
     'GroupMemberUser',
+    'Menu',
     'MenuBaseChart',
     'PasswordResetNonce',
     'RegistrationNotificationEmails',
