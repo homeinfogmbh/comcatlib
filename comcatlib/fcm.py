@@ -34,7 +34,7 @@ class URLCode(str, Enum):
     """Available URL codes."""
 
     NEWS = 'news'
-    DOCUMENTS = DOWNLOAD = 'download'
+    DOWNLOAD = DOCUMENTS = 'download'
     EVENTS = 'events'
     CONTACT = TENANT_TO_LANDLORD = 'contact'
 
