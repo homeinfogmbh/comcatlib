@@ -77,7 +77,7 @@ def evaluate_recipients(response: Optional[BatchResponse]) -> Iterator[User]:
         print('    RESPONSE:', res, type(res))
         print('    DIR:', dir(res))
 
-    return iter(response.responses)
+    yield from response.responses
 
 
 def expand_groups(
