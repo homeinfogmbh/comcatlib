@@ -2,7 +2,7 @@
 
 from enum import Enum
 from logging import getLogger
-from typing import Iterable, Sequence, Union
+from typing import Iterable, Union
 
 from firebase_admin import App, initialize_app
 from firebase_admin.credentials import Certificate
@@ -51,7 +51,7 @@ def delete_tokens(user: Union[User, int], *tokens: str) -> None:
         fcm_token.delete_instance()
 
 
-def get_tokens(users: Sequence[Union[User, int]]) -> ModelSelect:
+def get_tokens(users: Iterable[Union[User, int]]) -> ModelSelect:
     """Select all tokens of the given users."""
 
     return FCMToken.select().where(FCMToken.user << users)
