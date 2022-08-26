@@ -71,11 +71,14 @@ def evaluate_recipients(response: Optional[BatchResponse]) -> Iterator[User]:
     if response is None:
         return
 
-    print('RESPONSES:', response.responses)
+    print('RESPONSES:', response.responses, flush=True)
 
     for res in response.responses:
         print('    RESPONSE:', res, type(res))
         print('    DIR:', dir(res))
+        print('    EXCEPTION:', res.exception)
+        print('    SUCCESS:', res.success)
+        print('    MESSAGE_ID:', res.message_id, flush=True)
 
     yield from response.responses
 
