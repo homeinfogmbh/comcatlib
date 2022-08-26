@@ -13,6 +13,7 @@ from comcatlib.exceptions import PasswordResetPending
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
+from comcatlib.fcm import URLCode
 from comcatlib.fcm import delete_tokens
 from comcatlib.fcm import init as init_fcm
 from comcatlib.fcm import get_tokens, multicast_message
@@ -89,6 +90,7 @@ __all__ = [
     'RegistrationNotificationEmails',
     'Settings',
     'Token',
+    'URLCode',
     'User',
     'UserBaseChart',
     'UserConfiguration',
