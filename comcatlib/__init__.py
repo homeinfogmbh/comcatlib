@@ -17,7 +17,6 @@ from comcatlib.fcm import APP_NAME
 from comcatlib.fcm import CAPTIONS
 from comcatlib.fcm import URLCode
 from comcatlib.fcm import delete_tokens
-from comcatlib.fcm import evaluate_recipients
 from comcatlib.fcm import expand_groups
 from comcatlib.fcm import get_tokens
 from comcatlib.fcm import init as init_fcm
@@ -74,7 +73,6 @@ __all__ = [
     'decode_url',
     'delete_tokens',
     'encode_url',
-    'evaluate_recipients',
     'expand_groups',
     'genpw',
     'get_config',
