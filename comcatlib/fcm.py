@@ -2,7 +2,7 @@
 
 from enum import Enum
 from logging import getLogger
-from typing import Iterable, Union
+from typing import Iterable, Iterator, Optional, Union
 
 from firebase_admin import App, initialize_app
 from firebase_admin.credentials import Certificate
@@ -24,6 +24,7 @@ __all__ = [
     'CAPTIONS',
     'URLCode',
     'delete_tokens',
+    'evaluate_recipients',
     'expand_groups',
     'get_tokens',
     'init',
@@ -62,6 +63,21 @@ def delete_tokens(user: Union[User, int], *tokens: str) -> None:
 
     for fcm_token in FCMToken.select().where(condition):
         fcm_token.delete_instance()
+
+
+def evaluate_recipients(response: Optional[BatchResponse]) -> Iterator[User]:
+    """Select users that received a given message."""
+
+    if response is None:
+        return
+
+    print('RESPONSES:', response.responses)
+
+    for res in response.responses:
+        print('    RESPONSE:', res, type(res))
+        print('    DIR:', dir(res))
+
+    return iter(response.responses)
 
 
 def expand_groups(
