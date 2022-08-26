@@ -13,10 +13,15 @@ from comcatlib.exceptions import PasswordResetPending
 from comcatlib.exceptions import QuotaExceeded
 from comcatlib.exceptions import UserExpired
 from comcatlib.exceptions import UserLocked
+from comcatlib.fcm import APP_NAME
+from comcatlib.fcm import CAPTIONS
 from comcatlib.fcm import URLCode
 from comcatlib.fcm import delete_tokens
+from comcatlib.fcm import expand_groups
+from comcatlib.fcm import get_tokens
 from comcatlib.fcm import init as init_fcm
-from comcatlib.fcm import get_tokens, multicast_message
+from comcatlib.fcm import multicast_chart
+from comcatlib.fcm import multicast_message
 from comcatlib.functions import get_group_ids, get_groups_lineage, logout
 from comcatlib.localproxies import ADDRESS
 from comcatlib.localproxies import CUSTOMER
@@ -47,10 +52,12 @@ from comcatlib.urlproxy import decode_url, encode_url, proxy_url
 
 
 __all__ = [
-    'REQUIRE_OAUTH',
     'ADDRESS',
+    'APP_NAME',
+    'CAPTIONS',
     'CUSTOMER',
     'DATABASE',
+    'REQUIRE_OAUTH',
     'TENEMENT',
     'USER',
     'AlreadyRegistered',
@@ -66,6 +73,7 @@ __all__ = [
     'decode_url',
     'delete_tokens',
     'encode_url',
+    'expand_groups',
     'genpw',
     'get_config',
     'get_group_ids',
@@ -74,6 +82,7 @@ __all__ = [
     'init_fcm',
     'init_oauth_endpoints',
     'logout',
+    'multicast_chart',
     'multicast_message',
     'notify_customer',
     'notify_user',

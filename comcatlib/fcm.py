@@ -14,18 +14,25 @@ from firebase_admin.messaging import Notification
 from firebase_admin.messaging import send_multicast
 from peewee import ModelSelect
 
+from cmslib import Chart, Group
+
 from comcatlib.orm import FCMToken, User
 
 
 __all__ = [
+    'APP_NAME',
+    'CAPTIONS',
     'URLCode',
     'delete_tokens',
+    'expand_groups',
     'get_tokens',
     'init',
+    'multicast_chart',
     'multicast_message'
 ]
 
 
+APP_NAME = 'MieterApp'
 CERT_FILE = '/usr/local/etc/comcat.d/fcm.json'
 LOGGER = getLogger(__file__)
 
@@ -37,6 +44,12 @@ class URLCode(str, Enum):
     DOWNLOAD = DOCUMENTS = 'download'
     EVENTS = 'events'
     CONTACT = TENANT_TO_LANDLORD = 'contact'
+
+
+CAPTIONS = {
+    URLCode.NEWS: 'Neue News',
+    URLCode.DOWNLOAD: 'Neuer Download'
+}
 
 
 def delete_tokens(user: Union[User, int], *tokens: str) -> None:
@@ -51,6 +64,17 @@ def delete_tokens(user: Union[User, int], *tokens: str) -> None:
         fcm_token.delete_instance()
 
 
+def expand_groups(group: Union[Group, int]) -> set[Union[Group, int]]:
+    """Expand the group into its children."""
+
+    groups = children = {group}
+
+    while children := set(Group.select().where(Group.parent << children)):
+        groups |= children
+
+    return groups
+
+
 def get_tokens(users: Iterable[Union[User, int]]) -> ModelSelect:
     """Select all tokens of the given users."""
 
@@ -61,6 +85,21 @@ def init() -> App:
     """Initialize the firebase app."""
 
     return initialize_app(Certificate(CERT_FILE))
+
+
+def multicast_chart(
+        chart: Chart,
+        url_code: URLCode,
+        tokens: Iterable[FCMToken]
+) -> None:
+    """Multicast chart to users."""
+
+    multicast_message(
+        [token.token for token in tokens],
+        url_code=url_code,
+        title=f'{APP_NAME}: {CAPTIONS[url_code]}',
+        body=chart.base.title
+    )
 
 
 def multicast_message(
