@@ -2,7 +2,7 @@
 
 from enum import Enum
 from logging import getLogger
-from typing import Iterable, Union
+from typing import Iterable, Iterator, Union
 
 from firebase_admin import App, initialize_app
 from firebase_admin.credentials import Certificate
@@ -15,6 +15,7 @@ from firebase_admin.messaging import send_multicast
 from peewee import ModelSelect
 
 from cmslib import BaseChart, Group, GroupBaseChart
+from tenantcalendar import CustomerEvent, UserCustomerEvent, GroupCustomerEvent
 
 from comcatlib.orm import FCMToken, GroupMemberUser, User, UserBaseChart
 
@@ -28,6 +29,7 @@ __all__ = [
     'get_tokens',
     'init',
     'multicast_base_chart',
+    'multicast_customer_event',
     'multicast_message'
 ]
 
@@ -64,19 +66,6 @@ def delete_tokens(user: Union[User, int], *tokens: str) -> None:
         fcm_token.delete_instance()
 
 
-def expand_groups(
-        groups: Iterable[Union[Group, int]]
-) -> set[Union[Group, int]]:
-    """Expand the group into its children."""
-
-    groups = children = set(groups)
-
-    while children := set(Group.select().where(Group.parent << children)):
-        groups |= children
-
-    return groups
-
-
 def get_tokens(users: Iterable[Union[User, int]]) -> ModelSelect:
     """Select all tokens of the given users."""
 
@@ -91,14 +80,14 @@ def init() -> App:
 
 def multicast_base_chart(
         base_chart: BaseChart,
-        url_code: URLCode,
+        url_code: URLCode
 ) -> BatchResponse:
     """Multicast base chart to users."""
 
     return multicast_message(
         [
             token.token for token in
-            get_tokens(set(affected_users(base_chart)))
+            get_tokens(set(affected_users_by_base_chart(base_chart)))
         ],
         url_code=url_code,
         title=f'{APP_NAME}: {CAPTIONS[url_code]}',
@@ -106,27 +95,18 @@ def multicast_base_chart(
     )
 
 
-def affected_users(
-        base_chart: Union[BaseChart, int]
-) -> Iterable[Union[User, int]]:
-    """Return a set of users affected by the
-    change to the respective chart mapping.
-    """
+def multicast_customer_event(customer_event: CustomerEvent) -> BatchResponse:
+    """Multicast customer event to users."""
 
-    for user_base_chart in UserBaseChart.select().where(
-            UserBaseChart.base_chart == base_chart
-    ):
-        yield user_base_chart.user
-
-    for member in GroupMemberUser.select().where(
-            GroupMemberUser.group << expand_groups({
-                group_base_chart.group for
-                group_base_chart in GroupBaseChart.select().where(
-                    GroupBaseChart.base_chart == base_chart
-                )
-            })
-    ):
-        yield member.user
+    return multicast_message(
+        [
+            token.token for token in
+            get_tokens(set(affected_users_by_customer_event(customer_event)))
+        ],
+        url_code=URLCode.EVENTS,
+        title=f'{APP_NAME}: {CAPTIONS[URLCode.EVENTS]}',
+        body=customer_event.title
+    )
 
 
 def multicast_message(
@@ -150,3 +130,65 @@ def multicast_message(
             )
         )
     )
+
+
+def groups_users(groups: Iterable[Group, int]) -> Iterator[Union[User, int]]:
+    """Yield users that are members of the respective groups."""
+
+    for member in GroupMemberUser.select().where(
+            GroupMemberUser.group << groups
+    ):
+        yield member.user
+
+
+def expand_groups(
+        groups: Iterable[Union[Group, int]]
+) -> set[Union[Group, int]]:
+    """Expand the group into its children."""
+
+    groups = children = set(groups)
+
+    while children := set(Group.select().where(Group.parent << children)):
+        groups |= children
+
+    return groups
+
+
+def affected_users_by_base_chart(
+        base_chart: Union[BaseChart, int]
+) -> Iterator[Union[User, int]]:
+    """Return a set of users affected by the
+    change to the respective chart mapping.
+    """
+
+    for user_base_chart in UserBaseChart.select().where(
+            UserBaseChart.base_chart == base_chart
+    ):
+        yield user_base_chart.user
+
+    yield from groups_users(expand_groups({
+        group_base_chart.group for
+        group_base_chart in GroupBaseChart.select().where(
+            GroupBaseChart.base_chart == base_chart
+        )
+    }))
+
+
+def affected_users_by_customer_event(
+        customer_event: Union[CustomerEvent, int]
+) -> Iterable[Union[User, int]]:
+    """Return a set of users affected by the
+    change to the respective chart mapping.
+    """
+
+    for user_customer_event in UserCustomerEvent.select().where(
+            UserCustomerEvent.event == customer_event
+    ):
+        yield user_customer_event.user
+
+    yield from groups_users(expand_groups({
+        group_customer_event.group for
+        group_customer_event in GroupCustomerEvent.select().where(
+            GroupCustomerEvent.event == customer_event
+        )
+    }))
