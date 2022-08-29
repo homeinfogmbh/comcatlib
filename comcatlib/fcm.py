@@ -14,9 +14,9 @@ from firebase_admin.messaging import Notification
 from firebase_admin.messaging import send_multicast
 from peewee import ModelSelect
 
-from cmslib import BaseChart, Group
+from cmslib import BaseChart, Group, GroupBaseChart
 
-from comcatlib.orm import FCMToken, User
+from comcatlib.orm import FCMToken, GroupMemberUser, User, UserBaseChart
 
 
 __all__ = [
@@ -92,16 +92,41 @@ def init() -> App:
 def multicast_base_chart(
         base_chart: BaseChart,
         url_code: URLCode,
-        tokens: Iterable[FCMToken]
 ) -> BatchResponse:
     """Multicast base chart to users."""
 
     return multicast_message(
-        [token.token for token in tokens],
+        [
+            token.token for token in
+            get_tokens(set(affected_users(base_chart)))
+        ],
         url_code=url_code,
         title=f'{APP_NAME}: {CAPTIONS[url_code]}',
         body=base_chart.title
     )
+
+
+def affected_users(
+        base_chart: Union[BaseChart, int]
+) -> Iterable[Union[User, int]]:
+    """Return a set of users affected by the
+    change to the respective chart mapping.
+    """
+
+    for user_base_chart in UserBaseChart.select().where(
+            UserBaseChart.base_chart == base_chart
+    ):
+        yield user_base_chart.user
+
+    for member in GroupMemberUser.select().where(
+            GroupMemberUser.group << expand_groups({
+                group_base_chart.group for
+                group_base_chart in GroupBaseChart.select().where(
+                    GroupBaseChart.base_chart == base_chart
+                )
+            })
+    ):
+        yield member.user
 
 
 def multicast_message(
