@@ -84,7 +84,9 @@ def get_tokens(users: Iterable[Union[User, int]]) -> ModelSelect:
     return FCMToken.select().where(FCMToken.user << users)
 
 
-def groups_users(groups: Iterable[Group, int]) -> Iterator[Union[User, int]]:
+def groups_users(
+        groups: Iterable[Union[Group, int]]
+) -> Iterator[Union[User, int]]:
     """Yield users that are members of the respective groups."""
 
     for member in GroupMemberUser.select().where(
