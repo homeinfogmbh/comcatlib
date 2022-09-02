@@ -128,10 +128,10 @@ def multicast_message(
     """Multicast messages to the given tokens."""
 
     getLogger('comcatlib').info('Sending multicast message.')
-    getLogger('comcatlib').info('Title: %s.', title)
-    getLogger('comcatlib').info('Body: %s.', body)
-    getLogger('comcatlib').info('URL Code: %s.', url_code)
-    getLogger('comcatlib').info('Tokens: %s.', ', '.join(tokens))
+    getLogger('comcatlib').info('Title: "%s"', title)
+    getLogger('comcatlib').info('Body: "%s"', body)
+    getLogger('comcatlib').info('URL Code: "%s"', url_code)
+    getLogger('comcatlib').info('Tokens: %s', tokens)
     return send_multicast(
         MulticastMessage(
             tokens=list(tokens),
