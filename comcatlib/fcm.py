@@ -75,6 +75,7 @@ def expand_groups(
     while children := set(Group.select().where(Group.parent << children)):
         groups |= children
 
+    LOGGER.info('Expanded groups: %s', groups)
     return groups
 
 
@@ -92,6 +93,7 @@ def groups_users(
     for member in GroupMemberUser.select().where(
             GroupMemberUser.group << groups
     ):
+        LOGGER.info('Group user: %s', member.user)
         yield member.user
 
 
@@ -127,11 +129,11 @@ def multicast_message(
 ) -> BatchResponse:
     """Multicast messages to the given tokens."""
 
-    getLogger('comcatlib').info('Sending multicast message.')
-    getLogger('comcatlib').info('Title: "%s"', title)
-    getLogger('comcatlib').info('Body: "%s"', body)
-    getLogger('comcatlib').info('URL Code: "%s"', url_code)
-    getLogger('comcatlib').info('Tokens: %s', tokens)
+    LOGGER.info('Sending multicast message.')
+    LOGGER.info('Title: "%s"', title)
+    LOGGER.info('Body: "%s"', body)
+    LOGGER.info('URL Code: "%s"', url_code)
+    LOGGER.info('Tokens: %s', tokens)
     return send_multicast(
         MulticastMessage(
             tokens=list(tokens),
@@ -156,6 +158,7 @@ def affected_users_by_base_chart(
     for user_base_chart in UserBaseChart.select().where(
             UserBaseChart.base_chart == base_chart
     ):
+        LOGGER.info('Base chart user: %s', user_base_chart.user)
         yield user_base_chart.user
 
     yield from groups_users(expand_groups({
