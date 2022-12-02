@@ -156,6 +156,12 @@ def affected_users_by_base_chart(
     change to the respective chart mapping.
     """
 
+    LOGGER.info(
+        'Notifying user of base chart: %s (%s)',
+        base_chart,
+        type(base_chart)
+    )
+
     for user_base_chart in UserBaseChart.select().where(
             UserBaseChart.base_chart == base_chart
     ):
