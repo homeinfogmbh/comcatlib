@@ -109,11 +109,12 @@ def multicast_base_chart(
 ) -> BatchResponse:
     """Multicast base chart to users."""
 
+    users = set(affected_users_by_base_chart(base_chart))
+    LOGGER.info('Notifying users: %s', users)
+    tokens = [token.token for token in get_tokens(users)]
+    LOGGER.info('Sending message to tokens: %s', tokens)
     return multicast_message(
-        [
-            token.token for token in
-            get_tokens(set(affected_users_by_base_chart(base_chart)))
-        ],
+        tokens,
         url_code=url_code,
         title=f'{APP_NAME}: {CAPTIONS[url_code]}',
         body=base_chart.title
