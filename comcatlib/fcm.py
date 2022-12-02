@@ -1,7 +1,6 @@
 """Firebase Cloud Messaging."""
 
 from enum import Enum
-from logging import getLogger
 from typing import Iterable, Iterator, Union
 
 from firebase_admin import App, initialize_app
@@ -35,7 +34,6 @@ __all__ = [
 
 APP_NAME = 'MieterApp'
 CERT_FILE = '/usr/local/etc/comcat.d/fcm.json'
-LOGGER = getLogger(__file__)
 
 
 class URLCode(str, Enum):
@@ -75,7 +73,6 @@ def expand_groups(
     while children := set(Group.select().where(Group.parent << children)):
         groups |= children
 
-    LOGGER.info('Expanded groups: %s', groups)
     return groups
 
 
@@ -93,7 +90,6 @@ def groups_users(
     for member in GroupMemberUser.select().where(
             GroupMemberUser.group << groups
     ):
-        LOGGER.info('Group user: %s', member.user)
         yield member.user
 
 
@@ -109,12 +105,12 @@ def multicast_base_chart(
 ) -> BatchResponse:
     """Multicast base chart to users."""
 
-    users = set(affected_users_by_base_chart(base_chart))
-    LOGGER.info('Notifying users: %s', users)
-    tokens = [token.token for token in get_tokens(users)]
-    LOGGER.info('Sending message to tokens: %s', tokens)
     return multicast_message(
-        tokens,
+        [
+            token.token for token in get_tokens(
+                set(affected_users_by_base_chart(base_chart))
+            )
+        ],
         url_code=url_code,
         title=f'{APP_NAME}: {CAPTIONS[url_code]}',
         body=base_chart.title
@@ -130,11 +126,6 @@ def multicast_message(
 ) -> BatchResponse:
     """Multicast messages to the given tokens."""
 
-    LOGGER.info('Sending multicast message.')
-    LOGGER.info('Title: "%s"', title)
-    LOGGER.info('Body: "%s"', body)
-    LOGGER.info('URL Code: "%s"', url_code)
-    LOGGER.info('Tokens: %s', tokens)
     return send_multicast(
         MulticastMessage(
             tokens=list(tokens),
@@ -156,16 +147,9 @@ def affected_users_by_base_chart(
     change to the respective chart mapping.
     """
 
-    LOGGER.info(
-        'Notifying user of base chart: %s (%s)',
-        base_chart,
-        type(base_chart)
-    )
-
     for user_base_chart in UserBaseChart.select().where(
             UserBaseChart.base_chart == base_chart
     ):
-        LOGGER.info('Base chart user: %s', user_base_chart.user)
         yield user_base_chart.user
 
     yield from groups_users(expand_groups({
