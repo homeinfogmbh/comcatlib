@@ -19,25 +19,25 @@ from comcatlib.orm.user import User
 
 
 __all__ = [
-    'DATABASE',
-    'MODELS',
-    'create_tables',
-    'AuthorizationNonce',
-    'ContactEmails',
-    'EMailChangeNonce',
-    'FCMToken',
-    'GroupMemberUser',
-    'Menu',
-    'MenuBaseChart',
-    'PasswordResetNonce',
-    'RegistrationNotificationEmails',
-    'Settings',
-    'User',
-    'UserBaseChart',
-    'UserConfiguration',
-    'UserDamageReport',
-    'UserMenu',
-    'UserRegistration'
+    "DATABASE",
+    "MODELS",
+    "create_tables",
+    "AuthorizationNonce",
+    "ContactEmails",
+    "EMailChangeNonce",
+    "FCMToken",
+    "GroupMemberUser",
+    "Menu",
+    "MenuBaseChart",
+    "PasswordResetNonce",
+    "RegistrationNotificationEmails",
+    "Settings",
+    "User",
+    "UserBaseChart",
+    "UserConfiguration",
+    "UserDamageReport",
+    "UserMenu",
+    "UserRegistration",
 ]
 
 
@@ -60,7 +60,7 @@ MODELS = (
     UserMenu,
     UserRegistration,
     # Misc
-    MenuBaseChart
+    MenuBaseChart,
 )
 
 

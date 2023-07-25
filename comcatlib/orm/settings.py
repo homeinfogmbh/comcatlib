@@ -11,7 +11,7 @@ from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['Settings']
+__all__ = ["Settings"]
 
 
 USER_QUOTA = 10
@@ -21,8 +21,7 @@ class Settings(ComCatModel):
     """Customer-specific settings model."""
 
     customer = ForeignKeyField(
-        Customer, column_name='customer', on_delete='CASCADE',
-        on_update='CASCADE'
+        Customer, column_name="customer", on_delete="CASCADE", on_update="CASCADE"
     )
     user_quota = IntegerField(default=USER_QUOTA)
 
@@ -32,9 +31,7 @@ class Settings(ComCatModel):
         or creates a record if none exists yet.
         """
         try:
-            return cls.select(cascade=True).where(
-                cls.customer == customer
-            ).get()
+            return cls.select(cascade=True).where(cls.customer == customer).get()
         except cls.DoesNotExist:
             record = cls(customer=customer)
             record.save()
@@ -46,14 +43,16 @@ class Settings(ComCatModel):
         if not cascade:
             return super().select(*args)
 
-        return cls.select(*{
-            cls, Customer, Company, Address, *args
-        }).join(Customer).join(Company).join(
-            Address, join_type=JOIN.LEFT_OUTER
+        return (
+            cls.select(*{cls, Customer, Company, Address, *args})
+            .join(Customer)
+            .join(Company)
+            .join(Address, join_type=JOIN.LEFT_OUTER)
         )
 
     def allocate_user(self) -> bool:
         """Allocates a user account."""
-        return User.select(cascade=True).where(
-            Tenement.customer == self.customer
-        ).count() < self.user_quota
+        return (
+            User.select(cascade=True).where(Tenement.customer == self.customer).count()
+            < self.user_quota
+        )

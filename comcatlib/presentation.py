@@ -17,7 +17,7 @@ from comcatlib.orm import UserConfiguration
 from comcatlib.orm import UserMenu
 
 
-__all__ = ['Presentation']
+__all__ = ["Presentation"]
 
 
 PresentationDOM = presentation.typeDefinition()
@@ -37,28 +37,34 @@ class Presentation(Presentation):
 
     def get_base_charts(self) -> Iterator[BaseChart]:
         """Yields the user's base charts."""
-        for user_base_chart in UserBaseChart.select(cascade=True).where(
-                (UserBaseChart.user == self.user)
-                & get_trashed_flag(self.customer)
-        ).order_by(UserBaseChart.index):
+        for user_base_chart in (
+            UserBaseChart.select(cascade=True)
+            .where((UserBaseChart.user == self.user) & get_trashed_flag(self.customer))
+            .order_by(UserBaseChart.index)
+        ):
             yield user_base_chart.index, user_base_chart.base_chart
 
     def get_configurations(self) -> Iterator[Configuration]:
         """Returns the user's configuration."""
         for user_configuration in UserConfiguration.select(cascade=True).where(
-                UserConfiguration.user == self.user):
+            UserConfiguration.user == self.user
+        ):
             yield user_configuration.configuration
 
     def get_memberships(self) -> Iterator[Group]:
         """Yields groups this user is a member of."""
         for gma in GroupMemberUser.select(cascade=True).where(
-                GroupMemberUser.user == self.user):
+            GroupMemberUser.user == self.user
+        ):
             yield gma.group
 
     def get_menus(self) -> Iterator[Menu]:
         """Yields menus of this user."""
-        return Menu.select(cascade=True).join_from(Menu, UserMenu).where(
-            UserMenu.user == self.user)
+        return (
+            Menu.select(cascade=True)
+            .join_from(Menu, UserMenu)
+            .where(UserMenu.user == self.user)
+        )
 
     def to_dom(self) -> PresentationDOM:
         """Returns an XML DOM."""
@@ -69,5 +75,5 @@ class Presentation(Presentation):
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         json = super().to_json()
-        json['user'] = self.user.id
+        json["user"] = self.user.id
         return json

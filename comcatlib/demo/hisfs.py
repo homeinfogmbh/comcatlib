@@ -8,18 +8,15 @@ from mdb import Customer
 from comcatlib.demo.common import DEMO_CUSTOMER_ID, LOGGER
 
 
-__all__ = ['get_or_create_file', 'remove_files']
+__all__ = ["get_or_create_file", "remove_files"]
 
 
 def get_or_create_file(
-        name: str,
-        bytes_: bytes,
-        *,
-        customer: int = DEMO_CUSTOMER_ID
+    name: str, bytes_: bytes, *, customer: int = DEMO_CUSTOMER_ID
 ) -> File:
     """Creates or re-uses the given file."""
 
-    LOGGER.info('Adding file: %s', name)
+    LOGGER.info("Adding file: %s", name)
 
     try:
         file = File.add(name, customer, bytes_)
@@ -38,6 +35,6 @@ def remove_files(customer: Customer) -> None:
         try:
             file.delete_instance()
         except IntegrityError:
-            LOGGER.error('Cannot remove file: %s', file.name)
+            LOGGER.error("Cannot remove file: %s", file.name)
         else:
-            LOGGER.info('Removed file: %s', file.name)
+            LOGGER.info("Removed file: %s", file.name)

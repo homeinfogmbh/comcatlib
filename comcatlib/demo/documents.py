@@ -7,21 +7,21 @@ from comcatlib.demo.hisfs import get_or_create_file
 from comcatlib.orm.menu import Menu, MenuBaseChart
 
 
-__all__ = ['create_documents_chart']
+__all__ = ["create_documents_chart"]
 
 
-IMAGES_DIR = DEMO_DATASET_ATTACHMENTS / 'documents'
+IMAGES_DIR = DEMO_DATASET_ATTACHMENTS / "documents"
 
 
 def create_documents_chart(documents: dict) -> ImageText:
     """Creates a documents chart."""
 
-    LOGGER.info('Adding documents chart: %s', title := documents['title'])
-    chart = create_image_text_chart(title, documents['text'])
+    LOGGER.info("Adding documents chart: %s", title := documents["title"])
+    chart = create_image_text_chart(title, documents["text"])
     menu_base_chart = MenuBaseChart(base_chart=chart.base, menu=Menu.DOCUMENTS)
     menu_base_chart.save()
 
-    for file in documents['files']:
+    for file in documents["files"]:
         add_attachment(chart, file)
 
     return chart
@@ -30,11 +30,10 @@ def create_documents_chart(documents: dict) -> ImageText:
 def add_attachment(image_text_chart: ImageText, filename: str) -> None:
     """Adds a file to an image / text chart."""
 
-    LOGGER.info('Adding attachment file: %s', filename)
+    LOGGER.info("Adding attachment file: %s", filename)
 
-    with IMAGES_DIR.joinpath(filename).open('rb') as file:
+    with IMAGES_DIR.joinpath(filename).open("rb") as file:
         file = get_or_create_file(filename, file.read())
 
     image = ImageTextImage(chart=image_text_chart, file=file)
     image.save()
-    

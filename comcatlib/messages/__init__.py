@@ -12,13 +12,13 @@ from comcatlib.messages.user import USER_PATCHED
 
 
 __all__ = [
-    'NEWS_NOT_ENABLED',
-    'NO_SUCH_ARTICLE',
-    'NO_SUCH_ARTICLE_IMAGE',
-    'DUPLICATE_USER',
-    'MISSING_USER_PW',
-    'NO_SUCH_USER',
-    'USER_ADDED',
-    'USER_DELETED',
-    'USER_PATCHED'
+    "NEWS_NOT_ENABLED",
+    "NO_SUCH_ARTICLE",
+    "NO_SUCH_ARTICLE_IMAGE",
+    "DUPLICATE_USER",
+    "MISSING_USER_PW",
+    "NO_SUCH_USER",
+    "USER_ADDED",
+    "USER_DELETED",
+    "USER_PATCHED",
 ]

@@ -7,15 +7,15 @@ from comcatlib.exceptions import UserExpired, UserLocked
 from comcatlib.orm.user import User
 
 
-__all__ = ['ADDRESS', 'CUSTOMER', 'TENEMENT', 'USER', 'get_user']
+__all__ = ["ADDRESS", "CUSTOMER", "TENEMENT", "USER", "get_user"]
 
 
 def get_user() -> User:
     """Performs authentication checks."""
 
-    if (user := User.select(cascade=True).where(
-            User.id == current_token.user
-    ).get()).expired:
+    if (
+        user := User.select(cascade=True).where(User.id == current_token.user).get()
+    ).expired:
         raise UserExpired()
 
     if user.locked:

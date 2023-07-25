@@ -2,15 +2,15 @@
 
 
 __all__ = [
-    'AlreadyRegistered',
-    'DuplicateUser',
-    'InvalidAddress',
-    'InvalidPassword',
-    'NonceUsed',
-    'PasswordResetPending',
-    'QuotaExceeded',
-    'UserExpired',
-    'UserLocked'
+    "AlreadyRegistered",
+    "DuplicateUser",
+    "InvalidAddress",
+    "InvalidPassword",
+    "NonceUsed",
+    "PasswordResetPending",
+    "QuotaExceeded",
+    "UserExpired",
+    "UserLocked",
 ]
 
 

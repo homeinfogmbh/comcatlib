@@ -5,10 +5,10 @@ from emaillib import Mailer
 from comcatlib.config import get_config
 
 
-__all__ = ['SENDER', 'get_mailer']
+__all__ = ["SENDER", "get_mailer"]
 
 
-SENDER = 'mieterapp@homeinfo.de'
+SENDER = "mieterapp@homeinfo.de"
 
 
 def get_mailer() -> Mailer:

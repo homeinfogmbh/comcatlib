@@ -22,7 +22,7 @@ from comcatlib.orm.common import ComCatModel
 from comcatlib.pwgen import genpw
 
 
-__all__ = ['User']
+__all__ = ["User"]
 
 
 class User(ComCatModel):
@@ -33,9 +33,7 @@ class User(ComCatModel):
     nickname = UserNameField(null=True, unique=True)
     phone = PhoneNumberField(null=True)
     mobile = PhoneNumberField(null=True)
-    tenement = ForeignKeyField(
-        Tenement, column_name='tenement', lazy_load=False
-    )
+    tenement = ForeignKeyField(Tenement, column_name="tenement", lazy_load=False)
     created = DateTimeField(default=datetime.now)
     expires = DateTimeField(null=True)
     locked = BooleanField(default=False)
@@ -44,18 +42,15 @@ class User(ComCatModel):
 
     @classmethod
     def from_json(
-            cls,
-            json: dict,
-            tenement: Union[Tenement, int],
-            **kwargs
+        cls, json: dict, tenement: Union[Tenement, int], **kwargs
     ) -> tuple[User, str]:
         """Creates the user from the respective JSON data."""
-        passwd = json.get('passwd')
+        passwd = json.get("passwd")
 
         if not passwd:
             passwd = genpw()
 
-        user = super().from_json({**json, 'passwd': passwd}, **kwargs)
+        user = super().from_json({**json, "passwd": passwd}, **kwargs)
         user.tenement = tenement
 
         if user.is_unique:
@@ -69,10 +64,13 @@ class User(ComCatModel):
         if not cascade:
             return super().select(*args)
 
-        return super().select(*{
-            cls, Tenement, Customer, Company, Address, *args
-        }).join(Tenement).join(Customer).join(Company).join_from(
-            Tenement, Address
+        return (
+            super()
+            .select(*{cls, Tenement, Customer, Company, Address, *args})
+            .join(Tenement)
+            .join(Customer)
+            .join(Company)
+            .join_from(Tenement, Address)
         )
 
     @property
@@ -132,11 +130,7 @@ class User(ComCatModel):
         return True
 
     def patch_json(
-            self,
-            json: dict,
-            *,
-            tenement: Optional[Union[Tenement, int]] = None,
-            **kwargs
+        self, json: dict, *, tenement: Optional[Union[Tenement, int]] = None, **kwargs
     ) -> User:
         """Patches the user with the respective JSON data."""
         super().patch_json(json, **kwargs)
@@ -149,24 +143,16 @@ class User(ComCatModel):
     def _to_json(self, shallow: bool = False, **kwargs) -> dict:
         """Returns a JSON-ish dict."""
         if shallow:
-            return {
-                'id': self.id,
-                'nickname': self.nickname or self.name
-            }
+            return {"id": self.id, "nickname": self.nickname or self.name}
 
         return super().to_json(**kwargs)
 
-    def to_json(
-            self,
-            shallow: bool = False,
-            tenement: bool = False,
-            **kwargs
-    ) -> dict:
+    def to_json(self, shallow: bool = False, tenement: bool = False, **kwargs) -> dict:
         """Returns JSON-ish dict."""
         json = self._to_json(shallow=shallow, **kwargs)
 
         if tenement:
-            json['tenement'] = self.tenement.to_json(address=True)
+            json["tenement"] = self.tenement.to_json(address=True)
 
         return json
 

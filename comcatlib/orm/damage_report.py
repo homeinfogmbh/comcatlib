@@ -9,21 +9,20 @@ from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['UserDamageReport']
+__all__ = ["UserDamageReport"]
 
 
 class UserDamageReport(ComCatModel):
     """Maps a damage report to a ComCat account."""
 
     class Meta:
-        table_name = 'user_damage_report'
+        table_name = "user_damage_report"
 
     damage_report = ForeignKeyField(
-        DamageReport, column_name='damage_report', on_delete='CASCADE',
-        lazy_load=False
+        DamageReport, column_name="damage_report", on_delete="CASCADE", lazy_load=False
     )
     user = ForeignKeyField(
-        User, column_name='user', on_delete='CASCADE', lazy_load=False
+        User, column_name="user", on_delete="CASCADE", lazy_load=False
     )
 
     @classmethod
@@ -32,8 +31,15 @@ class UserDamageReport(ComCatModel):
         if not cascade:
             return super().select(*args)
 
-        return super().select(*{
-            cls, DamageReport, User, Tenement, Customer, Company, Address,
-            *args
-        }).join(DamageReport).join_from(cls, User).join(Tenement).join(
-            Customer).join(Company).join_from(Tenement, Address)
+        return (
+            super()
+            .select(
+                *{cls, DamageReport, User, Tenement, Customer, Company, Address, *args}
+            )
+            .join(DamageReport)
+            .join_from(cls, User)
+            .join(Tenement)
+            .join(Customer)
+            .join(Company)
+            .join_from(Tenement, Address)
+        )

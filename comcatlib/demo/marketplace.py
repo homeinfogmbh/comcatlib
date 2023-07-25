@@ -14,41 +14,31 @@ from comcatlib.demo.common import get_random_date
 from comcatlib.orm.user import User
 
 
-__all__ = ['create_offers', 'delete_offers']
+__all__ = ["create_offers", "delete_offers"]
 
 
-IMAGES_DIR = DEMO_DATASET_ATTACHMENTS / 'marketplace'
+IMAGES_DIR = DEMO_DATASET_ATTACHMENTS / "marketplace"
 
 
 def create_offers(users: Sequence[User], offers: Sequence[dict]) -> None:
     """Creates the respective offers."""
 
     for index, (user, offer) in enumerate(randzipfill(users, offers)):
-        create_offer(
-            user,
-            offer['title'],
-            offer['description'],
-            offer['price'],
-            index
-        )
+        create_offer(user, offer["title"], offer["description"], offer["price"], index)
 
 
 def delete_offers(customer: Customer) -> None:
     """Deletes all offers of the given customer."""
 
-    for offer in Offer.select().join(User).join(Tenement).where(
-            Tenement.customer == customer
+    for offer in (
+        Offer.select().join(User).join(Tenement).where(Tenement.customer == customer)
     ):
         LOGGER.info('Deleting offer: "%s"', offer.title)
         offer.delete_instance()
 
 
 def create_offer(
-        user: User,
-        title: str,
-        description: str,
-        price: int,
-        index: int
+    user: User, title: str, description: str, price: int, index: int
 ) -> None:
     """Creates a marketplace offer."""
 
@@ -59,22 +49,20 @@ def create_offer(
         description=description,
         email=user.email,
         price=price,
-        created=get_random_date()
+        created=get_random_date(),
     )
     offer.save()
 
-    for idx, image in enumerate(IMAGES_DIR.glob(f'{index}-*')):
+    for idx, image in enumerate(IMAGES_DIR.glob(f"{index}-*")):
         create_image(offer, image, idx)
 
 
 def create_image(offer: Offer, image: Path, index: int) -> None:
     """Creates an image attachment."""
 
-    with image.open('rb') as file:
+    with image.open("rb") as file:
         file = File.from_bytes(file.read(), save=True)
 
-    LOGGER.info(
-        'Adding image "%s" with index %i to offer %i', image, index, offer.id
-    )
+    LOGGER.info('Adding image "%s" with index %i to offer %i', image, index, offer.id)
     image = Image(offer=offer, file=file, index=index)
     image.save()

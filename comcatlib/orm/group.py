@@ -12,30 +12,26 @@ from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['GroupMemberUser']
+__all__ = ["GroupMemberUser"]
 
 
 class GroupMemberUser(ComCatModel):
     """ComCat users as group members."""
 
     class Meta:
-        table_name = 'group_member_user'
+        table_name = "group_member_user"
 
     group = ForeignKeyField(
-        Group, column_name='group', on_delete='CASCADE', lazy_load=False
+        Group, column_name="group", on_delete="CASCADE", lazy_load=False
     )
     user = ForeignKeyField(
-        User, column_name='user', on_delete='CASCADE', lazy_load=False
+        User, column_name="user", on_delete="CASCADE", lazy_load=False
     )
     index = IntegerField(default=0)
 
     @classmethod
     def from_json(
-            cls,
-            json: dict,
-            user: Union[User, int],
-            group: Union[Group, int],
-            **kwargs
+        cls, json: dict, user: Union[User, int], group: Union[Group, int], **kwargs
     ) -> GroupMemberUser:
         """Creates a member for the given group
         from the respective JSON-ish dictionary.
@@ -51,16 +47,22 @@ class GroupMemberUser(ComCatModel):
         if not cascade:
             return super().select(*args)
 
-        return super().select(*{
-            cls, Group, User, Tenement, Customer, Company, Address, *args
-        }).join(Group).join_from(cls, User).join(Tenement).join(Customer).join(
-            Company).join_from(Tenement, Address)
+        return (
+            super()
+            .select(*{cls, Group, User, Tenement, Customer, Company, Address, *args})
+            .join(Group)
+            .join_from(cls, User)
+            .join(Tenement)
+            .join(Customer)
+            .join(Company)
+            .join_from(Tenement, Address)
+        )
 
     def to_json(self) -> dict:
         """Returns a JSON-ish dict."""
         return {
-            'id': self.id,
-            'index': self.index,
-            'group': self.group.id,
-            'user': self.user.id
+            "id": self.id,
+            "index": self.index,
+            "group": self.group.id,
+            "user": self.user.id,
         }

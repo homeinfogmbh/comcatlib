@@ -13,36 +13,34 @@ from peeweeplus import EnumField
 from comcatlib.orm.common import ComCatModel
 
 
-__all__ = ['Menu', 'MenuBaseChart']
+__all__ = ["Menu", "MenuBaseChart"]
 
 
 class Menu(Enum):
     """Available menus."""
 
-    DATA_PROTECTION = 'data protection'
-    IMPRINT = 'imprint'
-    CONTACT = 'contact'
-    DAMAGES = 'damages'
-    DOCUMENTS = 'documents'
-    SERVICE_NUMBERS = 'service numbers'
-    NEWS = 'news'
+    DATA_PROTECTION = "data protection"
+    IMPRINT = "imprint"
+    CONTACT = "contact"
+    DAMAGES = "damages"
+    DOCUMENTS = "documents"
+    SERVICE_NUMBERS = "service numbers"
+    NEWS = "news"
 
 
 class MenuBaseChart(ComCatModel):
     """Many-to-many mapping of charts and menus."""
 
     class Meta:
-        table_name = 'base_chart_menu'
+        table_name = "base_chart_menu"
 
     base_chart = ForeignKeyField(
-        BaseChart, column_name='base_chart', on_delete='CASCADE',
-        lazy_load=False
+        BaseChart, column_name="base_chart", on_delete="CASCADE", lazy_load=False
     )
     menu = EnumField(Menu)
 
     @classmethod
-    def add(cls, base_chart: Union[BaseChart, int],
-            menu: Menu) -> MenuBaseChart:
+    def add(cls, base_chart: Union[BaseChart, int], menu: Menu) -> MenuBaseChart:
         """Creates a new record from a JSON-ish dict."""
         condition = cls.base_chart == base_chart
         condition &= cls.menu == menu
@@ -60,6 +58,10 @@ class MenuBaseChart(ComCatModel):
         if not cascade:
             return super().select(*args)
 
-        return super().select(*{
-            cls, BaseChart, Customer, Company, *args
-        }).join(BaseChart).join(Customer).join(Company)
+        return (
+            super()
+            .select(*{cls, BaseChart, Customer, Company, *args})
+            .join(BaseChart)
+            .join(Customer)
+            .join(Company)
+        )

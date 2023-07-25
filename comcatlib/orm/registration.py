@@ -16,21 +16,19 @@ from comcatlib.orm.user import User
 from comcatlib.pwgen import genpw
 
 
-__all__ = ['UserRegistration', 'RegistrationNotificationEmails']
+__all__ = ["UserRegistration", "RegistrationNotificationEmails"]
 
 
 class UserRegistration(ComCatModel):
     """A user registration."""
 
     class Meta:
-        table_name = 'user_registration'
+        table_name = "user_registration"
 
     name = CharField()
     email = CharField()
     tenant_id = CharField()
-    customer = ForeignKeyField(
-        Customer, column_name='customer', on_delete='CASCADE'
-    )
+    customer = ForeignKeyField(Customer, column_name="customer", on_delete="CASCADE")
     registered = DateTimeField(default=datetime.now)
 
     @classmethod
@@ -39,9 +37,12 @@ class UserRegistration(ComCatModel):
         if not cascade:
             return super().select(*args)
 
-        return super().select(*{
-            cls, Customer, Company, *args
-        }).join(Customer).join(Company)
+        return (
+            super()
+            .select(*{cls, Customer, Company, *args})
+            .join(Customer)
+            .join(Company)
+        )
 
     @classmethod
     def from_json(cls, json: dict, customer: Customer, **kwargs):
@@ -57,17 +58,15 @@ class UserRegistration(ComCatModel):
 
     @classmethod
     def dupes_select(
-            cls,
-            tenant_id: str,
-            email: str,
-            customer: Union[Customer, int]
+        cls, tenant_id: str, email: str, customer: Union[Customer, int]
     ) -> Select:
         """Returns a select condition to match duplicates."""
         return cls.same_ids_sel(tenant_id, email) & (cls.customer == customer)
 
     @classmethod
-    def add(cls, name: str, email: str, tenant_id: str,
-            customer: Union[Customer, int]) -> UserRegistration:
+    def add(
+        cls, name: str, email: str, tenant_id: str, customer: Union[Customer, int]
+    ) -> UserRegistration:
         """Adds a new user registration."""
         try:
             User.get(User.email == email)
@@ -81,9 +80,7 @@ class UserRegistration(ComCatModel):
         try:
             cls.select().where(condition).get()
         except cls.DoesNotExist:
-            return cls(
-                name=name, email=email, tenant_id=tenant_id, customer=customer
-            )
+            return cls(name=name, email=email, tenant_id=tenant_id, customer=customer)
 
         raise AlreadyRegistered(email)
 
@@ -100,12 +97,10 @@ class UserRegistration(ComCatModel):
     def confirm(self, tenement: Tenement):
         """Confirm the user registration."""
         if tenement.customer != self.customer:
-            raise ValueError('Customers do not match.')
+            raise ValueError("Customers do not match.")
 
         passwd = genpw(length=8)
-        user = User(
-            name=self.name, email=self.email, tenement=tenement, passwd=passwd
-        )
+        user = User(name=self.name, email=self.email, tenement=tenement, passwd=passwd)
         self.delete_instance()
 
         if user.is_unique:
@@ -115,21 +110,21 @@ class UserRegistration(ComCatModel):
 
     def to_html(self) -> Element:
         """Returns a HTML element."""
-        tr = Element('tr')
-        td = SubElement(tr, 'td')
+        tr = Element("tr")
+        td = SubElement(tr, "td")
         td.text = self.name
-        td = SubElement(tr, 'td')
+        td = SubElement(tr, "td")
         td.text = self.email
-        td = SubElement(tr, 'td')
+        td = SubElement(tr, "td")
         td.text = self.tenant_id
-        td = SubElement(tr, 'td')
+        td = SubElement(tr, "td")
         td.text = self.registered.isoformat()
         return tr
 
 
 RegistrationNotificationEmails = get_email_orm_model(
     ComCatModel,
-    table_name='registration_notification_emails',
+    table_name="registration_notification_emails",
     subject_field=False,
-    html_field=False
+    html_field=False,
 )

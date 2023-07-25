@@ -15,14 +15,14 @@ from comcatlib.orm.common import ComCatModel
 from comcatlib.orm.user import User
 
 
-__all__ = ['AuthorizationNonce', 'EMailChangeNonce', 'PasswordResetNonce']
+__all__ = ["AuthorizationNonce", "EMailChangeNonce", "PasswordResetNonce"]
 
 
 class Nonce(ComCatModel):
     """Basic Nonce."""
 
     user = ForeignKeyField(
-        User, column_name='user', on_delete='CASCADE', lazy_load=False
+        User, column_name="user", on_delete="CASCADE", lazy_load=False
     )
     uuid = UUIDField(default=uuid4)
 
@@ -39,10 +39,14 @@ class Nonce(ComCatModel):
         if not cascade:
             return super().select(*args)
 
-        return super().select(*{
-            cls, User, Tenement, Customer, Company, Address, *args
-        }).join(User).join(Tenement).join(Customer).join(Company).join_from(
-            Tenement, Address
+        return (
+            super()
+            .select(*{cls, User, Tenement, Customer, Company, Address, *args})
+            .join(User)
+            .join(Tenement)
+            .join(Customer)
+            .join(Company)
+            .join_from(Tenement, Address)
         )
 
     @classmethod
@@ -61,7 +65,7 @@ class AuthorizationNonce(Nonce):
     """Nonces to authorize clients for users."""
 
     class Meta:
-        table_name = 'authorization_nonce'
+        table_name = "authorization_nonce"
 
 
 class EMailChangeNonce(Nonce):
@@ -70,9 +74,9 @@ class EMailChangeNonce(Nonce):
     email = HTMLCharField()
 
     class Meta:
-        table_name = 'email_change_nonce'
+        table_name = "email_change_nonce"
 
-    @classmethod    # pylint: disable-next=W0221
+    @classmethod  # pylint: disable-next=W0221
     def add(cls, user: Union[User, int], email: str) -> EMailChangeNonce:
         """Adds a new email change nonce."""
         nonce = cls(user=user, email=email)
@@ -92,7 +96,7 @@ class PasswordResetNonce(Nonce):
     """Nonce to reset the password."""
 
     class Meta:
-        table_name = 'password_reset_nonce'
+        table_name = "password_reset_nonce"
 
     VALIDITY = timedelta(days=1)
 
@@ -102,8 +106,7 @@ class PasswordResetNonce(Nonce):
     def clean(cls, user: User) -> None:
         """Remove all outdated nonces for the given user."""
         cls.delete().where(
-            (cls.user == user)
-            & (cls.issued < (datetime.now() - cls.VALIDITY))
+            (cls.user == user) & (cls.issued < (datetime.now() - cls.VALIDITY))
         ).execute()
 
     @classmethod

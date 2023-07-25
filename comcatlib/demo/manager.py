@@ -25,28 +25,25 @@ from comcatlib.demo.tenantforum import create_topics, delete_topics
 from comcatlib.demo.users import create_demo_user, create_users, delete_users
 
 
-__all__ = ['main']
+__all__ = ["main"]
 
 
 def create_demo_data(dataset: dict) -> None:
     """Creates demo data."""
 
     tenement = create_tenement(DEMO_CUSTOMER_ID, *DEMO_USER_ADDRESS)
-    LOGGER.info('Using tenement: %s (%i)', tenement.address, tenement.id)
+    LOGGER.info("Using tenement: %s (%i)", tenement.address, tenement.id)
     demo_user = create_demo_user(tenement)
-    users = list(create_users(dataset['users'], tenement))
-    contact_chart = create_contact(dataset['contact'])
-    create_damage_reports(demo_user, dataset['damage_reports'])
-    documents_chart = create_documents_chart(dataset['documents'])
-    news_charts = list(create_news(dataset['news']))
-    create_offers(users, dataset['marketplace'])
-    service_chart = create_service_chart(dataset['service'])
-    create_events(users, dataset['calendar'])
-    create_topics(users, dataset['forum'])
-    map_charts(
-        [contact_chart, documents_chart, service_chart, *news_charts],
-        demo_user
-    )
+    users = list(create_users(dataset["users"], tenement))
+    contact_chart = create_contact(dataset["contact"])
+    create_damage_reports(demo_user, dataset["damage_reports"])
+    documents_chart = create_documents_chart(dataset["documents"])
+    news_charts = list(create_news(dataset["news"]))
+    create_offers(users, dataset["marketplace"])
+    service_chart = create_service_chart(dataset["service"])
+    create_events(users, dataset["calendar"])
+    create_topics(users, dataset["forum"])
+    map_charts([contact_chart, documents_chart, service_chart, *news_charts], demo_user)
 
 
 def delete_demo_data() -> None:
@@ -69,7 +66,7 @@ def main() -> None:
     basicConfig(level=INFO, format=LOG_FORMAT)
     delete_demo_data()
 
-    with DEMO_DATASET_FILE.open('rb') as file:
+    with DEMO_DATASET_FILE.open("rb") as file:
         dataset = load(file)
 
     create_demo_data(dataset)

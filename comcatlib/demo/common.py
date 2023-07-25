@@ -8,41 +8,38 @@ from typing import Iterator, Sequence, TypeVar
 
 
 __all__ = [
-    'DEMO_CUSTOMER_ID',
-    'DEMO_DATASET_FILE',
-    'DEMO_DATASET_ATTACHMENTS',
-    'DEMO_USER_ADDRESS',
-    'DEMO_USER_EMAIL',
-    'DEMO_USER_NAME',
-    'DEMO_USER_PASSWD',
-    'LOG_FORMAT',
-    'LOGGER',
-    'get_random_date',
-    'month_range',
-    'randdate',
-    'rand_date_in_month',
-    'randzipfill'
+    "DEMO_CUSTOMER_ID",
+    "DEMO_DATASET_FILE",
+    "DEMO_DATASET_ATTACHMENTS",
+    "DEMO_USER_ADDRESS",
+    "DEMO_USER_EMAIL",
+    "DEMO_USER_NAME",
+    "DEMO_USER_PASSWD",
+    "LOG_FORMAT",
+    "LOGGER",
+    "get_random_date",
+    "month_range",
+    "randdate",
+    "rand_date_in_month",
+    "randzipfill",
 ]
 
 
 DEMO_CUSTOMER_ID = 5000
-DEMO_DATASET_FILE = Path('/usr/local/etc/comcat.d/demo.json')
-DEMO_DATASET_ATTACHMENTS = Path('/usr/local/etc/comcat.d/demo.d')
-DEMO_USER_ADDRESS = ('Schweidnitzer Weg', '6', '30159', 'Hannover')
-DEMO_USER_EMAIL = 'mieterapp-demo@homeinfo.de'
-DEMO_USER_NAME = 'Luca Musterberg'
-DEMO_USER_PASSWD = 'mieterapp123'
-LOG_FORMAT = '[%(levelname)s] %(name)s: %(message)s'
-LOGGER = getLogger('demo-data-manager')
+DEMO_DATASET_FILE = Path("/usr/local/etc/comcat.d/demo.json")
+DEMO_DATASET_ATTACHMENTS = Path("/usr/local/etc/comcat.d/demo.d")
+DEMO_USER_ADDRESS = ("Schweidnitzer Weg", "6", "30159", "Hannover")
+DEMO_USER_EMAIL = "mieterapp-demo@homeinfo.de"
+DEMO_USER_NAME = "Luca Musterberg"
+DEMO_USER_PASSWD = "mieterapp123"
+LOG_FORMAT = "[%(levelname)s] %(name)s: %(message)s"
+LOGGER = getLogger("demo-data-manager")
 
-TargetT = TypeVar('TargetT')
-ItemT = TypeVar('ItemT')
+TargetT = TypeVar("TargetT")
+ItemT = TypeVar("ItemT")
 
 
-def get_random_date(
-        days: int = 60,
-        before: datetime = datetime.now()
-) -> datetime:
+def get_random_date(days: int = 60, before: datetime = datetime.now()) -> datetime:
     """Returns a random datetime within the given amount of days."""
 
     return randdate(before - timedelta(days=days), before)
@@ -51,9 +48,7 @@ def get_random_date(
 def month_range() -> tuple[datetime, datetime]:
     """Returns a datetime range, covering the current month."""
 
-    start = datetime.now().replace(
-        day=1, hour=0, minute=0, second=0, microsecond=0
-    )
+    start = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     next_month = start + timedelta(days=31)
     last_day = next_month - timedelta(days=next_month.day)
     end = last_day.replace(hour=23, minute=59, second=59, microsecond=999999)
@@ -63,9 +58,9 @@ def month_range() -> tuple[datetime, datetime]:
 def randdate(start: datetime, end: datetime) -> datetime:
     """Creates a random datetime between start and end."""
 
-    return datetime.fromtimestamp(randint(
-        round(start.timestamp()), round(end.timestamp())
-    ))
+    return datetime.fromtimestamp(
+        randint(round(start.timestamp()), round(end.timestamp()))
+    )
 
 
 def rand_date_in_month() -> datetime:
@@ -75,8 +70,7 @@ def rand_date_in_month() -> datetime:
 
 
 def randzipfill(
-        targets: Sequence[TargetT],
-        items: Sequence[ItemT]
+    targets: Sequence[TargetT], items: Sequence[ItemT]
 ) -> Iterator[tuple[TargetT, ItemT]]:
     """Yields tuples of randomized targets combined with the given items."""
 

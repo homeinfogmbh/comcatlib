@@ -12,18 +12,18 @@ from comcatlib.orm.user import User
 from comcatlib.pwgen import genpw
 
 
-__all__ = ['create_demo_user', 'create_users', 'delete_users']
+__all__ = ["create_demo_user", "create_users", "delete_users"]
 
 
 def create_demo_user(tenement) -> User:
     """Creates the demo user."""
 
-    LOGGER.info('Creating demo user')
+    LOGGER.info("Creating demo user")
     user = User(
         email=DEMO_USER_EMAIL,
         name=DEMO_USER_NAME,
         tenement=tenement,
-        passwd=DEMO_USER_PASSWD
+        passwd=DEMO_USER_PASSWD,
     )
     user.save()
     return user
@@ -39,9 +39,7 @@ def create_users(users: dict[str, str], tenement: Tenement) -> Iterator[User]:
 def delete_users(customer: Customer) -> None:
     """Creates user accounts and yields their IDs."""
 
-    for user in User.select().join(Tenement).where(
-            Tenement.customer == customer
-    ):
+    for user in User.select().join(Tenement).where(Tenement.customer == customer):
         LOGGER.info('Deleting user "%s"', user.email)
         user.delete_instance()
 
